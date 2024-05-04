@@ -2,6 +2,7 @@
 using FIAP.Pos.Tech.Challenge.Domain.Validator;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection.Metadata;
 
 namespace FIAP.Pos.Tech.Challenge.IoC
 {
@@ -12,7 +13,11 @@ namespace FIAP.Pos.Tech.Challenge.IoC
             //TODO: Validators :: 3 - Adicione sua configuração aqui
 
             //Validators
-            services.AddScoped(typeof(IValidator<Client>), typeof(ClientValidator));
+            services.AddScoped(typeof(IValidator<Cliente>), typeof(ClienteValidator));
+            services.AddScoped(typeof(IValidator<Dispositivo>), typeof(DispositivoValidator));
+            services.AddScoped(typeof(IValidator<PedidoItem>), typeof(PedidoItemValidator));
+            services.AddScoped(typeof(IValidator<Pedido>), typeof(PedidoValidator));
+            services.AddScoped(typeof(IValidator<Produto>), typeof(ProdutoValidator));
         }
     }
 }

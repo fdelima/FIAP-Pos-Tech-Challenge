@@ -9,7 +9,10 @@ namespace FIAP.Pos.Tech.Challenge.IoC
         public static void RegisterAppServices(this IServiceCollection services)
         {
             //Services
-            services.AddScoped(typeof(IAppService<Domain.Entities.Client>), typeof(ClientAppService));
+            services.AddScoped(typeof(IAppService<Domain.Entities.Cliente>), typeof(ClienteAppService));
+            services.AddScoped(typeof(IAppService<Domain.Entities.Dispositivo>), typeof(DispositivoAppService));
+            services.AddScoped(typeof(IAppService<Domain.Entities.Pedido>), typeof(PedidoAppService));
+            services.AddScoped(typeof(IAppService<Domain.Entities.Produto>), typeof(ProdutoAppService));
         }
     }
 }

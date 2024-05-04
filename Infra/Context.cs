@@ -11,20 +11,26 @@ namespace FIAP.Pos.Tech.Challenge.Infra
 
         #region [ DbSets ]
 
-        public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<Cliente> Clientes { get; set; }
 
-        public virtual DbSet<ClientAddress> ClientAddresses { get; set; }
+        public virtual DbSet<Dispositivo> Dispositivos { get; set; }
 
-        public virtual DbSet<ClientTelephone> ClientTelephones { get; set; }
+        public virtual DbSet<Pedido> Pedidos { get; set; }
+
+        public virtual DbSet<PedidoItem> PedidoItems { get; set; }
+
+        public virtual DbSet<Produto> Produtos { get; set; }
 
         #endregion DbSets
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //TODO: Map :: 2 - Adicione sua configuração aqui
-            modelBuilder.ApplyConfiguration(new ClientMap());
-            modelBuilder.ApplyConfiguration(new ClientAddressMap());
-            modelBuilder.ApplyConfiguration(new ClientTelephoneMap());
+            modelBuilder.ApplyConfiguration(new ClienteMap());
+            modelBuilder.ApplyConfiguration(new DispositivoMap());
+            modelBuilder.ApplyConfiguration(new PedidoItemMap());
+            modelBuilder.ApplyConfiguration(new PedidoMap());
+            modelBuilder.ApplyConfiguration(new ProdutoMap());
 
             base.OnModelCreating(modelBuilder);
         }

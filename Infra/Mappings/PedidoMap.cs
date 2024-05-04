@@ -1,0 +1,42 @@
+﻿using FIAP.Pos.Tech.Challenge.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace FIAP.Pos.Tech.Challenge.Infra.Mappings;
+
+public class PedidoMap : IEntityTypeConfiguration<Pedido>
+{
+    public void Configure(EntityTypeBuilder<Pedido> builder)
+    {
+        builder.HasKey(e => e.IdPedido);
+
+        builder.ToTable("pedido");
+
+        builder.Property(e => e.IdPedido)
+            .ValueGeneratedNever()
+            .HasColumnName("id_pedido");
+        builder.Property(e => e.Data)
+            .HasDefaultValueSql("(getdate())")
+            .HasColumnType("datetime")
+            .HasColumnName("data");
+        builder.Property(e => e.DataStatusPedido)
+            .HasDefaultValueSql("(getdate())")
+            .HasColumnType("datetime")
+            .HasColumnName("data_status_pedido");
+        builder.Property(e => e.IdCliente).HasColumnName("id_cliente");
+        builder.Property(e => e.IdDispositivo).HasColumnName("id_dispositivo");
+        builder.Property(e => e.Status)
+            .HasMaxLength(50)
+            .HasColumnName("status");
+
+        builder.HasOne(d => d.IdClienteNavigation).WithMany(p => p.Pedidos)
+            .HasForeignKey(d => d.IdCliente)
+            .HasConstraintName("FK_pedido_cliente");
+
+        builder.HasOne(d => d.IdDispositivoNavigation).WithMany(p => p.Pedidos)
+            .HasForeignKey(d => d.IdDispositivo)
+            .OnDelete(DeleteBehavior.ClientSetNull)
+            .HasConstraintName("FK_pedido_dispositivo");
+
+    }
+}
