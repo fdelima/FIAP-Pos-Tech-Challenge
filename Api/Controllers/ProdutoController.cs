@@ -5,6 +5,8 @@ using FIAP.Pos.Tech.Challenge.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using FIAP.Pos.Tech.Challenge.Domain.Models;
+using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
+using System;
 
 namespace FIAP.Pos.Tech.Challenge.Api.Controllers
 {
@@ -15,12 +17,12 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
     [Route("api/[Controller]")]
     public class ProdutoController : ApiController
     {
-        private readonly IAppService<Produto> _service;
+        private readonly IProdutoAppService _service;
 
         /// <summary>
         /// Construtor do controller dos Produtos cadastrados
         /// </summary>
-        public ProdutoController(IAppService<Produto> service)
+        public ProdutoController(IProdutoAppService service)
         {
             _service = service;
         }
@@ -37,6 +39,16 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         }
 
         /// <summary>
+        /// Retorna as categorias dos produtos cadastrados
+        /// </summary>
+        [HttpGet("categorias")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<PagingQueryResult<KeyValuePair<short, string>>> GetCategorias()
+        {
+            return await _service.GetCategoriasAsync();
+        }
+
+        /// <summary>
         /// Recupera o Produto cadastrado pelo seu Id
         /// </summary>
         /// <returns>Produto encontrada</returns>
@@ -49,6 +61,29 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         public async Task<IActionResult> FindById(Guid id)
         {
             return ExecuteCommand(await _service.FindByIdAsync(id));
+        }
+
+        /// <summary>
+        ///  Consulta os Produtos cadastrados no sistema da categoria informado.
+        /// </summary>
+        /// <param name="filter">Filtros para a consulta dos Produtos</param>
+        /// <returns>Retorna as Produtos cadastrados a partir dos parametros informados</returns>
+        /// <response code="200">Listagem dos Produtos recuperada com sucesso</response>
+        /// <response code="400">Erro ao recuperar listagem dos Produtos cadastrados</response>
+        [HttpGet("categoria/{categoria}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<PagingQueryResult<Produto>> FindByCategoria(enmProdutoCategoria categoria)
+        {
+            PagingQueryParam<Produto> param = new PagingQueryParam<Produto>()
+            {
+                CurrentPage = 1,
+                Take = 10,
+                ObjFilter = new Produto
+                {
+                    Categoria = categoria
+                }
+            };
+            return await _service.ConsultItemsAsync(param, param.ConsultRule(), param.SortProp());
         }
 
         /// <summary>

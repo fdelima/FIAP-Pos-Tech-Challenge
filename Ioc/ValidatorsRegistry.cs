@@ -15,6 +15,7 @@ namespace FIAP.Pos.Tech.Challenge.IoC
             //Validators
             services.AddScoped(typeof(IValidator<Cliente>), typeof(ClienteValidator));
             services.AddScoped(typeof(IValidator<Dispositivo>), typeof(DispositivoValidator));
+            services.AddScoped(typeof(IValidator<Notificacao>), typeof(NotificacaoValidator));
             services.AddScoped(typeof(IValidator<PedidoItem>), typeof(PedidoItemValidator));
             services.AddScoped(typeof(IValidator<Pedido>), typeof(PedidoValidator));
             services.AddScoped(typeof(IValidator<Produto>), typeof(ProdutoValidator));

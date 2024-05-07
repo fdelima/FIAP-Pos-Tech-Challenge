@@ -52,6 +52,28 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         }
 
         /// <summary>
+        /// Recupera o Cliente cadastrado pelo seu cpf
+        /// </summary>
+        /// <returns>Cliente encontrada</returns>
+        /// <response code="200">Cliente encontrada ou nulo</response>
+        /// <response code="400">Erro ao recuperar Cliente cadastrado</response>
+        [HttpGet("cpf/{cpf}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<PagingQueryResult<Cliente>> FindByCpf(long cpf)
+        {
+            PagingQueryParam<Cliente> param = new PagingQueryParam<Cliente>()
+            {
+                CurrentPage = 1,
+                Take = 10,
+                ObjFilter = new Cliente
+                {
+                    Cpf = cpf
+                }
+            };
+            return await _service.ConsultItemsAsync(param, param.ConsultRule(), param.SortProp());
+        }
+
+        /// <summary>
         ///  Consulta os Clientes cadastrados no sistema com o filtro informado.
         /// </summary>
         /// <param name="filter">Filtros para a consulta dos Clientes</param>

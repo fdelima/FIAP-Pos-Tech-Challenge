@@ -17,7 +17,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Extensions
                         (x.Nome.Contains(param.ObjFilter.Nome) || string.IsNullOrWhiteSpace(param.ObjFilter.Nome)) &&
                         (x.Preco.Equals(param.ObjFilter.Preco) || param.ObjFilter.Preco.Equals(default)) &&
                         (x.Descricao.Contains(param.ObjFilter.Descricao) || string.IsNullOrWhiteSpace(param.ObjFilter.Descricao)) &&
-                        (x.Categoria.ToString().Contains(param.ObjFilter.Categoria.ToString()) || string.IsNullOrWhiteSpace(param.ObjFilter.Categoria.ToString()));
+                        (x.Categoria.Equals(param.ObjFilter.Categoria.ToString()) || param.ObjFilter.Categoria.Equals(default));
         }
 
         /// <summary>

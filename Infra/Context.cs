@@ -15,6 +15,8 @@ namespace FIAP.Pos.Tech.Challenge.Infra
 
         public virtual DbSet<Dispositivo> Dispositivos { get; set; }
 
+        public virtual DbSet<Notificacao> Notificacaos { get; set; }
+
         public virtual DbSet<Pedido> Pedidos { get; set; }
 
         public virtual DbSet<PedidoItem> PedidoItems { get; set; }
@@ -28,6 +30,7 @@ namespace FIAP.Pos.Tech.Challenge.Infra
             //TODO: Map :: 2 - Adicione sua configuração aqui
             modelBuilder.ApplyConfiguration(new ClienteMap());
             modelBuilder.ApplyConfiguration(new DispositivoMap());
+            modelBuilder.ApplyConfiguration(new NotificacaoMap());
             modelBuilder.ApplyConfiguration(new PedidoItemMap());
             modelBuilder.ApplyConfiguration(new PedidoMap());
             modelBuilder.ApplyConfiguration(new ProdutoMap());

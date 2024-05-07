@@ -32,5 +32,8 @@ public partial class Dispositivo : IDomainEntity
     public string? Serie { get; set; }
 
     [JsonIgnore]
+    public virtual ICollection<Notificacao> Notificacaos { get; set; } = new List<Notificacao>();
+
+    [JsonIgnore]
     public virtual ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
 }
