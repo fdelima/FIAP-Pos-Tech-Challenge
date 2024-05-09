@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ioc\FIAP.Pos.Tech.Challenge.Ioc.csproj" />
+    <ProjectReference Include="..\..\..\Core\Ioc\FIAP.Pos.Tech.Challenge.Ioc.csproj" />
   </ItemGroup>
 
 </Project>
