@@ -1,7 +1,6 @@
 ﻿using FIAP.Pos.Tech.Challenge.Application.Commands.Pedido;
 using FIAP.Pos.Tech.Challenge.Domain;
 using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Domain.Messages;
 using FIAP.Pos.Tech.Challenge.Domain.Models;
 using FluentValidation;
 using MediatR;
@@ -12,7 +11,7 @@ namespace FIAP.Pos.Tech.Challenge.Application.Services
     /// <summary>
     /// Métodos do serviço da plicação
     /// </summary>
-    public class PedidoAppService : IAppService<Domain.Entities.Pedido>
+    public class PedidoAppService : IPedidoAppService
     {
         private readonly IMediator _mediator;
         private readonly IValidator<Domain.Entities.Pedido> _validator;
@@ -127,5 +126,34 @@ namespace FIAP.Pos.Tech.Challenge.Application.Services
             return await _mediator.Send(command);
         }
 
+        /// <summary>
+        /// Pedido em preparação.
+        /// </summary>
+        /// <param name="id">id do pedido</param>
+        public async Task<ModelResult> IniciarPreparacaoAsync(Guid id)
+        {
+            PedidoIniciarPreparacaCommand command = new(id);
+            return await _mediator.Send(command);
+        }
+
+        /// <summary>
+        /// Pedido pronto.
+        /// </summary>
+        /// <param name="id">id do pedido</param>
+        public async Task<ModelResult> FinalizarPreparacaoAsync(Guid id)
+        {
+            PedidoFinalizarPreparacaCommand command = new(id);
+            return await _mediator.Send(command);
+        }
+
+        /// <summary>
+        /// Pedido finalizado.
+        /// </summary>
+        /// <param name="id">id do pedido</param>
+        public async Task<ModelResult> FinalizarAsync(Guid id)
+        {
+            PedidoFinalizarCommand command = new(id);
+            return await _mediator.Send(command);
+        }
     }
 }

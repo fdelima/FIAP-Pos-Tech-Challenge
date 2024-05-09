@@ -1,7 +1,6 @@
 ﻿using FIAP.Pos.Tech.Challenge.Application.Commands.Cliente;
 using FIAP.Pos.Tech.Challenge.Domain;
 using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Domain.Messages;
 using FIAP.Pos.Tech.Challenge.Domain.Models;
 using FluentValidation;
 using MediatR;

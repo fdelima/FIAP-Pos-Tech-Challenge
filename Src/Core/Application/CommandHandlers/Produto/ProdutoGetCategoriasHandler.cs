@@ -1,7 +1,6 @@
 ﻿using FIAP.Pos.Tech.Challenge.Application.Commands.Produto;
 using FIAP.Pos.Tech.Challenge.Domain;
 using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
 using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Produto

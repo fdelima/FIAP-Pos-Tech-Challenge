@@ -23,6 +23,6 @@
         /// <summary>
         /// Mensage de erro timeout em uma requisição ao banco de dados.
         /// </summary>
-        public static string DeleteDatabaseError<T>() => $"Erro ao deletar {typeof(T).FullName} do banco de dados.";
+        public static string DeleteDatabaseError<T>() => $"Erro ao deletar {typeof(T).Name} do banco de dados.";
     }
 }

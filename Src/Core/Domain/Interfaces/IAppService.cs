@@ -1,5 +1,5 @@
-﻿using System.Linq.Expressions;
-using FIAP.Pos.Tech.Challenge.Domain.Models;
+﻿using FIAP.Pos.Tech.Challenge.Domain.Models;
+using System.Linq.Expressions;
 
 namespace FIAP.Pos.Tech.Challenge.Domain.Interfaces
 {

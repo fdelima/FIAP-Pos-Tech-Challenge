@@ -1,5 +1,4 @@
 ﻿using FIAP.Pos.Tech.Challenge.Domain.Entities;
-using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
 
 namespace FIAP.Pos.Tech.Challenge.Domain.Interfaces
 {

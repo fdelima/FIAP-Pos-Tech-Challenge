@@ -175,7 +175,7 @@ namespace FIAP.Pos.Tech.Challenge.Infra.Repositories
 
         private string ImproveSqlExceptionMessage(SqlException ex)
         {
-            string deleteMsg = "Existem {0} relacionadas o/a " + typeof(TEntity).FullName + ".";
+            string deleteMsg = "Existem {0} relacionadas o/a " + typeof(TEntity).Name + ".";
 
             if (ex.Message.StartsWith("The DELETE statement conflicted"))
             {
@@ -185,7 +185,7 @@ namespace FIAP.Pos.Tech.Challenge.Infra.Repositories
                 foreach (Type type in types)
                 {
                     if (ex.Message.Contains($"\"dbo.{type.Name}\""))
-                        return string.Format(deleteMsg, typeof(TEntity).FullName);
+                        return string.Format(deleteMsg, typeof(TEntity).Name);
                 }
             }
 

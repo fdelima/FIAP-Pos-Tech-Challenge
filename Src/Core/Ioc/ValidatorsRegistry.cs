@@ -2,7 +2,6 @@
 using FIAP.Pos.Tech.Challenge.Domain.Validator;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection.Metadata;
 
 namespace FIAP.Pos.Tech.Challenge.IoC
 {

@@ -1,12 +1,11 @@
 ﻿using FIAP.Pos.Tech.Challenge.Domain;
+using FIAP.Pos.Tech.Challenge.Domain.Entities;
 using FIAP.Pos.Tech.Challenge.Domain.Extensions;
 using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using FIAP.Pos.Tech.Challenge.Domain.Models;
 using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
-using System;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace FIAP.Pos.Tech.Challenge.Api.Controllers
 {

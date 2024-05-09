@@ -28,12 +28,12 @@
         /// <summary>
         /// Retorna mensagem de erro - registro em duplicidade
         /// </summary>
-        public static string DuplicatedError<T>() => $"Já existe um registro {typeof(T).FullName}.";
+        public static string DuplicatedError<T>() => $"Já existe um registro {typeof(T).Name}.";
 
         /// <summary>
         /// Retorna mensagem de erro - registro não encontrado
         /// </summary>
-        public static string NotFoundError<T>() => $"Nenhum registro de {typeof(T).FullName} encontrado.";
-        
+        public static string NotFoundError<T>() => $"Nenhum registro de {typeof(T).Name} encontrado.";
+
     }
 }

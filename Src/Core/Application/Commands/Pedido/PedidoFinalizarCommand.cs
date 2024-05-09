@@ -3,16 +3,15 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.Commands.Pedido
 {
-    public class PedidoPostCommand : IRequest<ModelResult>
+    public class PedidoFinalizarCommand : IRequest<ModelResult>
     {
-        public PedidoPostCommand(Domain.Entities.Pedido entity,
-            string[]? businessRules = null)
+        public PedidoFinalizarCommand(Guid id, string[]? businessRules = null)
         {
-            Entity = entity;
+            Id = id;
             BusinessRules = businessRules;
         }
 
-        public Domain.Entities.Pedido Entity { get; private set; }
+        public Guid Id { get; private set; }
         public string[]? BusinessRules { get; private set; }
     }
 }

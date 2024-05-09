@@ -11,10 +11,10 @@ namespace FIAP.Pos.Tech.Challenge.IoC
         {
             //DB Context
             if (bool.Parse(configuration["UseInMemoryDatabase"] ?? "true"))
-                services.AddDbContext<Context>(options => 
+                services.AddDbContext<Context>(options =>
                     options.UseInMemoryDatabase("MyInMemoryDatabase"));
             else
-                services.AddDbContext<Context>(options => 
+                services.AddDbContext<Context>(options =>
                     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
         }
     }

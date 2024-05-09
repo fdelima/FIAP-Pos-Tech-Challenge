@@ -13,7 +13,6 @@ using FIAP.Pos.Tech.Challenge.Application.Commands.Produto;
 using FIAP.Pos.Tech.Challenge.Domain;
 using FIAP.Pos.Tech.Challenge.Domain.Entities;
 using FIAP.Pos.Tech.Challenge.Domain.Models;
-using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -53,6 +52,9 @@ namespace FIAP.Pos.Tech.Challenge.IoC
             services.AddScoped<IRequestHandler<PedidoDeleteCommand, ModelResult>, PedidoDeleteHandler>();
             services.AddScoped<IRequestHandler<PedidoFindByIdCommand, ModelResult>, PedidoFindByIdHandler>();
             services.AddScoped<IRequestHandler<PedidoGetItemsCommand, PagingQueryResult<Pedido>>, PedidoGetItemsHandler>();
+            services.AddScoped<IRequestHandler<PedidoIniciarPreparacaCommand, ModelResult>, PedidoIniciarPreparacaHandler>();
+            services.AddScoped<IRequestHandler<PedidoFinalizarPreparacaCommand, ModelResult>, PedidoFinalizarPreparacaHandler>();
+            services.AddScoped<IRequestHandler<PedidoFinalizarCommand, ModelResult>, PedidoFinalizarHandler>();
 
             //Pedido Item
             services.AddScoped<IRequestHandler<PedidoItemPostCommand, ModelResult>, PedidoItemPostHandler>();

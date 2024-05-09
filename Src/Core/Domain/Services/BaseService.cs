@@ -11,8 +11,8 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
     /// </summary>
     public class BaseService<TEntity> : IService<TEntity> where TEntity : class, IDomainEntity
     {
-        private readonly IRepository<TEntity> _repository;
-        private readonly IValidator<TEntity> _validator;
+        protected readonly IRepository<TEntity> _repository;
+        protected readonly IValidator<TEntity> _validator;
 
         public BaseService(IRepository<TEntity> repository, IValidator<TEntity> validator)
         {
@@ -191,10 +191,10 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         /// <param name="entity">Objeto relacional do bd mapeado</param>
         public virtual async Task<ModelResult> FindByIdAsync(Guid Id)
         {
-            var result = await _repository.FindByIdAsync(Id);
-            
-            if(result == null)
-                return  ModelResultFactory.NotFoundResult<TEntity>();
+            TEntity? result = await _repository.FindByIdAsync(Id);
+
+            if (result == null)
+                return ModelResultFactory.NotFoundResult<TEntity>();
 
             return ModelResultFactory.SucessResult(result);
         }

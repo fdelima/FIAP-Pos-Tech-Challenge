@@ -2,7 +2,6 @@
 using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
 using FluentValidation;
-using System.Windows.Markup;
 
 namespace FIAP.Pos.Tech.Challenge.Domain.Services
 {
@@ -18,9 +17,9 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         /// </summary>
         public Task<PagingQueryResult<KeyValuePair<short, string>>> GetCategoriasAsync()
         {
-            var content = new List<KeyValuePair<short, string>>();
+            List<KeyValuePair<short, string>> content = new List<KeyValuePair<short, string>>();
 
-            foreach (var value in Enum.GetValues<enmProdutoCategoria>())
+            foreach (enmProdutoCategoria value in Enum.GetValues<enmProdutoCategoria>())
                 content.Add(new KeyValuePair<short, string>((short)value, value.ToString()));
 
             return Task.FromResult(new PagingQueryResult<KeyValuePair<short, string>>(content));

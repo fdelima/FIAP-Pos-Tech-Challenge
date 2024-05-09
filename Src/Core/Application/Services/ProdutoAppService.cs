@@ -1,9 +1,7 @@
 ﻿using FIAP.Pos.Tech.Challenge.Application.Commands.Produto;
 using FIAP.Pos.Tech.Challenge.Domain;
 using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Domain.Messages;
 using FIAP.Pos.Tech.Challenge.Domain.Models;
-using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
 using FluentValidation;
 using MediatR;
 using System.Linq.Expressions;

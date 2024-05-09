@@ -16,8 +16,8 @@ namespace FIAP.Pos.Tech.Challenge.Api
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            var startUrl = Environment.GetEnvironmentVariable("ASPNETCORE_URLS")?.Split(';').First();
-            var IsDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+            string? startUrl = Environment.GetEnvironmentVariable("ASPNETCORE_URLS")?.Split(';').First();
+            bool IsDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
 
             services.AddSwaggerGen(options =>
             {

@@ -1,7 +1,5 @@
-﻿using System.Net.Sockets;
-using System.Net;
-using System.Reflection;
-using System;
+﻿using System.Net;
+using System.Net.Sockets;
 
 namespace FIAP.Pos.Tech.Challenge.Api
 {
@@ -9,9 +7,9 @@ namespace FIAP.Pos.Tech.Challenge.Api
     {
         private static string _name = string.Empty;
         public static string Name { get { return _name; } }
-        
+
         public static string Title { get { return $"{Name} ({GetLocalIPAddress()})"; } }
-        
+
         private static string _version = string.Empty;
         public static string Version { get { return _version; } }
 
@@ -31,8 +29,8 @@ namespace FIAP.Pos.Tech.Challenge.Api
         /// <returns></returns>
         public static string GetLocalIPAddress()
         {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress ip in host.AddressList)
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {

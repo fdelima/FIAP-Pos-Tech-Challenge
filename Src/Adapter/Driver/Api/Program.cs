@@ -1,7 +1,7 @@
 using FIAP.Pos.Tech.Challenge.Api;
 using FIAP.Pos.Tech.Challenge.IoC;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 App.SetAtributesAppFromDll();
 
@@ -14,7 +14,7 @@ builder.Services.AddSwagger("Web Api C# Sample");
 
 builder.Services.RegisterDependencies(builder.Configuration);
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 app.ConfigureSwagger();
 
