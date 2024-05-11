@@ -46,6 +46,5 @@ public partial class Pedido : IDomainEntity
     [JsonIgnore]
     public virtual Dispositivo IdDispositivoNavigation { get; set; } = null!;
 
-    [JsonIgnore]
     public virtual ICollection<PedidoItem> PedidoItems { get; set; } = new List<PedidoItem>();
 }
