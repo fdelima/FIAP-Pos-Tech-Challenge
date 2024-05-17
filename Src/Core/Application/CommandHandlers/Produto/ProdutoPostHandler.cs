@@ -7,9 +7,9 @@ namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Produto
 {
     public class ProdutoPostHandler : IRequestHandler<ProdutoPostCommand, ModelResult>
     {
-        private readonly IService<Domain.Entities.Produto> _service;
+        private readonly IProdutoService _service;
 
-        public ProdutoPostHandler(IService<Domain.Entities.Produto> service)
+        public ProdutoPostHandler(IProdutoService service)
         {
             _service = service;
         }

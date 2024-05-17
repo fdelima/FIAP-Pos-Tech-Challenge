@@ -155,7 +155,7 @@ BEGIN
 	REFERENCES [dbo].[produto] ([id_produto])
 	ALTER TABLE [dbo].[pedido_item] CHECK CONSTRAINT [FK_pedido_item_produto]
 
-	INSERT INTO [dbo].[produto] VALUES (NEWID(), 'LANCE DA CASA', 9.99,'Dois hambúrgueres (100% carne bovina), alface americana, queijo processado sabor cheddar, molho especial, cebola, picles e pão com gergelim. 499 GRAMAS','LANCHE')
+	INSERT INTO [dbo].[produto] VALUES (NEWID(), 'LANCE DA CASA', 9.99,'Dois hamburgueres (100% carne bovina), alface americana, queijo processado sabor cheddar, molho especial, cebola, picles e pão com gergelim. 499 GRAMAS','LANCHE')
 	INSERT INTO [dbo].[produto] VALUES (NEWID(), 'BATATA FRITA', 4.99,'100 GRAMAS','ACOMPANHAMENTO')
 	INSERT INTO [dbo].[produto] VALUES (NEWID(), 'COCA-COLA', 2.99,'LATA 350ML','BEBIDA')
 END

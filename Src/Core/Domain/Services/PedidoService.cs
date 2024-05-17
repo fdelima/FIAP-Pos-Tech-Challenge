@@ -18,6 +18,17 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         }
 
         /// <summary>
+        /// Insere o objeto
+        /// </summary>
+        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="ValidatorResult">Validações já realizadas a serem adicionadas ao contexto</param>
+        public override async Task<ModelResult> InsertAsync(Pedido entity, string[]? businessRules = null)
+        {
+            entity.IdPedido = entity.IdPedido.Equals(default) ? Guid.NewGuid() : entity.IdPedido;
+            return await base.InsertAsync(entity, businessRules);
+        }
+
+        /// <summary>
         /// Pedido em preparação.
         /// </summary>
         /// <param name="id">id do pedido</param>

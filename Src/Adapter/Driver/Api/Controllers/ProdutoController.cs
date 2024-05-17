@@ -71,7 +71,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         /// <response code="400">Erro ao recuperar listagem dos Produtos cadastrados</response>
         [HttpGet("categoria/{categoria}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<PagingQueryResult<Produto>> FindByCategoria(enmProdutoCategoria categoria)
+        public async Task<PagingQueryResult<Produto>> FindByCategoria(string categoria)
         {
             PagingQueryParam<Produto> param = new PagingQueryParam<Produto>()
             {

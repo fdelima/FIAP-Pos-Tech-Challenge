@@ -31,7 +31,7 @@ public partial class Produto : IDomainEntity
 
     public string Descricao { get; set; } = null!;
 
-    public enmProdutoCategoria Categoria { get; set; }
+    public string Categoria { get; set; }
 
     [JsonIgnore]
     public virtual ICollection<PedidoItem> PedidoItems { get; set; } = new List<PedidoItem>();
