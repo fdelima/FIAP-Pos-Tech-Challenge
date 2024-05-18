@@ -19,7 +19,7 @@ services:
     ports:
       - "1433:1433"
     healthcheck:
-      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-U sa", "-P SqlServer2019!", "-Q", "select 1"]
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-U sa -P SqlServer2019! -Q 'SELECT NAME FROM SYS.DATABASES'"]
       interval: 1s
       retries: 20
     volumes:

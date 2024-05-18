@@ -1,1 +1,1 @@
-echo "Aguardando sqlserver" && sleep 30 && echo "Executando der" &&  /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P SqlServer2019! -d master -i /tmp/tech-challenge-mer.sql
+echo "Executando der" &&  /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P SqlServer2019! -d master -i /tmp/tech-challenge-mer.sql
