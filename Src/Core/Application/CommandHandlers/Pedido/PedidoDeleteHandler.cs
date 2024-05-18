@@ -7,9 +7,9 @@ namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Pedido
 {
     public class PedidoDeleteHandler : IRequestHandler<PedidoDeleteCommand, ModelResult>
     {
-        private readonly IService<Domain.Entities.Pedido> _service;
+        private readonly IPedidoService _service;
 
-        public PedidoDeleteHandler(IService<Domain.Entities.Pedido> service)
+        public PedidoDeleteHandler(IPedidoService service)
         {
             _service = service;
         }

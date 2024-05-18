@@ -14,7 +14,7 @@ public partial class Pedido : IDomainEntity
     {
         return x => ((Pedido)x).IdCliente.Equals(IdCliente) &&
                     ((Pedido)x).IdDispositivo.Equals(IdDispositivo) &&
-                    ((Pedido)x).Data.ToString("yyyyMMddHHmm").Equals(Data.ToString("yyyyMMddHHmm"));
+                    ((Pedido)x).Data.Equals(Data);
     }
 
     /// <summary>
@@ -25,7 +25,7 @@ public partial class Pedido : IDomainEntity
         return x => !((Pedido)x).IdPedido.Equals(IdPedido) &&
                     ((Pedido)x).IdCliente.Equals(IdCliente) &&
                     ((Pedido)x).IdDispositivo.Equals(IdDispositivo) &&
-                    ((Pedido)x).Data.ToString("yyyyMMddHHmm").Equals(Data.ToString("yyyyMMddHHmm"));
+                    ((Pedido)x).Data.Equals(Data);
     }
 
     public Guid IdPedido { get; set; }
@@ -36,7 +36,7 @@ public partial class Pedido : IDomainEntity
 
     public Guid? IdCliente { get; set; }
 
-    public enmPedidoStatus Status { get; set; }
+    public string Status { get; set; }
 
     public DateTime DataStatusPedido { get; set; }
 

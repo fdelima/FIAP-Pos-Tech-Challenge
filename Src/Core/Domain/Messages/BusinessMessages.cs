@@ -35,5 +35,10 @@
         /// </summary>
         public static string NotFoundError<T>() => $"Nenhum registro de {typeof(T).Name} encontrado.";
 
+        /// <summary>
+        /// Retorna mensagem de erro - registro não encontrado
+        /// </summary>
+        public static string NotFoundInError<T>(Guid id) => $"{typeof(T).Name} informado {id} não encontrado.";
+
     }
 }

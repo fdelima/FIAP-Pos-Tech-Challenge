@@ -12,7 +12,6 @@ namespace FIAP.Pos.Tech.Challenge.IoC
             services.AddScoped(typeof(IAppService<Domain.Entities.Cliente>), typeof(ClienteAppService));
             services.AddScoped(typeof(IAppService<Domain.Entities.Dispositivo>), typeof(DispositivoAppService));
             services.AddScoped(typeof(IAppService<Domain.Entities.Notificacao>), typeof(NotificacaoAppService));
-            services.AddScoped(typeof(IAppService<Domain.Entities.Pedido>), typeof(PedidoAppService));
             services.AddScoped(typeof(IPedidoAppService), typeof(PedidoAppService));
             services.AddScoped(typeof(IProdutoAppService), typeof(ProdutoAppService));
         }

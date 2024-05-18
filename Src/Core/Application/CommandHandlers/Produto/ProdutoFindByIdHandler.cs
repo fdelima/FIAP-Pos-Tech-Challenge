@@ -7,9 +7,9 @@ namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Produto
 {
     public class ProdutoFindByIdHandler : IRequestHandler<ProdutoFindByIdCommand, ModelResult>
     {
-        private readonly IService<Domain.Entities.Produto> _service;
+        private readonly IProdutoService _service;
 
-        public ProdutoFindByIdHandler(IService<Domain.Entities.Produto> service)
+        public ProdutoFindByIdHandler(IProdutoService service)
         {
             _service = service;
         }

@@ -7,9 +7,9 @@ namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Produto
 {
     public class ProdutoDeleteHandler : IRequestHandler<ProdutoDeleteCommand, ModelResult>
     {
-        private readonly IService<Domain.Entities.Produto> _service;
+        private readonly IProdutoService _service;
 
-        public ProdutoDeleteHandler(IService<Domain.Entities.Produto> service)
+        public ProdutoDeleteHandler(IProdutoService service)
         {
             _service = service;
         }

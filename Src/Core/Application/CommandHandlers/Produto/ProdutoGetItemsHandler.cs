@@ -7,9 +7,9 @@ namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Produto
 {
     public class ProdutoGetItemsHandler : IRequestHandler<ProdutoGetItemsCommand, PagingQueryResult<Domain.Entities.Produto>>
     {
-        private readonly IService<Domain.Entities.Produto> _service;
+        private readonly IProdutoService _service;
 
-        public ProdutoGetItemsHandler(IService<Domain.Entities.Produto> service)
+        public ProdutoGetItemsHandler(IProdutoService service)
         {
             _service = service;
         }

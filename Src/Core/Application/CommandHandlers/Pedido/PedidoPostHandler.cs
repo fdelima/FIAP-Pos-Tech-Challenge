@@ -7,9 +7,9 @@ namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Pedido
 {
     public class PedidoPostHandler : IRequestHandler<PedidoPostCommand, ModelResult>
     {
-        private readonly IService<Domain.Entities.Pedido> _service;
+        private readonly IPedidoService _service;
 
-        public PedidoPostHandler(IService<Domain.Entities.Pedido> service)
+        public PedidoPostHandler(IPedidoService service)
         {
             _service = service;
         }

@@ -15,6 +15,8 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Validator
         public PedidoValidator()
         {
             RuleFor(c => c.IdDispositivo).NotEmpty().WithMessage(ValidationMessages.RequiredField);
+            RuleFor(c => c.PedidoItems).Must(x => x.Count() > 0).WithMessage(ValidationMessages.OneMandatoryItem);
+            RuleForEach(c => c.PedidoItems).SetValidator(x => new PedidoItemValidator());
         }
     }
 }

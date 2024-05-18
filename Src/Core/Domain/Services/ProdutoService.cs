@@ -35,9 +35,6 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         public override async Task<ModelResult> InsertAsync(Produto entity, string[]? businessRules = null)
         {
             entity.IdProduto = entity.IdProduto.Equals(default) ? Guid.NewGuid() : entity.IdProduto;
-
-
-
             return await base.InsertAsync(entity, businessRules);
         }
     }

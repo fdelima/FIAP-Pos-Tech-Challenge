@@ -1,8 +1,9 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Models;
+﻿using FIAP.Pos.Tech.Challenge.Domain.Entities;
+using FIAP.Pos.Tech.Challenge.Domain.Models;
 
 namespace FIAP.Pos.Tech.Challenge.Domain.Interfaces
 {
-    public interface IPedidoService
+    public interface IPedidoService : IService<Pedido>
     {
         /// <summary>
         /// Pedido em preparação.
