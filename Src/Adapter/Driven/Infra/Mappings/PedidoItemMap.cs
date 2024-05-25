@@ -30,7 +30,6 @@ public class PedidoItemMap : IEntityTypeConfiguration<PedidoItem>
 
         builder.HasOne(d => d.IdPedidoNavigation).WithMany(p => p.PedidoItems)
             .HasForeignKey(d => d.IdPedido)
-            .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_pedido_item_pedido");
 
         builder.HasOne(d => d.IdProdutoNavigation).WithMany(p => p.PedidoItems)

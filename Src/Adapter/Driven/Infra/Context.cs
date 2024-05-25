@@ -23,6 +23,9 @@ namespace FIAP.Pos.Tech.Challenge.Infra
 
         public virtual DbSet<Produto> Produtos { get; set; }
 
+        public virtual DbSet<ProdutoImagens> ProdutoImagens { get; set; }
+
+
         #endregion DbSets
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,6 +37,7 @@ namespace FIAP.Pos.Tech.Challenge.Infra
             modelBuilder.ApplyConfiguration(new PedidoItemMap());
             modelBuilder.ApplyConfiguration(new PedidoMap());
             modelBuilder.ApplyConfiguration(new ProdutoMap());
+            modelBuilder.ApplyConfiguration(new ProdutoImagensMap());
 
             base.OnModelCreating(modelBuilder);
         }

@@ -1,4 +1,5 @@
 ﻿using FIAP.Pos.Tech.Challenge.Domain;
+using FIAP.Pos.Tech.Challenge.Domain.Extensions;
 using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -180,12 +181,12 @@ namespace FIAP.Pos.Tech.Challenge.Infra.Repositories
             if (ex.Message.StartsWith("The DELETE statement conflicted"))
             {
 
-                Type[] types = Util.GetTypesInNamespace("Domain.Entities");
+                Type[] types = Util.GetTypesInNamespace("FIAP.Pos.Tech.Challenge.Domain.Entities");
 
                 foreach (Type type in types)
                 {
-                    if (ex.Message.Contains($"\"dbo.{type.Name}\""))
-                        return string.Format(deleteMsg, typeof(TEntity).Name);
+                    if (ex.Message.Contains($"\"dbo.{type.Name.ToSnakeCase()}\""))
+                        return string.Format(deleteMsg, type.Name.Replace(typeof(TEntity).Name, ""));
                 }
             }
 

@@ -1,5 +1,4 @@
 ﻿using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
 using System.Linq.Expressions;
 using System.Text.Json.Serialization;
 
@@ -35,4 +34,7 @@ public partial class Produto : IDomainEntity
 
     [JsonIgnore]
     public virtual ICollection<PedidoItem> PedidoItems { get; set; } = new List<PedidoItem>();
+
+    public virtual ICollection<ProdutoImagens> ProdutoImagens { get; set; } = new List<ProdutoImagens>();
+
 }

@@ -15,12 +15,12 @@ public class ProdutoMap : IEntityTypeConfiguration<Produto>
         builder.Property(e => e.IdProduto)
             .ValueGeneratedNever()
             .HasColumnName("id_produto");
-        builder.Property(e => e.Descricao)
-            .HasMaxLength(500)
-            .HasColumnName("descricao");
         builder.Property(e => e.Categoria)
             .HasMaxLength(50)
             .HasColumnName("categoria");
+        builder.Property(e => e.Descricao)
+            .HasMaxLength(500)
+            .HasColumnName("descricao");
         builder.Property(e => e.Nome)
             .HasMaxLength(50)
             .HasColumnName("nome");

@@ -37,6 +37,5 @@ public class PedidoMap : IEntityTypeConfiguration<Pedido>
             .HasForeignKey(d => d.IdDispositivo)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_pedido_dispositivo");
-
     }
 }

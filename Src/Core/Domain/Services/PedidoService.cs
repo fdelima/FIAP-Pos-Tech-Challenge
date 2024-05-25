@@ -29,6 +29,19 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         }
 
         /// <summary>
+        /// Carrega o pedido e seus itens.
+        /// </summary>
+        public async override Task<ModelResult> FindByIdAsync(Guid Id)
+        {
+            var result = await _repository.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == Id);
+
+            if (result == null)
+                return ModelResultFactory.NotFoundResult<Produto>();
+
+            return ModelResultFactory.SucessResult(result);
+        }
+
+        /// <summary>
         /// Insere o objeto
         /// </summary>
         /// <param name="entity">Objeto relacional do bd mapeado</param>
@@ -68,6 +81,37 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
             });
 
             return await base.InsertAsync(entity, lstWarnings.ToArray());
+        }
+
+        /// <summary>
+        /// Atualiza o objeto e suas dependências.
+        /// </summary>
+        public async override Task<ModelResult> UpdateAsync(Pedido entity, string[]? businessRules = null)
+        {
+            var dbEntity = await _repository.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == entity.IdPedido);
+
+            if (dbEntity == null)
+                return ModelResultFactory.NotFoundResult<Produto>();
+
+            for (int i = 0; i < dbEntity.PedidoItems.Count; i++)
+            {
+                var item = dbEntity.PedidoItems.ElementAt(i);
+                if (!entity.PedidoItems.Any(x => x.IdPedidoItem.Equals(item.IdPedidoItem)))
+                    dbEntity.PedidoItems.Remove(dbEntity.PedidoItems.First(x => x.IdPedidoItem.Equals(item.IdPedidoItem)));
+            }
+
+            for (int i = 0; i < entity.PedidoItems.Count; i++)
+            {
+                var item = entity.PedidoItems.ElementAt(i);
+                if (!dbEntity.PedidoItems.Any(x => x.IdPedidoItem.Equals(item.IdPedidoItem)))
+                {
+                    item.IdPedidoItem = item.IdPedidoItem.Equals(default) ? Guid.NewGuid() : item.IdPedidoItem;
+                    dbEntity.PedidoItems.Add(item);
+                }
+            }
+
+            await _repository.UpdateAsync(dbEntity, entity);
+            return await base.UpdateAsync(dbEntity, businessRules);
         }
 
         /// <summary>
