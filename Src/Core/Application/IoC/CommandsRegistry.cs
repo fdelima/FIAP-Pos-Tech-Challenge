@@ -17,7 +17,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace FIAP.Pos.Tech.Challenge.IoC
+namespace FIAP.Pos.Tech.Challenge.Application.IoC
 {
     internal static class CommandsRegistry
     {

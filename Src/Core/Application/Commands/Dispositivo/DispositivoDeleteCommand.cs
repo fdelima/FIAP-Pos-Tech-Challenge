@@ -3,7 +3,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.Commands.Dispositivo
 {
-    public class DispositivoDeleteCommand : IRequest<ModelResult>
+    internal class DispositivoDeleteCommand : IRequest<ModelResult>
     {
         public DispositivoDeleteCommand(Guid id, string[]? businessRules = null)
         {

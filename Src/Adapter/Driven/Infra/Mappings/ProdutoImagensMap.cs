@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FIAP.Pos.Tech.Challenge.Infra.Mappings;
 
-public class ProdutoImagensMap : IEntityTypeConfiguration<ProdutoImagens>
+internal class ProdutoImagensMap : IEntityTypeConfiguration<ProdutoImagens>
 {
     public void Configure(EntityTypeBuilder<ProdutoImagens> builder)
     {

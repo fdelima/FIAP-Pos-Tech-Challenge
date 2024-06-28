@@ -1,9 +1,8 @@
-﻿using FIAP.Pos.Tech.Challenge.Infra;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FIAP.Pos.Tech.Challenge.IoC
+namespace FIAP.Pos.Tech.Challenge.Infra.IoC
 {
     internal static class DatabaseRegistry
     {

@@ -3,7 +3,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.Commands.Dispositivo
 {
-    public class DispositivoPutCommand : IRequest<ModelResult>
+    internal class DispositivoPutCommand : IRequest<ModelResult>
     {
         public DispositivoPutCommand(Guid id, Domain.Entities.Dispositivo entity,
             string[]? businessRules = null)

@@ -3,7 +3,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.Commands.Pedido
 {
-    public class PedidoFindByIdCommand : IRequest<ModelResult>
+    internal class PedidoFindByIdCommand : IRequest<ModelResult>
     {
         public PedidoFindByIdCommand(Guid id)
         {

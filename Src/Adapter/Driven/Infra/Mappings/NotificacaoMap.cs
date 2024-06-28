@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FIAP.Pos.Tech.Challenge.Infra.Mappings;
 
-public class NotificacaoMap : IEntityTypeConfiguration<Notificacao>
+internal class NotificacaoMap : IEntityTypeConfiguration<Notificacao>
 {
     public void Configure(EntityTypeBuilder<Notificacao> builder)
     {

@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace FIAP.Pos.Tech.Challenge.Infra.Repositories
 {
-    public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class, IDomainEntity
+    internal class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class, IDomainEntity
     {
         /// <summary>
         /// contexto

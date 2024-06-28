@@ -3,7 +3,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.Commands.PedidoItem
 {
-    public class PedidoItemDeleteCommand : IRequest<ModelResult>
+    internal class PedidoItemDeleteCommand : IRequest<ModelResult>
     {
         public PedidoItemDeleteCommand(Guid id, string[]? businessRules = null)
         {

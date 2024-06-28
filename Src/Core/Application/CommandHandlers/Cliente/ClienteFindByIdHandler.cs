@@ -5,7 +5,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Cliente
 {
-    public class ClienteFindByIdHandler : IRequestHandler<ClienteFindByIdCommand, ModelResult>
+    internal class ClienteFindByIdHandler : IRequestHandler<ClienteFindByIdCommand, ModelResult>
     {
         private readonly IService<Domain.Entities.Cliente> _service;
 

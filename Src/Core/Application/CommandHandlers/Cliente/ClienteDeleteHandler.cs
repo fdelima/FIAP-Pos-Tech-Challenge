@@ -5,7 +5,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Cliente
 {
-    public class ClienteDeleteHandler : IRequestHandler<ClienteDeleteCommand, ModelResult>
+    internal class ClienteDeleteHandler : IRequestHandler<ClienteDeleteCommand, ModelResult>
     {
         private readonly IService<Domain.Entities.Cliente> _service;
 
