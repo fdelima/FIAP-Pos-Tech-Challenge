@@ -2,7 +2,7 @@
 using FIAP.Pos.Tech.Challenge.Infra.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FIAP.Pos.Tech.Challenge.IoC
+namespace FIAP.Pos.Tech.Challenge.Infra.IoC
 {
     internal static class RepositoriesRegistry
     {

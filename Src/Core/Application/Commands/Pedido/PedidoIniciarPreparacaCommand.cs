@@ -3,7 +3,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.Commands.Pedido
 {
-    public class PedidoIniciarPreparacaCommand : IRequest<ModelResult>
+    internal class PedidoIniciarPreparacaCommand : IRequest<ModelResult>
     {
         public PedidoIniciarPreparacaCommand(Guid id, string[]? businessRules = null)
         {

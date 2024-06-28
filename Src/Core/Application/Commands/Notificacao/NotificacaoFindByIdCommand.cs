@@ -3,7 +3,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.Commands.Notificacao
 {
-    public class NotificacaoFindByIdCommand : IRequest<ModelResult>
+    internal class NotificacaoFindByIdCommand : IRequest<ModelResult>
     {
         public NotificacaoFindByIdCommand(Guid id)
         {

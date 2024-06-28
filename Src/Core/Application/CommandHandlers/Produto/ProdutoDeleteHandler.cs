@@ -5,7 +5,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Produto
 {
-    public class ProdutoDeleteHandler : IRequestHandler<ProdutoDeleteCommand, ModelResult>
+    internal class ProdutoDeleteHandler : IRequestHandler<ProdutoDeleteCommand, ModelResult>
     {
         private readonly IProdutoService _service;
 

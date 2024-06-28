@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace FIAP.Pos.Tech.Challenge.Application.Commands.Dispositivo
 {
-    public class DispositivoGetItemsCommand : IRequest<PagingQueryResult<Domain.Entities.Dispositivo>>
+    internal class DispositivoGetItemsCommand : IRequest<PagingQueryResult<Domain.Entities.Dispositivo>>
     {
         public DispositivoGetItemsCommand(IPagingQueryParam filter, Expression<Func<Domain.Entities.Dispositivo, object>> sortProp)
         {

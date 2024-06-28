@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using FIAP.Pos.Tech.Challenge.Infra.IoC;
-using FIAP.Pos.Tech.Challenge.Application.IoC;
 
-namespace FIAP.Pos.Tech.Challenge.IoC
+namespace FIAP.Pos.Tech.Challenge.Infra.IoC
 {
     /// <summary>
     /// Configura a injeção de dependência
@@ -13,10 +11,10 @@ namespace FIAP.Pos.Tech.Challenge.IoC
         /// <summary>
         /// Registra as dependências aos serviços da aplicação
         /// </summary>
-        public static void RegisterDependencies(this IServiceCollection services, IConfiguration configuration)
+        public static void RegisterInfraDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            services.RegisterInfraDependencies(configuration);
-            services.RegisterAppDependencies();
+            services.RegisterDatabase(configuration);
+            services.RegisterRepositories();
         }
     }
 }

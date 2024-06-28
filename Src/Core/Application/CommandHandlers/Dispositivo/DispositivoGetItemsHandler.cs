@@ -5,7 +5,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Dispositivo
 {
-    public class DispositivoGetItemsHandler : IRequestHandler<DispositivoGetItemsCommand, PagingQueryResult<Domain.Entities.Dispositivo>>
+    internal class DispositivoGetItemsHandler : IRequestHandler<DispositivoGetItemsCommand, PagingQueryResult<Domain.Entities.Dispositivo>>
     {
         private readonly IService<Domain.Entities.Dispositivo> _service;
 

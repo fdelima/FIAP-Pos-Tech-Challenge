@@ -5,7 +5,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Cliente
 {
-    public class ClientePutHandler : IRequestHandler<ClientePutCommand, ModelResult>
+    internal class ClientePutHandler : IRequestHandler<ClientePutCommand, ModelResult>
     {
         private readonly IService<Domain.Entities.Cliente> _service;
 

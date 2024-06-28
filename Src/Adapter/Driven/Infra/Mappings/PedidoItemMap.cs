@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FIAP.Pos.Tech.Challenge.Infra.Mappings;
 
-public class PedidoItemMap : IEntityTypeConfiguration<PedidoItem>
+internal class PedidoItemMap : IEntityTypeConfiguration<PedidoItem>
 {
     public void Configure(EntityTypeBuilder<PedidoItem> builder)
     {
