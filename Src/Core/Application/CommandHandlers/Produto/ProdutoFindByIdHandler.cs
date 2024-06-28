@@ -5,7 +5,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Produto
 {
-    public class ProdutoFindByIdHandler : IRequestHandler<ProdutoFindByIdCommand, ModelResult>
+    internal class ProdutoFindByIdHandler : IRequestHandler<ProdutoFindByIdCommand, ModelResult>
     {
         private readonly IProdutoService _service;
 

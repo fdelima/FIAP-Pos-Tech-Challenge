@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FIAP.Pos.Tech.Challenge.Infra.Mappings;
 
-public class DispositivoMap : IEntityTypeConfiguration<Dispositivo>
+internal class DispositivoMap : IEntityTypeConfiguration<Dispositivo>
 {
     public void Configure(EntityTypeBuilder<Dispositivo> builder)
     {

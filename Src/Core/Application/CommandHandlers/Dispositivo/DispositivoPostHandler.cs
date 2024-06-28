@@ -5,7 +5,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Dispositivo
 {
-    public class DispositivoPostHandler : IRequestHandler<DispositivoPostCommand, ModelResult>
+    internal class DispositivoPostHandler : IRequestHandler<DispositivoPostCommand, ModelResult>
     {
         private readonly IService<Domain.Entities.Dispositivo> _service;
 

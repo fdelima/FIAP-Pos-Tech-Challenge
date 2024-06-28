@@ -5,7 +5,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Notificacao
 {
-    public class NotificacaoGetItemsHandler : IRequestHandler<NotificacaoGetItemsCommand, PagingQueryResult<Domain.Entities.Notificacao>>
+    internal class NotificacaoGetItemsHandler : IRequestHandler<NotificacaoGetItemsCommand, PagingQueryResult<Domain.Entities.Notificacao>>
     {
         private readonly IService<Domain.Entities.Notificacao> _service;
 

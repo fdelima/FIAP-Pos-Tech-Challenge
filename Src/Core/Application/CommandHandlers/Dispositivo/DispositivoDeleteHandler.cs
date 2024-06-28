@@ -5,7 +5,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Dispositivo
 {
-    public class DispositivoDeleteHandler : IRequestHandler<DispositivoDeleteCommand, ModelResult>
+    internal class DispositivoDeleteHandler : IRequestHandler<DispositivoDeleteCommand, ModelResult>
     {
         private readonly IService<Domain.Entities.Dispositivo> _service;
 

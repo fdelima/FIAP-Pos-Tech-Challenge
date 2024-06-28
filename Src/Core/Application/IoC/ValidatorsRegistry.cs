@@ -3,7 +3,7 @@ using FIAP.Pos.Tech.Challenge.Domain.Validator;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FIAP.Pos.Tech.Challenge.IoC
+namespace FIAP.Pos.Tech.Challenge.Application.IoC
 {
     internal static class ValidatorsRegistry
     {

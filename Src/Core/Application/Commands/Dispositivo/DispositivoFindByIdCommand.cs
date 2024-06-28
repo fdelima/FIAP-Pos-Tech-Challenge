@@ -3,7 +3,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.Commands.Dispositivo
 {
-    public class DispositivoFindByIdCommand : IRequest<ModelResult>
+    internal class DispositivoFindByIdCommand : IRequest<ModelResult>
     {
         public DispositivoFindByIdCommand(Guid id)
         {

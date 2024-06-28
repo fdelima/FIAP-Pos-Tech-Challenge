@@ -5,7 +5,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.PedidoItem
 {
-    public class PedidoItemPutHandler : IRequestHandler<PedidoItemPutCommand, ModelResult>
+    internal class PedidoItemPutHandler : IRequestHandler<PedidoItemPutCommand, ModelResult>
     {
         private readonly IService<Domain.Entities.PedidoItem> _service;
 

@@ -5,7 +5,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.CommandHandlers.PedidoItem
 {
-    public class PedidoItemDeleteHandler : IRequestHandler<PedidoItemDeleteCommand, ModelResult>
+    internal class PedidoItemDeleteHandler : IRequestHandler<PedidoItemDeleteCommand, ModelResult>
     {
         private readonly IService<Domain.Entities.PedidoItem> _service;
 

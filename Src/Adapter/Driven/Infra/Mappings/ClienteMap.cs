@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FIAP.Pos.Tech.Challenge.Infra.Mappings;
 
-public class ClienteMap : IEntityTypeConfiguration<Cliente>
+internal class ClienteMap : IEntityTypeConfiguration<Cliente>
 {
     public void Configure(EntityTypeBuilder<Cliente> builder)
     {

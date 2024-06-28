@@ -3,7 +3,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.Commands.Pedido
 {
-    public class PedidoPutCommand : IRequest<ModelResult>
+    internal class PedidoPutCommand : IRequest<ModelResult>
     {
         public PedidoPutCommand(Guid id, Domain.Entities.Pedido entity,
             string[]? businessRules = null)

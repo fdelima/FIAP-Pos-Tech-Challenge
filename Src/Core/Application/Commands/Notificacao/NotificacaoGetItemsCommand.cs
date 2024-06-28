@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace FIAP.Pos.Tech.Challenge.Application.Commands.Notificacao
 {
-    public class NotificacaoGetItemsCommand : IRequest<PagingQueryResult<Domain.Entities.Notificacao>>
+    internal class NotificacaoGetItemsCommand : IRequest<PagingQueryResult<Domain.Entities.Notificacao>>
     {
         public NotificacaoGetItemsCommand(IPagingQueryParam filter, Expression<Func<Domain.Entities.Notificacao, object>> sortProp)
         {
