@@ -13,7 +13,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Application\FIAP.Pos.Tech.Challenge.Application.csproj" />
-		<ProjectReference Include="..\..\Adapter\Driven\Infra\FIAP.Pos.Tech.Challenge.Infra.csproj" />
+		<ProjectReference Include="..\..\External\Infra\FIAP.Pos.Tech.Challenge.Infra.csproj" />
 	</ItemGroup>
 
 </Project>

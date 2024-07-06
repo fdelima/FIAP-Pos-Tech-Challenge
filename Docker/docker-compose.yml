@@ -8,8 +8,8 @@ services:
     depends_on:
       - mssqltools
     build:
-      context: .
-      dockerfile: ../Src/Adapter/Driver/Api/Dockerfile
+      context: ../
+      dockerfile: Src/Api/Dockerfile
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:

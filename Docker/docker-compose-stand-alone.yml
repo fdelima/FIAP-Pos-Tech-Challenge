@@ -9,7 +9,7 @@ services:
       - mssqltools
     build:
       context: ../
-      dockerfile: Src/Adapter/Driver/Api/Dockerfile
+      dockerfile: Src/Api/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080

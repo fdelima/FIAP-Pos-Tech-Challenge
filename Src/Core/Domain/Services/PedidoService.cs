@@ -9,17 +9,17 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
 {
     public class PedidoService : BaseService<Pedido>, IPedidoService
     {
-        protected readonly IRepository<Notificacao> _notificacaoRepository;
-        protected readonly IRepository<Dispositivo> _dispositivoRepository;
-        protected readonly IRepository<Cliente> _clienteRepository;
-        protected readonly IRepository<Produto> _produtoRepository;
+        protected readonly IGateways<Notificacao> _notificacaoRepository;
+        protected readonly IGateways<Dispositivo> _dispositivoRepository;
+        protected readonly IGateways<Cliente> _clienteRepository;
+        protected readonly IGateways<Produto> _produtoRepository;
 
-        public PedidoService(IRepository<Pedido> repository,
+        public PedidoService(IGateways<Pedido> repository,
             IValidator<Pedido> validator,
-            IRepository<Notificacao> NotificacaoRepository,
-            IRepository<Dispositivo> DispositivoRepository,
-            IRepository<Cliente> ClienteRepository,
-            IRepository<Produto> ProdutoRepository)
+            IGateways<Notificacao> NotificacaoRepository,
+            IGateways<Dispositivo> DispositivoRepository,
+            IGateways<Cliente> ClienteRepository,
+            IGateways<Produto> ProdutoRepository)
             : base(repository, validator)
         {
             _notificacaoRepository = NotificacaoRepository;

@@ -2,7 +2,7 @@
 
 namespace FIAP.Pos.Tech.Challenge.Domain.Interfaces
 {
-    public interface IProdutoAppService : IAppService<Produto>
+    public interface IProdutoAppService : IController<Produto>
     {
         /// <summary>
         /// Retorna as categorias dos produtos

@@ -3,7 +3,7 @@ using FIAP.Pos.Tech.Challenge.Domain.Models;
 
 namespace FIAP.Pos.Tech.Challenge.Domain.Interfaces
 {
-    public interface IPedidoAppService : IAppService<Pedido>
+    public interface IPedidoAppService : IController<Pedido>
     {
         /// <summary>
         /// Pedido em preparação.

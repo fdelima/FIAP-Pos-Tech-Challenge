@@ -1,21 +1,21 @@
-﻿using FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Cliente;
-using FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Dispositivo;
-using FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Notificacao;
-using FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Pedido;
-using FIAP.Pos.Tech.Challenge.Application.CommandHandlers.PedidoItem;
-using FIAP.Pos.Tech.Challenge.Application.CommandHandlers.Produto;
-using FIAP.Pos.Tech.Challenge.Application.Commands.Cliente;
-using FIAP.Pos.Tech.Challenge.Application.Commands.Dispositivo;
-using FIAP.Pos.Tech.Challenge.Application.Commands.Notificacao;
-using FIAP.Pos.Tech.Challenge.Application.Commands.Pedido;
-using FIAP.Pos.Tech.Challenge.Application.Commands.PedidoItem;
-using FIAP.Pos.Tech.Challenge.Application.Commands.Produto;
-using FIAP.Pos.Tech.Challenge.Domain;
+﻿using FIAP.Pos.Tech.Challenge.Domain;
 using FIAP.Pos.Tech.Challenge.Domain.Entities;
 using FIAP.Pos.Tech.Challenge.Domain.Models;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using FIAP.Pos.Tech.Challenge.Application.UseCases.Cliente.Commands;
+using FIAP.Pos.Tech.Challenge.Application.UseCases.Dispositivo.Commands;
+using FIAP.Pos.Tech.Challenge.Application.UseCases.Notificacao.Commands;
+using FIAP.Pos.Tech.Challenge.Application.UseCases.Pedido.Commands;
+using FIAP.Pos.Tech.Challenge.Application.UseCases.PedidoItem.Commands;
+using FIAP.Pos.Tech.Challenge.Application.UseCases.Produto.Commands;
+using FIAP.Pos.Tech.Challenge.Application.UseCases.Cliente.Handlers;
+using FIAP.Pos.Tech.Challenge.Application.UseCases.Dispositivo.Handlers;
+using FIAP.Pos.Tech.Challenge.Application.UseCases.Notificacao.Handlers;
+using FIAP.Pos.Tech.Challenge.Application.UseCases.Pedido.Handlers;
+using FIAP.Pos.Tech.Challenge.Application.UseCases.PedidoItem.Handlers;
+using FIAP.Pos.Tech.Challenge.Application.UseCases.Produto.Handlers;
 
 namespace FIAP.Pos.Tech.Challenge.Application.IoC
 {
