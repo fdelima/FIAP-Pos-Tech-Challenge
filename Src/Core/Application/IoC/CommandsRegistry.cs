@@ -55,6 +55,7 @@ namespace FIAP.Pos.Tech.Challenge.Application.IoC
             services.AddScoped<IRequestHandler<PedidoIniciarPreparacaCommand, ModelResult>, PedidoIniciarPreparacaHandler>();
             services.AddScoped<IRequestHandler<PedidoFinalizarPreparacaCommand, ModelResult>, PedidoFinalizarPreparacaHandler>();
             services.AddScoped<IRequestHandler<PedidoFinalizarCommand, ModelResult>, PedidoFinalizarHandler>();
+            services.AddScoped<IRequestHandler<PedidoGetListaCommand, PagingQueryResult<Pedido>>, PedidoGetIListaHandler>();
 
             //Pedido Item
             services.AddScoped<IRequestHandler<PedidoItemPostCommand, ModelResult>, PedidoItemPostHandler>();

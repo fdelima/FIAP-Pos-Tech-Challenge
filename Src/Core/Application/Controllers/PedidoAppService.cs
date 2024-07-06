@@ -1,5 +1,6 @@
 ﻿using FIAP.Pos.Tech.Challenge.Application.UseCases.Pedido.Commands;
 using FIAP.Pos.Tech.Challenge.Domain;
+using FIAP.Pos.Tech.Challenge.Domain.Entities;
 using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Domain.Models;
 using FluentValidation;
@@ -155,5 +156,19 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
             PedidoFinalizarCommand command = new(id);
             return await _mediator.Send(command);
         }
+
+        /// <summary>
+        /// Retorna os Pedidos cadastrados
+        /// A lista de pedidos deverá retorná-los com suas descrições, ordenados com a seguinte regra:
+        /// 1. Pronto > Em Preparação > Recebido;
+        /// 2. Pedidos mais antigos primeiro e mais novos depois;
+        /// 3. Pedidos com status Finalizado não devem aparecer na lista.
+        /// </summary>
+        public async Task<PagingQueryResult<Pedido>> GetListaAsync(PagingQueryParam<Pedido> param)
+        {
+            PedidoGetListaCommand command = new(param);
+            return await _mediator.Send(command);
+        }
+
     }
 }

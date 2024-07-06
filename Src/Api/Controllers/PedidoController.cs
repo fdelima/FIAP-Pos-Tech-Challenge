@@ -37,6 +37,21 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         }
 
         /// <summary>
+        /// Retorna os Pedidos cadastrados
+        /// A lista de pedidos deverá retorná-los com suas descrições, ordenados com a seguinte regra:
+        /// 1. Pronto > Em Preparação > Recebido;
+        /// 2. Pedidos mais antigos primeiro e mais novos depois;
+        /// 3. Pedidos com status Finalizado não devem aparecer na lista.
+        /// </summary>
+        [HttpGet("Lista")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<PagingQueryResult<Pedido>> GetLista(int currentPage = 1, int take = 10)
+        {
+            PagingQueryParam<Pedido> param = new PagingQueryParam<Pedido>() { CurrentPage = currentPage, Take = take };
+            return await _service.GetListaAsync(param);
+        }
+
+        /// <summary>
         /// Recupera o Pedido cadastrado pelo seu Id
         /// </summary>
         /// <returns>Pedido encontrada</returns>
@@ -72,7 +87,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         /// <returns>Retorna o result do Pedido cadastrado.</returns>
         /// <response code="200">Pedido inserida com sucesso.</response>
         /// <response code="400">Erros de validação dos parâmetros para inserção do Pedido.</response>
-        [HttpPost]
+        [HttpPost("Checkout")]
         [ProducesResponseType(typeof(ModelResult), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Post(Pedido model)
@@ -120,7 +135,26 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         /// <returns>Retorna o result do Pedido cadastrado.</returns>
         /// <response code="200">Pedido deletada com sucesso.</response>
         /// <response code="400">Erros de validação dos parâmetros para deleção do Pedido.</response>
-        [HttpPatch("IniciarPreparacao/{id}")]
+        [HttpPatch("{id}/ConsultarPagamento")]
+        [ProducesResponseType(typeof(ModelResult), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ModelResult), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> ConsultarPagamentoAsync(Guid id)
+        {
+            //TODO: Necessário implementar ConsultarPagamentoAsync
+            throw new NotImplementedException();
+
+            //return ExecuteCommand(await _service.ConsultarPagamentoAsync(id));
+        }
+
+        /// <summary>
+        /// Pedido em preparação.
+        /// </summary>
+        /// <param name="id">Identificador do Pedido cadastrado.</param>
+        /// <returns>Retorna o result do Pedido cadastrado.</returns>
+        /// <response code="200">Pedido deletada com sucesso.</response>
+        /// <response code="400">Erros de validação dos parâmetros para deleção do Pedido.</response>
+        [HttpPatch("{id}/IniciarPreparacao")]
         [ProducesResponseType(typeof(ModelResult), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ModelResult), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -136,7 +170,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         /// <returns>Retorna o result do Pedido cadastrado.</returns>
         /// <response code="200">Pedido deletada com sucesso.</response>
         /// <response code="400">Erros de validação dos parâmetros para deleção do Pedido.</response>
-        [HttpPatch("FinalizarPreparacao/{id}")]
+        [HttpPatch("{id}/FinalizarPreparacao")]
         [ProducesResponseType(typeof(ModelResult), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ModelResult), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -152,7 +186,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         /// <returns>Retorna o result do Pedido cadastrado.</returns>
         /// <response code="200">Pedido deletada com sucesso.</response>
         /// <response code="400">Erros de validação dos parâmetros para deleção do Pedido.</response>
-        [HttpPatch("Finalizar/{id}")]
+        [HttpPatch("{id}/Finalizar")]
         [ProducesResponseType(typeof(ModelResult), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ModelResult), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
