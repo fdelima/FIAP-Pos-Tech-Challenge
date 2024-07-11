@@ -13,7 +13,7 @@ Tech Challenge é o projeto da fase que englobará os conhecimentos obtidos em t
 ![image](Documentacao/Abrir-Terminal.png)
 * Excute o commando abaixo:
 ```
-docker compose -f "Docker\docker-compose-stand-alone.yml" -p fiap-pos-techchallenge-gurpo-71 up
+docker compose up
 ```
 # Navegação
 * Documentação 

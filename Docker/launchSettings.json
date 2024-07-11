@@ -3,8 +3,13 @@
     "Docker Compose": {
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "fiap.pos.tech.challenge.api",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/api-docs",
       "serviceActions": {
-        "fiap.pos.tech.challenge.api": "StartDebugging"
+        "fiap.pos.tech.challenge.api": "StartDebugging",
+        "mssqltools": "StartWithoutDebugging",
+        "sqlserver": "StartWithoutDebugging"
       }
     }
   }

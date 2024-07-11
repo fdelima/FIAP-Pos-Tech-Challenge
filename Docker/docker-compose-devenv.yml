@@ -4,22 +4,12 @@ volumes:
 
 services:
   fiap.pos.tech.challenge.api:
-    image: fiappostechchallengeapi:stand-alone
+    image: ${DOCKER_REGISTRY-}fiappostechchallengeapi
     depends_on:
       - mssqltools
     build:
       context: ../
       dockerfile: Src/Api/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
-    ports:
-      - "8080:8080"
-      - "8081:8081"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
@@ -29,8 +19,8 @@ services:
     ports:
       - "1433:1433"
     healthcheck:
-      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PSqlServer2019!", "-Q", "select 1"]
-      interval: 1s
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-U sa -P SqlServer2019! -Q 'SELECT NAME FROM SYS.DATABASES'"]
+      interval: 10s
       retries: 20
     volumes:
       - sql_data:/var/opt/mssql
