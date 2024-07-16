@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace FIAP.Pos.Tech.Challenge.Domain.Interfaces
 {
-    public interface IPedidoAppService : IController<Pedido>
+    public interface IPedidoController : IController<Pedido>
     {
         /// <summary>
         /// Pedido em preparação.
@@ -32,5 +32,11 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Interfaces
         /// 3. Pedidos com status Finalizado não devem aparecer na lista.
         /// </summary>
         Task<PagingQueryResult<Pedido>> GetListaAsync(PagingQueryParam<Pedido> param);
+
+        /// <summary>
+        ///  Mercado pago recebimento de notificação webhook.
+        ///  https://www.mercadopago.com.br/developers/pt/docs/your-integrations/notifications/webhooks#editor_13
+        /// </summary>
+        Task<ModelResult> MercadoPagoWebhoock(MercadoPagoWebhoock notificacao);
     }
 }

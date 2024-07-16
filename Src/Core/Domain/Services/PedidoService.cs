@@ -63,6 +63,10 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
 
             entity.DataStatusPedido = entity.Data = DateTime.Now;
             entity.Status = enmPedidoStatus.RECEBIDO.ToString();
+
+            entity.DataStatusPagamento = DateTime.Now;
+            entity.Status = enmPedidoStatusPagamento.PENDENTE.ToString();
+
             foreach (var itemPedido in entity.PedidoItems)
             {
                 itemPedido.IdPedido = entity.IdPedido;

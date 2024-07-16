@@ -15,14 +15,14 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
     [Route("api/[Controller]")]
     public class NotificacaoController : ApiController
     {
-        private readonly IController<Notificacao> _service;
+        private readonly IController<Notificacao> _controller;
 
         /// <summary>
         /// Construtor do controller das Notificações cadastrados
         /// </summary>
-        public NotificacaoController(IController<Notificacao> service)
+        public NotificacaoController(IController<Notificacao> controller)
         {
-            _service = service;
+            _controller = controller;
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         public async Task<PagingQueryResult<Notificacao>> Get(int currentPage = 1, int take = 10)
         {
             PagingQueryParam<Notificacao> param = new PagingQueryParam<Notificacao>() { CurrentPage = currentPage, Take = take };
-            return await _service.GetItemsAsync(param, param.SortProp());
+            return await _controller.GetItemsAsync(param, param.SortProp());
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> FindById(Guid id)
         {
-            return ExecuteCommand(await _service.FindByIdAsync(id));
+            return ExecuteCommand(await _controller.FindByIdAsync(id));
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<PagingQueryResult<Notificacao>> Consult(PagingQueryParam<Notificacao> param)
         {
-            return await _service.ConsultItemsAsync(param, param.ConsultRule(), param.SortProp());
+            return await _controller.ConsultItemsAsync(param, param.ConsultRule(), param.SortProp());
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Post(Notificacao model)
         {
-            return ExecuteCommand(await _service.PostAsync(model));
+            return ExecuteCommand(await _controller.PostAsync(model));
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Put(Guid id, Notificacao model)
         {
-            return ExecuteCommand(await _service.PutAsync(id, model));
+            return ExecuteCommand(await _controller.PutAsync(id, model));
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return ExecuteCommand(await _service.DeleteAsync(id));
+            return ExecuteCommand(await _controller.DeleteAsync(id));
         }
 
     }

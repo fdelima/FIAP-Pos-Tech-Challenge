@@ -28,6 +28,13 @@ internal class PedidoMap : IEntityTypeConfiguration<Pedido>
         builder.Property(e => e.Status)
             .HasMaxLength(50)
             .HasColumnName("status");
+        builder.Property(e => e.StatusPagamento)
+            .HasMaxLength(50)
+            .HasColumnName("status_pagamento");
+        builder.Property(e => e.DataStatusPagamento)
+            .HasDefaultValueSql("(getdate())")
+            .HasColumnType("datetime")
+            .HasColumnName("data_status_pagamento");
 
         builder.HasOne(d => d.IdClienteNavigation).WithMany(p => p.Pedidos)
             .HasForeignKey(d => d.IdCliente)

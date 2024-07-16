@@ -15,14 +15,14 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
     [Route("api/[Controller]")]
     public class ClienteController : ApiController
     {
-        private readonly IController<Cliente> _service;
+        private readonly IController<Cliente> _controller;
 
         /// <summary>
         /// Construtor do controller dos Clientes cadastrados
         /// </summary>
-        public ClienteController(IController<Cliente> service)
+        public ClienteController(IController<Cliente> controller)
         {
-            _service = service;
+            _controller = controller;
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         public async Task<PagingQueryResult<Cliente>> Get(int currentPage = 1, int take = 10)
         {
             PagingQueryParam<Cliente> param = new PagingQueryParam<Cliente>() { CurrentPage = currentPage, Take = take };
-            return await _service.GetItemsAsync(param, param.SortProp());
+            return await _controller.GetItemsAsync(param, param.SortProp());
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> FindById(Guid id)
         {
-            return ExecuteCommand(await _service.FindByIdAsync(id));
+            return ExecuteCommand(await _controller.FindByIdAsync(id));
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
                     Cpf = cpf
                 }
             };
-            return await _service.ConsultItemsAsync(param, param.ConsultRule(), param.SortProp());
+            return await _controller.ConsultItemsAsync(param, param.ConsultRule(), param.SortProp());
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<PagingQueryResult<Cliente>> Consult(PagingQueryParam<Cliente> param)
         {
-            return await _service.ConsultItemsAsync(param, param.ConsultRule(), param.SortProp());
+            return await _controller.ConsultItemsAsync(param, param.ConsultRule(), param.SortProp());
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Post(Cliente model)
         {
-            return ExecuteCommand(await _service.PostAsync(model));
+            return ExecuteCommand(await _controller.PostAsync(model));
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Put(Guid id, Cliente model)
         {
-            return ExecuteCommand(await _service.PutAsync(id, model));
+            return ExecuteCommand(await _controller.PutAsync(id, model));
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return ExecuteCommand(await _service.DeleteAsync(id));
+            return ExecuteCommand(await _controller.DeleteAsync(id));
         }
 
     }

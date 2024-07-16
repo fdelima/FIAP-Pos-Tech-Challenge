@@ -15,14 +15,14 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
     [Route("api/[Controller]")]
     public class PedidoController : ApiController
     {
-        private readonly IPedidoAppService _service;
+        private readonly IPedidoController _controller;
 
         /// <summary>
         /// Construtor do controller dos Pedidos cadastrados
         /// </summary>
-        public PedidoController(IPedidoAppService service)
+        public PedidoController(IPedidoController controller)
         {
-            _service = service;
+            _controller = controller;
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         public async Task<PagingQueryResult<Pedido>> Get(int currentPage = 1, int take = 10)
         {
             PagingQueryParam<Pedido> param = new PagingQueryParam<Pedido>() { CurrentPage = currentPage, Take = take };
-            return await _service.GetItemsAsync(param, param.SortProp());
+            return await _controller.GetItemsAsync(param, param.SortProp());
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         public async Task<PagingQueryResult<Pedido>> GetLista(int currentPage = 1, int take = 10)
         {
             PagingQueryParam<Pedido> param = new PagingQueryParam<Pedido>() { CurrentPage = currentPage, Take = take };
-            return await _service.GetListaAsync(param);
+            return await _controller.GetListaAsync(param);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> FindById(Guid id)
         {
-            return ExecuteCommand(await _service.FindByIdAsync(id));
+            return ExecuteCommand(await _controller.FindByIdAsync(id));
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<PagingQueryResult<Pedido>> Consult(PagingQueryParam<Pedido> param)
         {
-            return await _service.ConsultItemsAsync(param, param.ConsultRule(), param.SortProp());
+            return await _controller.ConsultItemsAsync(param, param.ConsultRule(), param.SortProp());
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Post(Pedido model)
         {
-            return ExecuteCommand(await _service.PostAsync(model));
+            return ExecuteCommand(await _controller.PostAsync(model));
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Put(Guid id, Pedido model)
         {
-            return ExecuteCommand(await _service.PutAsync(id, model));
+            return ExecuteCommand(await _controller.PutAsync(id, model));
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return ExecuteCommand(await _service.DeleteAsync(id));
+            return ExecuteCommand(await _controller.DeleteAsync(id));
         }
 
         /// <summary>
@@ -142,9 +142,10 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         public async Task<IActionResult> ConsultarPagamentoAsync(Guid id)
         {
             //TODO: Necessário implementar ConsultarPagamentoAsync
+            //FIAP-Pos-Tech-Challenge\Src\Core\Domain\ValuesObject\enmPedidoStatusPagamento.cs
             throw new NotImplementedException();
 
-            //return ExecuteCommand(await _service.ConsultarPagamentoAsync(id));
+            //return ExecuteCommand(await _controller.ConsultarPagamentoAsync(id));
         }
 
         /// <summary>
@@ -160,7 +161,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> IniciarPreparacaoAsync(Guid id)
         {
-            return ExecuteCommand(await _service.IniciarPreparacaoAsync(id));
+            return ExecuteCommand(await _controller.IniciarPreparacaoAsync(id));
         }
 
         /// <summary>
@@ -176,7 +177,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> FinalizarPreparacaoAsync(Guid id)
         {
-            return ExecuteCommand(await _service.FinalizarPreparacaoAsync(id));
+            return ExecuteCommand(await _controller.FinalizarPreparacaoAsync(id));
         }
 
         /// <summary>
@@ -192,8 +193,19 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> FinalizarAsync(Guid id)
         {
-            return ExecuteCommand(await _service.FinalizarAsync(id));
+            return ExecuteCommand(await _controller.FinalizarAsync(id));
         }
 
+        /// <summary>
+        ///  Mercado pago recebimento de notificação webhook.
+        ///  https://www.mercadopago.com.br/developers/pt/docs/your-integrations/notifications/webhooks#editor_13
+        /// </summary>
+        [HttpPost("MercadoPagoWebhoock")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> MercadoPagoWebhoock(MercadoPagoWebhoock notificacao)
+        {
+            //Aqui validaria o header aqui caso implemente o desafio
+            return ExecuteCommand(await _controller.MercadoPagoWebhoock(notificacao));
+        }
     }
 }

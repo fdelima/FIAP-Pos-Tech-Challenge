@@ -1,4 +1,4 @@
-﻿using FIAP.Pos.Tech.Challenge.Application.UseCases.Notificacao.Commands;
+﻿using FIAP.Pos.Tech.Challenge.Application.UseCases.Dispositivo.Commands;
 using FIAP.Pos.Tech.Challenge.Domain;
 using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Domain.Models;
@@ -11,12 +11,12 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
     /// <summary>
     /// Métodos do serviço da plicação
     /// </summary>
-    public class NotificacaoAppService : IController<Domain.Entities.Notificacao>
+    public class DispositivoController : IController<Domain.Entities.Dispositivo>
     {
         private readonly IMediator _mediator;
-        private readonly IValidator<Domain.Entities.Notificacao> _validator;
+        private readonly IValidator<Domain.Entities.Dispositivo> _validator;
 
-        public NotificacaoAppService(IMediator mediator, IValidator<Domain.Entities.Notificacao> validator)
+        public DispositivoController(IMediator mediator, IValidator<Domain.Entities.Dispositivo> validator)
         {
             _mediator = mediator;
             _validator = validator;
@@ -26,7 +26,7 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         /// Valida o objeto
         /// </summary>
         /// <param name="entity">Objeto relacional do bd mapeado</param>
-        public async Task<ModelResult> ValidateAsync(Domain.Entities.Notificacao entity)
+        public async Task<ModelResult> ValidateAsync(Domain.Entities.Dispositivo entity)
         {
             ModelResult ValidatorResult = new ModelResult(entity);
 
@@ -44,15 +44,15 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         /// Envia o objeto para inserção ao domínio
         /// </summary>
         /// <param name="entity">Objeto relacional do bd mapeado</param>
-        public virtual async Task<ModelResult> PostAsync(Domain.Entities.Notificacao entity)
+        public virtual async Task<ModelResult> PostAsync(Domain.Entities.Dispositivo entity)
         {
-            if (entity == null) throw new InvalidOperationException($"Necessário informar o Notificacao");
+            if (entity == null) throw new InvalidOperationException($"Necessário informar o Dispositivo");
 
             ModelResult ValidatorResult = await ValidateAsync(entity);
 
             if (ValidatorResult.IsValid)
             {
-                NotificacaoPostCommand command = new(entity);
+                DispositivoPostCommand command = new(entity);
                 return await _mediator.Send(command);
             }
 
@@ -64,15 +64,15 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         /// </summary>
         /// <param name="entity">Objeto relacional do bd mapeado</param>
         /// <param name="duplicatedExpression">Expressão para verificação de duplicidade.</param>
-        public virtual async Task<ModelResult> PutAsync(Guid id, Domain.Entities.Notificacao entity)
+        public virtual async Task<ModelResult> PutAsync(Guid id, Domain.Entities.Dispositivo entity)
         {
-            if (entity == null) throw new InvalidOperationException($"Necessário informar o Notificacao");
+            if (entity == null) throw new InvalidOperationException($"Necessário informar o Dispositivo");
 
             ModelResult ValidatorResult = await ValidateAsync(entity);
 
             if (ValidatorResult.IsValid)
             {
-                NotificacaoPutCommand command = new(id, entity);
+                DispositivoPutCommand command = new(id, entity);
                 return await _mediator.Send(command);
             }
 
@@ -85,7 +85,7 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         /// <param name="entity">Objeto relacional do bd mapeado</param>
         public virtual async Task<ModelResult> DeleteAsync(Guid id)
         {
-            NotificacaoDeleteCommand command = new(id);
+            DispositivoDeleteCommand command = new(id);
             return await _mediator.Send(command);
         }
 
@@ -95,7 +95,7 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         /// <param name="entity">Objeto relacional do bd mapeado</param>
         public virtual async Task<ModelResult> FindByIdAsync(Guid id)
         {
-            NotificacaoFindByIdCommand command = new(id);
+            DispositivoFindByIdCommand command = new(id);
             return await _mediator.Send(command);
         }
 
@@ -104,11 +104,11 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         /// Retorna os objetos do bd
         /// </summary>
         /// <param name="filter">filtro a ser aplicado</param>
-        public virtual async ValueTask<PagingQueryResult<Domain.Entities.Notificacao>> GetItemsAsync(IPagingQueryParam filter, Expression<Func<Domain.Entities.Notificacao, object>> sortProp)
+        public virtual async ValueTask<PagingQueryResult<Domain.Entities.Dispositivo>> GetItemsAsync(IPagingQueryParam filter, Expression<Func<Domain.Entities.Dispositivo, object>> sortProp)
         {
             if (filter == null) throw new InvalidOperationException("Necessário informar o filtro da consulta");
 
-            NotificacaoGetItemsCommand command = new(filter, sortProp);
+            DispositivoGetItemsCommand command = new(filter, sortProp);
             return await _mediator.Send(command);
         }
 
@@ -118,11 +118,11 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         /// </summary>
         /// <param name="expression">Condição que filtra os itens a serem retornados</param>
         /// <param name="filter">filtro a ser aplicado</param>
-        public virtual async ValueTask<PagingQueryResult<Domain.Entities.Notificacao>> ConsultItemsAsync(IPagingQueryParam filter, Expression<Func<Domain.Entities.Notificacao, bool>> expression, Expression<Func<Domain.Entities.Notificacao, object>> sortProp)
+        public virtual async ValueTask<PagingQueryResult<Domain.Entities.Dispositivo>> ConsultItemsAsync(IPagingQueryParam filter, Expression<Func<Domain.Entities.Dispositivo, bool>> expression, Expression<Func<Domain.Entities.Dispositivo, object>> sortProp)
         {
             if (filter == null) throw new InvalidOperationException("Necessário informar o filtro da consulta");
 
-            NotificacaoGetItemsCommand command = new(filter, expression, sortProp);
+            DispositivoGetItemsCommand command = new(filter, expression, sortProp);
             return await _mediator.Send(command);
         }
 

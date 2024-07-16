@@ -219,3 +219,28 @@ GO
 IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_produto_imagens_produto]') AND parent_object_id = OBJECT_ID(N'[dbo].[produto_imagens]'))
 ALTER TABLE [dbo].[produto_imagens] CHECK CONSTRAINT [FK_produto_imagens_produto]
 GO
+IF NOT EXISTS(SELECT 1 FROM sys.columns 
+          WHERE Name = N'status_pagamento'
+          AND Object_ID = Object_ID(N'dbo.pedido'))
+BEGIN
+	ALTER TABLE dbo.pedido ADD status_pagamento nvarchar(50);
+END
+GO
+UPDATE pedido SET status_pagamento = 'PENDENTE' WHERE status_pagamento IS NULL
+ALTER TABLE pedido ALTER COLUMN status_pagamento nvarchar(50) NOT NULL
+GO
+IF NOT EXISTS(SELECT 1 FROM sys.columns 
+          WHERE Name = N'data_status_pagamento'
+          AND Object_ID = Object_ID(N'dbo.pedido'))
+BEGIN
+	ALTER TABLE dbo.pedido ADD data_status_pagamento datetime;
+	ALTER TABLE dbo.pedido ADD CONSTRAINT
+		DF_pedido_data_status_pagamento DEFAULT getdate() FOR data_status_pagamento;
+END
+GO
+UPDATE pedido SET data_status_pagamento = GETDATE() WHERE status_pagamento IS NULL
+ALTER TABLE pedido ALTER COLUMN data_status_pagamento datetime NOT NULL
+GO
+
+
+

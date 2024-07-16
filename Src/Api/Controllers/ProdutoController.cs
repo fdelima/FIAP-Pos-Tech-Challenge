@@ -16,14 +16,14 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
     [Route("api/[Controller]")]
     public class ProdutoController : ApiController
     {
-        private readonly IProdutoAppService _service;
+        private readonly IProdutoController _controller;
 
         /// <summary>
         /// Construtor do controller dos Produtos cadastrados
         /// </summary>
-        public ProdutoController(IProdutoAppService service)
+        public ProdutoController(IProdutoController controller)
         {
-            _service = service;
+            _controller = controller;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         public async Task<PagingQueryResult<Produto>> Get(int currentPage = 1, int take = 10)
         {
             PagingQueryParam<Produto> param = new PagingQueryParam<Produto>() { CurrentPage = currentPage, Take = take };
-            return await _service.GetItemsAsync(param, param.SortProp());
+            return await _controller.GetItemsAsync(param, param.SortProp());
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<PagingQueryResult<KeyValuePair<short, string>>> GetCategorias()
         {
-            return await _service.GetCategoriasAsync();
+            return await _controller.GetCategoriasAsync();
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> FindById(Guid id)
         {
-            return ExecuteCommand(await _service.FindByIdAsync(id));
+            return ExecuteCommand(await _controller.FindByIdAsync(id));
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
                     Categoria = categoria
                 }
             };
-            return await _service.ConsultItemsAsync(param, param.ConsultRule(), param.SortProp());
+            return await _controller.ConsultItemsAsync(param, param.ConsultRule(), param.SortProp());
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<PagingQueryResult<Produto>> Consult(PagingQueryParam<Produto> param)
         {
-            return await _service.ConsultItemsAsync(param, param.ConsultRule(), param.SortProp());
+            return await _controller.ConsultItemsAsync(param, param.ConsultRule(), param.SortProp());
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Post(Produto model)
         {
-            return ExecuteCommand(await _service.PostAsync(model));
+            return ExecuteCommand(await _controller.PostAsync(model));
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Put(Guid id, Produto model)
         {
-            return ExecuteCommand(await _service.PutAsync(id, model));
+            return ExecuteCommand(await _controller.PutAsync(id, model));
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return ExecuteCommand(await _service.DeleteAsync(id));
+            return ExecuteCommand(await _controller.DeleteAsync(id));
         }
 
     }
