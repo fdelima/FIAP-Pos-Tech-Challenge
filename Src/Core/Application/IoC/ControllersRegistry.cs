@@ -6,9 +6,9 @@ namespace FIAP.Pos.Tech.Challenge.Application.IoC
 {
     internal static class ControllersRegistry
     {
-        public static void RegisterAppServices(this IServiceCollection services)
+        public static void RegisterAppControllers(this IServiceCollection services)
         {
-            //Services
+            //Controlles
             services.AddScoped(typeof(IController<Domain.Entities.Cliente>), typeof(ClienteController));
             services.AddScoped(typeof(IController<Domain.Entities.Dispositivo>), typeof(DispositivoController));
             services.AddScoped(typeof(IController<Domain.Entities.Notificacao>), typeof(NotificacaoController));

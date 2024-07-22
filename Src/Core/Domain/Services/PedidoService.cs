@@ -2,6 +2,7 @@
 using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Domain.Messages;
 using FIAP.Pos.Tech.Challenge.Domain.Models;
+using FIAP.Pos.Tech.Challenge.Domain.Models.Pedido;
 using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
 using FluentValidation;
 
@@ -129,7 +130,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
             var entity = await _repository.FindByIdAsync(id);
 
             if (entity == null)
-                return ModelResultFactory.NotFoundResult<Pedido>();
+                ValidatorResult = ModelResultFactory.NotFoundResult<Pedido>();
 
             if (businessRules != null)
                 ValidatorResult.AddError(businessRules);
@@ -171,7 +172,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
             var entity = await _repository.FindByIdAsync(id);
 
             if (entity == null)
-                return ModelResultFactory.NotFoundResult<Pedido>();
+                ValidatorResult = ModelResultFactory.NotFoundResult<Pedido>();
 
             if (businessRules != null)
                 ValidatorResult.AddError(businessRules);
@@ -213,7 +214,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
             var entity = await _repository.FindByIdAsync(id);
 
             if (entity == null)
-                return ModelResultFactory.NotFoundResult<Pedido>();
+                ValidatorResult = ModelResultFactory.NotFoundResult<Pedido>();
 
             if (businessRules != null)
                 ValidatorResult.AddError(businessRules);
@@ -241,6 +242,36 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         {
             filter.SortDirection = "Desc";
             return await _repository.GetItemsAsync(filter, x => x.Status != enmPedidoStatus.FINALIZADO.ToString(), o => o.Data);
+        }
+
+        /// <summary>
+        ///  Webhook para notificação de pagamento.
+        /// </summary>
+        public async Task<ModelResult> WebhookPagamento(WebhookPagamento webhook, string[]? businessRules)
+        {
+            ModelResult ValidatorResult = new ModelResult();
+
+            var entity = await _repository.FindByIdAsync(webhook.IdPedido);
+
+            if (entity == null)
+                ValidatorResult = ModelResultFactory.NotFoundResult<Pedido>();
+
+            if (businessRules != null)
+                ValidatorResult.AddError(businessRules);
+
+            if (!ValidatorResult.IsValid)
+                return ValidatorResult;
+
+            entity.DataStatusPagamento = DateTime.Now;
+            entity.Status = webhook.StatusPagamento;
+
+            if (!ValidatorResult.IsValid)
+                return ValidatorResult;
+
+            await _repository.UpdateAsync(entity);
+            await _repository.CommitAsync();
+
+            return ModelResultFactory.UpdateSucessResult<Pedido>(entity);
         }
     }
 }

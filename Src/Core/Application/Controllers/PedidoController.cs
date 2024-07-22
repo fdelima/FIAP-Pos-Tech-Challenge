@@ -3,8 +3,12 @@ using FIAP.Pos.Tech.Challenge.Domain;
 using FIAP.Pos.Tech.Challenge.Domain.Entities;
 using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Domain.Models;
+using FIAP.Pos.Tech.Challenge.Domain.Models.MercadoPago;
+using FIAP.Pos.Tech.Challenge.Domain.Models.Pedido;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System.Linq.Expressions;
 
 namespace FIAP.Pos.Tech.Challenge.Application.Controllers
@@ -14,13 +18,19 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
     /// </summary>
     public class PedidoController : IPedidoController
     {
+        private readonly IConfiguration _configuration;
         private readonly IMediator _mediator;
         private readonly IValidator<Domain.Entities.Pedido> _validator;
+        private readonly IValidator<WebhookPagamento> _validatorWebhookPagamento;
 
-        public PedidoController(IMediator mediator, IValidator<Domain.Entities.Pedido> validator)
+        public PedidoController(IConfiguration configuration, IMediator mediator, 
+            IValidator<Domain.Entities.Pedido> validator, 
+            IValidator<WebhookPagamento> validatorWebhookPagamento)
         {
+            _configuration = configuration;
             _mediator = mediator;
             _validator = validator;
+            _validatorWebhookPagamento = validatorWebhookPagamento;
         }
 
         /// <summary>
@@ -171,12 +181,44 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         }
 
         /// <summary>
+        ///  Webhook para notificação de pagamento.
+        /// </summary>
+        public async Task<ModelResult> WebhookPagamento(WebhookPagamento notificacao, IHeaderDictionary headers)
+        {
+            if (notificacao == null) throw new InvalidOperationException($"Necessário informar a notificacao");
+           
+            ModelResult ValidatorResult = new ModelResult(notificacao);
+
+            FluentValidation.Results.ValidationResult validations = _validatorWebhookPagamento.Validate(notificacao);
+            if (!validations.IsValid)
+            {
+                ValidatorResult.AddValidations(validations);
+                return ValidatorResult;
+            }
+
+            if (ValidatorResult.IsValid)
+            {
+                var warnings = new List<string>();
+
+                if (!headers.ContainsKey("Client_id"))
+                    warnings.Add("Consumidor não autorizado e/ou inválido!");
+                else if (headers["Client_id"].Equals(_configuration["WebhookClientAutorized"]))
+                    warnings.Add("Consumidor não autorizado e/ou inválido!");
+
+                PedidoWebhookPagamentoCommand command = new(notificacao, warnings.ToArray());
+                return await _mediator.Send(command);
+            }
+
+            return ValidatorResult;
+        }
+
+        /// <summary>
         ///  Mercado pago recebimento de notificação webhook.
         ///  https://www.mercadopago.com.br/developers/pt/docs/your-integrations/notifications/webhooks#editor_13
         /// </summary>
-        public Task<ModelResult> MercadoPagoWebhoock(MercadoPagoWebhoock notificacao)
+        public async Task<ModelResult> MercadoPagoWebhoock(MercadoPagoWebhoock notificacao)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Será implementado se der tempo. se estiver vendo isso não deu :( !");
         }
     }
 }

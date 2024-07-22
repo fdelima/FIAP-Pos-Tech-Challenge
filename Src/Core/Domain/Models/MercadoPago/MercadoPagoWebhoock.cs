@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace FIAP.Pos.Tech.Challenge.Domain.Models
+namespace FIAP.Pos.Tech.Challenge.Domain.Models.MercadoPago
 {
     public class MercadoPagoWebhoock
     {
