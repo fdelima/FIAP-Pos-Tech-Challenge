@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    tech.challenge.service: fiap-pos-tech-challenge-api
+  name: fiap-pos-tech-challenge-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      tech.challenge.service: fiap-pos-tech-challenge-api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tech.challenge.network/fiap-pos-techchallenge-gurpo-71-default: "true"
+        tech.challenge.service: fiap-pos-tech-challenge-api
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ASPNETCORE_HTTPS_PORTS
+              value: "8081"
+            - name: ASPNETCORE_HTTP_PORTS
+              value: "8080"
+          image: fiappostechchallengeapi:stand-alone      
+          name: fiap-pos-tech-challenge-api
+          ports:
+            - containerPort: 8080
+              hostPort: 8080
+              protocol: TCP
+            - containerPort: 8081
+              hostPort: 8081
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /home/app/.microsoft/usersecrets
+              name: fiap-pos-tech-challenge-api-claim0
+              readOnly: true
+            - mountPath: /home/app/.aspnet/https
+              name: fiap-pos-tech-challenge-api-claim1
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: fiap-pos-tech-challenge-api-claim0
+          persistentVolumeClaim:
+            claimName: fiap-pos-tech-challenge-api-claim0
+            readOnly: true
+        - name: fiap-pos-tech-challenge-api-claim1
+          persistentVolumeClaim:
+            claimName: fiap-pos-tech-challenge-api-claim1
+            readOnly: true
