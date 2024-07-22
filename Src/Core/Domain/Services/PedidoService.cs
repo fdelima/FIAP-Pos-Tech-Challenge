@@ -37,7 +37,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
             var result = await _repository.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == Id);
 
             if (result == null)
-                return ModelResultFactory.NotFoundResult<Produto>();
+                return ModelResultFactory.NotFoundResult<Pedido>();
 
             return ModelResultFactory.SucessResult(result);
         }
@@ -242,6 +242,20 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         {
             filter.SortDirection = "Desc";
             return await _repository.GetItemsAsync(filter, x => x.Status != enmPedidoStatus.FINALIZADO.ToString(), o => o.Data);
+        }
+
+
+        /// <summary>
+        /// Consulta o pagamento de um pedido.
+        /// </summary>
+        public async Task<ModelResult> ConsultarPagamentoAsync(Guid id)
+        {
+            var result = await _repository.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == id);
+
+            if (result == null)
+                return ModelResultFactory.NotFoundResult<Pedido>();
+
+            return ModelResultFactory.SucessResult(result.StatusPagamento);
         }
 
         /// <summary>

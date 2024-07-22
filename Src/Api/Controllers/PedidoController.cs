@@ -142,11 +142,7 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> ConsultarPagamentoAsync(Guid id)
         {
-            //TODO: Necessário implementar ConsultarPagamentoAsync
-            //FIAP-Pos-Tech-Challenge\Src\Core\Domain\ValuesObject\enmPedidoStatusPagamento.cs
-            throw new NotImplementedException();
-
-            //return ExecuteCommand(await _controller.ConsultarPagamentoAsync(id));
+            return ExecuteCommand(await _controller.ConsultarPagamentoAsync(id));
         }
 
         /// <summary>
