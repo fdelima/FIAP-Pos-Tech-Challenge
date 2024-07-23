@@ -34,7 +34,12 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Interfaces
         /// 3. Pedidos com status Finalizado não devem aparecer na lista.
         /// </summary>
         Task<PagingQueryResult<Pedido>> GetListaAsync(PagingQueryParam<Pedido> param);
-                
+
+        /// <summary>
+        /// Consulta o pagamento de um pedido.
+        /// </summary> 
+        Task<ModelResult> ConsultarPagamentoAsync(Guid id);
+
         /// <summary>
         ///  Webhook para notificação de pagamento.
         /// </summary>

@@ -34,6 +34,11 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Interfaces
         ValueTask<PagingQueryResult<Pedido>> GetListaAsync(IPagingQueryParam filter);
 
         /// <summary>
+        /// Consulta o pagamento de um pedido.
+        /// </summary> 
+        Task<ModelResult> ConsultarPagamentoAsync(Guid id);
+
+        /// <summary>
         ///  Webhook para notificação de pagamento.
         /// </summary>
         Task<ModelResult> WebhookPagamento(WebhookPagamento entity, string[]? businessRules);

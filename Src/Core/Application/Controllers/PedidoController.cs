@@ -181,6 +181,15 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         }
 
         /// <summary>
+        /// Consulta o pagamento de um pedido.
+        /// </summary> 
+        public async Task<ModelResult> ConsultarPagamentoAsync(Guid id)
+        {
+            PedidoConsultarPagamentoCommand command = new(id);
+            return await _mediator.Send(command);
+        }
+
+        /// <summary>
         ///  Webhook para notificação de pagamento.
         /// </summary>
         public async Task<ModelResult> WebhookPagamento(WebhookPagamento notificacao, IHeaderDictionary headers)
