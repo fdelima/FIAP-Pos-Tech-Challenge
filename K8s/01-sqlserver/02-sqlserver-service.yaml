@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sqlserver
+  name: svc-sqlserver
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - name: "1433"
       port: 1433
       targetPort: 1433
   selector:
-    tech.challenge.service: sqlserver
+    apps: sqlserver
