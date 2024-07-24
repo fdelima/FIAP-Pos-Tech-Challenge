@@ -42,6 +42,7 @@ services:
     depends_on:
       - sqlserver
     volumes:
-      - ./tech-challenge-mer.sql:/tmp/tech-challenge-mer.sql
-      - ./init-database.sh:/tmp/init-database.sh
+      - ../DataBase/docker-compose-init-database.sh:/tmp/init-database.sh
+      - ../DataBase/tech-challenge-mer-1.sql:/tmp/tech-challenge-mer-1.sql
+      - ../DataBase/tech-challenge-mer-2.sql:/tmp/tech-challenge-mer-2.sql
     command: /bin/bash ./tmp/init-database.sh  

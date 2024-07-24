@@ -1,13 +1,6 @@
-IF NOT EXISTS ( SELECT 1 FROM [sys].[databases] WHERE [NAME] = 'tech-challenge-grupo-71')
-BEGIN
-	CREATE DATABASE [tech-challenge-grupo-71]
-END
-GO
-
-USE [tech-challenge-grupo-71]
-GO
-
 /****** Object:  Table [dbo].[cliente]    Script Date: 25/05/2024 15:55:42 ******/
+SET NOCOUNT ON
+GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -24,6 +17,9 @@ CREATE TABLE [dbo].[cliente](
 	[id_cliente] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+INSERT INTO [dbo].[cliente] Values ('0925d79b-a065-4cb2-8350-8c9bf671c9f5','Fernando Lima',	'fernando@umavida.com',	12345678909)
+INSERT INTO [dbo].[cliente] Values ('2257c9db-300b-4ab9-a05c-1cadf48a8409','Barbara Lapaz','ba.morales@hotmail.com',79798707001)
+INSERT INTO [dbo].[cliente] Values ('8ac58ab9-c3bd-496f-948e-5729318490ea','Adolfo Oestereich',	'adolfo.oes@gmail.com',	46808740070)
 END
 GO
 /****** Object:  Table [dbo].[dispositivo]    Script Date: 25/05/2024 15:55:42 ******/
@@ -43,9 +39,9 @@ CREATE TABLE [dbo].[dispositivo](
 	[id_dispositivo] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
-INSERT INTO [dbo].[dispositivo] VALUES (NEWID(),'TABLET MESA 01', 'SAMSUNG TAB S7', '123X')
-INSERT INTO [dbo].[dispositivo] VALUES (NEWID(),'TABLET MESA 02', 'SAMSUNG TAB S7', '123C')
-INSERT INTO [dbo].[dispositivo] VALUES (NEWID(),'TABLET MESA 03', 'SAMSUNG TAB S7', '123A')
+INSERT INTO [dbo].[dispositivo] VALUES ('EAFDFC0A-7931-42D9-8D3F-225E928BAC07','TABLET MESA 01', 'SAMSUNG TAB S7', '123X')
+INSERT INTO [dbo].[dispositivo] VALUES ('053BE9A5-EE69-4EBE-8B5A-6C4BD86CE387','TABLET MESA 02', 'SAMSUNG TAB S7', '123C')
+INSERT INTO [dbo].[dispositivo] VALUES ('1FD069C7-B496-4C3E-9A39-E990136B5282','TABLET MESA 03', 'SAMSUNG TAB S7', '123A')
 END
 GO
 /****** Object:  Table [dbo].[notificacao]    Script Date: 25/05/2024 15:55:42 ******/
