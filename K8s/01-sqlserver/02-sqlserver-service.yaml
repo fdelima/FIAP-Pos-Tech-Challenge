@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-sqlserver
+  name: sqlserver
 spec:
   type: LoadBalancer
   ports:

@@ -20,7 +20,7 @@ app.ConfigureSwagger();
 
 app.ConfigureReDoc();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

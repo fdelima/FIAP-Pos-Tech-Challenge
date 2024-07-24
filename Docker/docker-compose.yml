@@ -7,7 +7,7 @@ volumes:
 
 services:
   fiap.pos.tech.challenge.api:
-    image: fiappostechchallengeapi:stand-alone
+    image: fdelima/fiap-pos-techchallenge-gurpo-71-api:fase2
     depends_on:
       - mssqltools
     build:
@@ -42,7 +42,7 @@ services:
     depends_on:
       - sqlserver
     volumes:
-      - ../DataBase/docker-compose-init-database.sh:/tmp/init-database.sh
+      - ../DataBase/init-database.sh:/tmp/init-database.sh
       - ../DataBase/tech-challenge-mer-1.sql:/tmp/tech-challenge-mer-1.sql
       - ../DataBase/tech-challenge-mer-2.sql:/tmp/tech-challenge-mer-2.sql
     command: /bin/bash ./tmp/init-database.sh  

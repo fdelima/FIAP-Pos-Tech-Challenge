@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mssqltools-pod
+  labels:
+    apps: mssqltools
+spec:
+  containers:
+    - name: mssqltools-container
+      image: fdelima/fiap-pos-techchallenge-gurpo-71-scripts-database:fase2
+  restartPolicy: Never
