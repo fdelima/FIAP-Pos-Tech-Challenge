@@ -17,7 +17,7 @@ spec:
         apps: fiap-pos-tech-challenge-api
     spec:
       containers:
-        - name: fiap-pos-tech-challenge-api
+        - name: fiap-pos-tech-challenge-api-container
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Development
