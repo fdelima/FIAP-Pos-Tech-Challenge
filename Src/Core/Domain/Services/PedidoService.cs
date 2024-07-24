@@ -66,7 +66,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
             entity.Status = enmPedidoStatus.RECEBIDO.ToString();
 
             entity.DataStatusPagamento = DateTime.Now;
-            entity.Status = enmPedidoStatusPagamento.PENDENTE.ToString();
+            entity.StatusPagamento = enmPedidoStatusPagamento.PENDENTE.ToString();
 
             foreach (var itemPedido in entity.PedidoItems)
             {
@@ -277,7 +277,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
                 return ValidatorResult;
 
             entity.DataStatusPagamento = DateTime.Now;
-            entity.Status = webhook.StatusPagamento;
+            entity.StatusPagamento = webhook.StatusPagamento;
 
             if (!ValidatorResult.IsValid)
                 return ValidatorResult;

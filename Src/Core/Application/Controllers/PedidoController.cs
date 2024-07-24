@@ -209,9 +209,9 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
             {
                 var warnings = new List<string>();
 
-                if (!headers.ContainsKey("Client_id"))
+                if (!headers.ContainsKey("client_id"))
                     warnings.Add("Consumidor não autorizado e/ou inválido!");
-                else if (headers["Client_id"].Equals(_configuration["WebhookClientAutorized"]))
+                else if (!headers["client_id"].Equals(_configuration["WebhookClientAutorized"]))
                     warnings.Add("Consumidor não autorizado e/ou inválido!");
 
                 PedidoWebhookPagamentoCommand command = new(notificacao, warnings.ToArray());
