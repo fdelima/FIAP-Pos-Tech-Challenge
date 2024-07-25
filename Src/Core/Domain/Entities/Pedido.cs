@@ -1,5 +1,4 @@
 ﻿using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
 using System.Linq.Expressions;
 using System.Text.Json.Serialization;
 
@@ -39,6 +38,10 @@ public partial class Pedido : IDomainEntity
     public string Status { get; set; }
 
     public DateTime DataStatusPedido { get; set; }
+
+    public string StatusPagamento { get; set; }
+
+    public DateTime DataStatusPagamento { get; set; }
 
     [JsonIgnore]
     public virtual Cliente? IdClienteNavigation { get; set; }

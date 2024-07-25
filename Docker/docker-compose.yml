@@ -1,15 +1,28 @@
 version: '3.4'
+
+name: fiap-pos-techchallenge-gurpo-71
+
 volumes:
   sql_data: {}
 
 services:
   fiap.pos.tech.challenge.api:
-    image: ${DOCKER_REGISTRY-}fiappostechchallengeapi
+    image: fdelima/fiap-pos-techchallenge-gurpo-71-api:fase2
     depends_on:
       - mssqltools
     build:
-      context: .
-      dockerfile: ../Src/Adapter/Driver/Api/Dockerfile
+      context: ../
+      dockerfile: Src/Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
@@ -19,8 +32,8 @@ services:
     ports:
       - "1433:1433"
     healthcheck:
-      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-U sa -P SqlServer2019! -Q 'SELECT NAME FROM SYS.DATABASES'"]
-      interval: 1s
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PSqlServer2019!", "-Q", "SELECT NAME FROM SYS.DATABASES"]
+      interval: 10s
       retries: 20
     volumes:
       - sql_data:/var/opt/mssql
@@ -29,6 +42,7 @@ services:
     depends_on:
       - sqlserver
     volumes:
-      - ./tech-challenge-mer.sql:/tmp/tech-challenge-mer.sql
-      - ./init-database.sh:/tmp/init-database.sh
+      - ../DataBase/init-database.sh:/tmp/init-database.sh
+      - ../DataBase/tech-challenge-mer-1.sql:/tmp/tech-challenge-mer-1.sql
+      - ../DataBase/tech-challenge-mer-2.sql:/tmp/tech-challenge-mer-2.sql
     command: /bin/bash ./tmp/init-database.sh  

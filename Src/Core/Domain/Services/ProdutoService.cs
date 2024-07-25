@@ -8,7 +8,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
 {
     public class ProdutoService : BaseService<Produto>, IProdutoService
     {
-        public ProdutoService(IRepository<Produto> repository, IValidator<Produto> validator)
+        public ProdutoService(IGateways<Produto> repository, IValidator<Produto> validator)
             : base(repository, validator) { }
 
         /// <summary>

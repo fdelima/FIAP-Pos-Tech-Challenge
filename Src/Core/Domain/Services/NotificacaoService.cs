@@ -7,7 +7,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
 {
     public class NotificacaoService : BaseService<Notificacao>
     {
-        public NotificacaoService(IRepository<Notificacao> repository, IValidator<Notificacao> validator)
+        public NotificacaoService(IGateways<Notificacao> repository, IValidator<Notificacao> validator)
             : base(repository, validator)
         {
         }

@@ -7,7 +7,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
 {
     public class DispositivoService : BaseService<Dispositivo>
     {
-        public DispositivoService(IRepository<Dispositivo> repository, IValidator<Dispositivo> validator)
+        public DispositivoService(IGateways<Dispositivo> repository, IValidator<Dispositivo> validator)
             : base(repository, validator)
         {
         }

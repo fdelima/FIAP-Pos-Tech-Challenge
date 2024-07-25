@@ -14,7 +14,7 @@ namespace FIAP.Pos.Tech.Challenge.Application.IoC
         {
             services.RegisterDomainServices();
             services.RegisterValidators();
-            services.RegisterAppServices();
+            services.RegisterAppControllers();
             services.RegisterCommands();
         }
     }

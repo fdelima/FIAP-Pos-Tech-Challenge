@@ -11,10 +11,10 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
     /// </summary>
     public class BaseService<TEntity> : IService<TEntity> where TEntity : class, IDomainEntity
     {
-        protected readonly IRepository<TEntity> _repository;
+        protected readonly IGateways<TEntity> _repository;
         protected readonly IValidator<TEntity> _validator;
 
-        public BaseService(IRepository<TEntity> repository, IValidator<TEntity> validator)
+        public BaseService(IGateways<TEntity> repository, IValidator<TEntity> validator)
         {
             _repository = repository;
             _validator = validator;

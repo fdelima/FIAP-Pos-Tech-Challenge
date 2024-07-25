@@ -2,6 +2,7 @@
 using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Domain.Messages;
 using FIAP.Pos.Tech.Challenge.Domain.Models;
+using FIAP.Pos.Tech.Challenge.Domain.Models.Pedido;
 using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
 using FluentValidation;
 
@@ -9,17 +10,17 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
 {
     public class PedidoService : BaseService<Pedido>, IPedidoService
     {
-        protected readonly IRepository<Notificacao> _notificacaoRepository;
-        protected readonly IRepository<Dispositivo> _dispositivoRepository;
-        protected readonly IRepository<Cliente> _clienteRepository;
-        protected readonly IRepository<Produto> _produtoRepository;
+        protected readonly IGateways<Notificacao> _notificacaoRepository;
+        protected readonly IGateways<Dispositivo> _dispositivoRepository;
+        protected readonly IGateways<Cliente> _clienteRepository;
+        protected readonly IGateways<Produto> _produtoRepository;
 
-        public PedidoService(IRepository<Pedido> repository,
+        public PedidoService(IGateways<Pedido> repository,
             IValidator<Pedido> validator,
-            IRepository<Notificacao> NotificacaoRepository,
-            IRepository<Dispositivo> DispositivoRepository,
-            IRepository<Cliente> ClienteRepository,
-            IRepository<Produto> ProdutoRepository)
+            IGateways<Notificacao> NotificacaoRepository,
+            IGateways<Dispositivo> DispositivoRepository,
+            IGateways<Cliente> ClienteRepository,
+            IGateways<Produto> ProdutoRepository)
             : base(repository, validator)
         {
             _notificacaoRepository = NotificacaoRepository;
@@ -36,7 +37,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
             var result = await _repository.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == Id);
 
             if (result == null)
-                return ModelResultFactory.NotFoundResult<Produto>();
+                return ModelResultFactory.NotFoundResult<Pedido>();
 
             return ModelResultFactory.SucessResult(result);
         }
@@ -63,6 +64,10 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
 
             entity.DataStatusPedido = entity.Data = DateTime.Now;
             entity.Status = enmPedidoStatus.RECEBIDO.ToString();
+
+            entity.DataStatusPagamento = DateTime.Now;
+            entity.StatusPagamento = enmPedidoStatusPagamento.PENDENTE.ToString();
+
             foreach (var itemPedido in entity.PedidoItems)
             {
                 itemPedido.IdPedido = entity.IdPedido;
@@ -125,7 +130,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
             var entity = await _repository.FindByIdAsync(id);
 
             if (entity == null)
-                return ModelResultFactory.NotFoundResult<Pedido>();
+                ValidatorResult = ModelResultFactory.NotFoundResult<Pedido>();
 
             if (businessRules != null)
                 ValidatorResult.AddError(businessRules);
@@ -167,7 +172,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
             var entity = await _repository.FindByIdAsync(id);
 
             if (entity == null)
-                return ModelResultFactory.NotFoundResult<Pedido>();
+                ValidatorResult = ModelResultFactory.NotFoundResult<Pedido>();
 
             if (businessRules != null)
                 ValidatorResult.AddError(businessRules);
@@ -209,7 +214,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
             var entity = await _repository.FindByIdAsync(id);
 
             if (entity == null)
-                return ModelResultFactory.NotFoundResult<Pedido>();
+                ValidatorResult = ModelResultFactory.NotFoundResult<Pedido>();
 
             if (businessRules != null)
                 ValidatorResult.AddError(businessRules);
@@ -224,6 +229,63 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
 
             return ModelResultFactory.UpdateSucessResult<Pedido>(entity);
 
+        }
+
+        /// <summary>
+        /// Retorna os Pedidos cadastrados
+        /// A lista de pedidos deverá retorná-los com suas descrições, ordenados com a seguinte regra:
+        /// 1. Pronto > Em Preparação > Recebido;
+        /// 2. Pedidos mais antigos primeiro e mais novos depois;
+        /// 3. Pedidos com status Finalizado não devem aparecer na lista.
+        /// </summary>
+        public async ValueTask<PagingQueryResult<Pedido>> GetListaAsync(IPagingQueryParam filter)
+        {
+            filter.SortDirection = "Desc";
+            return await _repository.GetItemsAsync(filter, x => x.Status != enmPedidoStatus.FINALIZADO.ToString(), o => o.Data);
+        }
+
+
+        /// <summary>
+        /// Consulta o pagamento de um pedido.
+        /// </summary>
+        public async Task<ModelResult> ConsultarPagamentoAsync(Guid id)
+        {
+            var result = await _repository.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == id);
+
+            if (result == null)
+                return ModelResultFactory.NotFoundResult<Pedido>();
+
+            return ModelResultFactory.SucessResult(result.StatusPagamento);
+        }
+
+        /// <summary>
+        ///  Webhook para notificação de pagamento.
+        /// </summary>
+        public async Task<ModelResult> WebhookPagamento(WebhookPagamento webhook, string[]? businessRules)
+        {
+            ModelResult ValidatorResult = new ModelResult();
+
+            var entity = await _repository.FindByIdAsync(webhook.IdPedido);
+
+            if (entity == null)
+                ValidatorResult = ModelResultFactory.NotFoundResult<Pedido>();
+
+            if (businessRules != null)
+                ValidatorResult.AddError(businessRules);
+
+            if (!ValidatorResult.IsValid)
+                return ValidatorResult;
+
+            entity.DataStatusPagamento = DateTime.Now;
+            entity.StatusPagamento = webhook.StatusPagamento;
+
+            if (!ValidatorResult.IsValid)
+                return ValidatorResult;
+
+            await _repository.UpdateAsync(entity);
+            await _repository.CommitAsync();
+
+            return ModelResultFactory.UpdateSucessResult<Pedido>(entity);
         }
     }
 }

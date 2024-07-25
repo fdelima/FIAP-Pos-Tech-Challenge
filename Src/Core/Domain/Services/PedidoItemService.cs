@@ -7,7 +7,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
 {
     public class PedidoItemService : BaseService<PedidoItem>
     {
-        public PedidoItemService(IRepository<PedidoItem> repository, IValidator<PedidoItem> validator)
+        public PedidoItemService(IGateways<PedidoItem> repository, IValidator<PedidoItem> validator)
             : base(repository, validator)
         {
         }
