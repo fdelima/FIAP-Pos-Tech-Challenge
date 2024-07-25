@@ -7,7 +7,7 @@ volumes:
 
 services:
   fiap.pos.tech.challenge.api:
-    image: fdelima/fiap-pos-techchallenge-gurpo-71-api:fase2
+    image: fiappostechchallengeapi:stand-alone
     depends_on:
       - mssqltools
     build:
