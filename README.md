@@ -45,11 +45,11 @@ b. Collection com todas as APIs desenvolvidas com exemplo de requisição (que n
 
 i.	Link do Swagger no projeto ou link para download da collection do Postman (JSON). 
 
-=> [Postman collection](https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/develop/Documentacao/FIAP-Pos-Tech-Challenge-grupo-71.postman_collection.zip)
+=> [Postman collection](https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/main/Documentacao/FIAP-Pos-Tech-Challenge-grupo-71.postman_collection.zip)
 
 c. Guia completo com todas as instruções para execução do projeto e a ordem de execução das APIs, caso seja necessário.
 
-=> [Guia completo](https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/develop/Documentacao/Guia%20completo%20com%20todas%20as%20instru%C3%A7%C3%B5es%20para%20execucao%20do%20projeto%20e%20a%20ordem%20de%20execu%C3%A7%C3%A3o%20das%20APIs.pdf)
+=> [Guia completo](https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/main/Documentacao/Guia%20completo%20com%20todas%20as%20instru%C3%A7%C3%B5es%20para%20execucao%20do%20projeto%20e%20a%20ordem%20de%20execu%C3%A7%C3%A3o%20das%20APIs.pdf)
 
 d. Link para vídeo demonstrando a arquitetura desenvolvida na nuvem ou localmente
 
@@ -57,10 +57,4 @@ i.	O vídeo deve ser postado no Youtube ou Vimeo.
 
 ii.	Não esqueça de deixá-lo público ou não listado.
 
-###  Guia completo com todas as instruções para execução do projeto e a ordem de execução das APIs
-
-* [Guia para execução do projeto](https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/develop/Documentacao/Guia%20completo%20com%20todas%20as%20instru%C3%A7%C3%B5es%20para%20execucao%20do%20projeto%20e%20a%20ordem%20de%20execu%C3%A7%C3%A3o%20das%20APIs.pdf)
-
-* [Postman Collection para download](https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/develop/Documentacao/FIAP-Pos-Tech-Challenge-grupo-71.postman_collection.zip)
-
-#
+=> [Link Video Youtube](https://youtu.be/Yktn1fT3N9A)
