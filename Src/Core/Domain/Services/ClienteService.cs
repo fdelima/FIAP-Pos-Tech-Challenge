@@ -7,15 +7,20 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
 {
     public class ClienteService : BaseService<Cliente>
     {
-        public ClienteService(IGateways<Cliente> repository, IValidator<Cliente> validator)
-            : base(repository, validator)
+        /// <summary>
+        /// Lógica de negócio referentes ao cliente.
+        /// </summary>
+        /// <param name="gateway">Gateway de cliente a ser injetado durante a execução</param>
+        /// <param name="validator">abstração do validador a ser injetado durante a execução</param>
+        public ClienteService(IGateways<Cliente> gateway, IValidator<Cliente> validator)
+            : base(gateway, validator)
         {
         }
 
         /// <summary>
-        /// Insere o objeto
+        /// Regras para inserção do cliente
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         /// <param name="ValidatorResult">Validações já realizadas a serem adicionadas ao contexto</param>
         public override async Task<ModelResult> InsertAsync(Cliente entity, string[]? businessRules = null)
         {

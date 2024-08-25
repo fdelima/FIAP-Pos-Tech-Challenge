@@ -7,15 +7,20 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
 {
     public class PedidoItemService : BaseService<PedidoItem>
     {
-        public PedidoItemService(IGateways<PedidoItem> repository, IValidator<PedidoItem> validator)
-            : base(repository, validator)
+        /// <summary>
+        /// Lógica de negócio referentes ao item do pedido.
+        /// </summary>
+        /// <param name="gateway">Gateway de item do pedido a ser injetado durante a execução</param>
+        /// <param name="validator">abstração do validador a ser injetado durante a execução</param>
+        public PedidoItemService(IGateways<PedidoItem> gateway, IValidator<PedidoItem> validator)
+            : base(gateway, validator)
         {
         }
 
         /// <summary>
-        /// Insere o objeto
+        /// Regras para inserção do item do pedido.
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         /// <param name="ValidatorResult">Validações já realizadas a serem adicionadas ao contexto</param>
         public override async Task<ModelResult> InsertAsync(PedidoItem entity, string[]? businessRules = null)
         {

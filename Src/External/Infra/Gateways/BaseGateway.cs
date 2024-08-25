@@ -8,6 +8,10 @@ using System.Linq.Expressions;
 
 namespace FIAP.Pos.Tech.Challenge.Infra.Gateways
 {
+    /// <summary>
+    /// Implementação dos Gateways, classe reponsavel efetivamente pela realização da ação no banco de dados.
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     internal class BaseGateway<TEntity> : IGateways<TEntity> where TEntity : class, IDomainEntity
     {
         /// <summary>

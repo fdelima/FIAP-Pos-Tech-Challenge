@@ -2,42 +2,47 @@
 using FIAP.Pos.Tech.Challenge.Domain.Models;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
+using System.Runtime.ConstrainedExecution;
 
 namespace FIAP.Pos.Tech.Challenge.Domain.Services
 {
     /// <summary>
-    /// Métodos comuns dos serviços
+    /// Base da Lógica de negócio e regras da aplicação.
     /// </summary>
     public class BaseService<TEntity> : IService<TEntity> where TEntity : class, IDomainEntity
     {
-        protected readonly IGateways<TEntity> _repository;
+        //Gateway a ser injetado durante a execução
+        protected readonly IGateways<TEntity> _gateway;
+
+        //Validador a ser injetado durante a execução
         protected readonly IValidator<TEntity> _validator;
 
-        public BaseService(IGateways<TEntity> repository, IValidator<TEntity> validator)
+        public BaseService(IGateways<TEntity> gateway, IValidator<TEntity> validator)
         {
-            _repository = repository;
+            _gateway = gateway;
             _validator = validator;
         }
 
         /// <summary>
-        /// Inicia uma transação no banco de dados.
+        /// Reposnsável por solicitar ao gateway o inicio de uma transação no banco de dados.
         /// </summary>
         /// <returns></returns>
         public IDbContextTransaction BeginTransaction()
-          => _repository.BeginTransaction();
+          => _gateway.BeginTransaction();
 
         /// <summary>
-        /// Adiciona a transação ao contexto do banco de dados.
+        /// Reposnsável por solicitar ao gateway a adição da transação ao contexto do banco de dados.
         /// </summary>
         /// <param name="transaction"></param>
         public void UseTransaction(IDbContextTransaction transaction)
-          => _repository.UseTransaction(transaction);
+          => _gateway.UseTransaction(transaction);
 
         /// <summary>
-        /// Valida o objeto
+        /// Aplica as regras de validação da entidade
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         public async Task<ModelResult> ValidateAsync(TEntity entity)
         {
             ModelResult ValidatorResult = new ModelResult(entity);
@@ -53,9 +58,9 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         }
 
         /// <summary>
-        /// Insere o objeto
+        /// Regras base para inserção.
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         /// <param name="ValidatorResult">Validações já realizadas a serem adicionadas ao contexto</param>
         public virtual async Task<ModelResult> InsertAsync(TEntity entity, string[]? businessRules = null)
         {
@@ -67,7 +72,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
             {
                 if (duplicatedExpression != null)
                 {
-                    bool duplicado = await _repository.Any(duplicatedExpression);
+                    bool duplicado = await _gateway.Any(duplicatedExpression);
 
                     if (duplicado)
                         ValidatorResult.Add(ModelResultFactory.DuplicatedResult<TEntity>());
@@ -79,8 +84,8 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
                 if (!ValidatorResult.IsValid)
                     return ValidatorResult;
 
-                await _repository.InsertAsync(entity);
-                await _repository.CommitAsync();
+                await _gateway.InsertAsync(entity);
+                await _gateway.CommitAsync();
                 return ModelResultFactory.InsertSucessResult<TEntity>(entity);
             }
 
@@ -88,9 +93,9 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         }
 
         /// <summary>
-        /// Atualiza o objeto
+        /// Regras base para atualização.
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         public virtual async Task<ModelResult> UpdateAsync(TEntity entity, string[]? businessRules = null)
         {
             ModelResult ValidatorResult = await ValidateAsync(entity);
@@ -101,7 +106,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
             {
                 if (duplicatedExpression != null)
                 {
-                    bool duplicado = await _repository.Any(duplicatedExpression);
+                    bool duplicado = await _gateway.Any(duplicatedExpression);
 
                     if (duplicado)
                         ValidatorResult.Add(ModelResultFactory.DuplicatedResult<TEntity>());
@@ -113,8 +118,8 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
                 if (!ValidatorResult.IsValid)
                     return ValidatorResult;
 
-                await _repository.UpdateAsync(entity);
-                await _repository.CommitAsync();
+                await _gateway.UpdateAsync(entity);
+                await _gateway.CommitAsync();
                 return ModelResultFactory.UpdateSucessResult<TEntity>(entity);
             }
 
@@ -122,9 +127,9 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         }
 
         /// <summary>
-        /// Atualiza o objeto
+        /// Regras base para atualização comparando as entidades.
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         public virtual async Task<ModelResult> UpdateAsync(TEntity oldEntity, TEntity NewEntity, string[]? businessRules = null)
         {
             ModelResult ValidatorResult = await ValidateAsync(NewEntity);
@@ -135,7 +140,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
             {
                 if (duplicatedExpression != null)
                 {
-                    bool duplicado = await _repository.Any(duplicatedExpression);
+                    bool duplicado = await _gateway.Any(duplicatedExpression);
 
                     if (duplicado)
                         ValidatorResult.Add(ModelResultFactory.DuplicatedResult<TEntity>());
@@ -147,8 +152,8 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
                 if (!ValidatorResult.IsValid)
                     return ValidatorResult;
 
-                await _repository.UpdateAsync(oldEntity, NewEntity);
-                await _repository.CommitAsync();
+                await _gateway.UpdateAsync(oldEntity, NewEntity);
+                await _gateway.CommitAsync();
                 return ModelResultFactory.UpdateSucessResult<TEntity>(NewEntity);
             }
 
@@ -156,14 +161,14 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         }
 
         /// <summary>
-        /// Deleta o objeto
+        /// Regras base para deleção.
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         public virtual async Task<ModelResult> DeleteAsync(Guid Id, string[]? businessRules = null)
         {
             ModelResult ValidatorResult = new ModelResult();
 
-            TEntity? entity = await _repository.FindByIdAsync(Id);
+            TEntity? entity = await _gateway.FindByIdAsync(Id);
             if (entity == null) ValidatorResult.Add(ModelResultFactory.NotFoundResult<TEntity>());
 
             if (businessRules != null)
@@ -174,8 +179,8 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
 
             try
             {
-                await _repository.DeleteAsync(Id);
-                await _repository.CommitAsync();
+                await _gateway.DeleteAsync(Id);
+                await _gateway.CommitAsync();
                 return ModelResultFactory.DeleteSucessResult<TEntity>();
             }
             catch (Exception ex)
@@ -186,12 +191,12 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         }
 
         /// <summary>
-        /// Retorna o objeto no bd
+        /// Regras base para retorna uma entidade por id.
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         public virtual async Task<ModelResult> FindByIdAsync(Guid Id)
         {
-            TEntity? result = await _repository.FindByIdAsync(Id);
+            TEntity? result = await _gateway.FindByIdAsync(Id);
 
             if (result == null)
                 return ModelResultFactory.NotFoundResult<TEntity>();
@@ -200,20 +205,20 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         }
 
         /// <summary>
-        /// Retorna os objetos do bd
+        /// Regras base para retornar uma lista paginada de entidades.
         /// </summary>
         /// <param name="filter">filtro a ser aplicado</param>
         public virtual async ValueTask<PagingQueryResult<TEntity>> GetItemsAsync(IPagingQueryParam filter, Expression<Func<TEntity, object>> sortProp)
-            => await _repository.GetItemsAsync(filter, sortProp);
+            => await _gateway.GetItemsAsync(filter, sortProp);
 
 
         /// <summary>
-        /// Retorna os objetos que atendem a expression do bd
+        /// Regras base para retornar uma lista paginada de entidades e filtrada.
         /// </summary>
         /// <param name="expression">Condição que filtra os itens a serem retornados</param>
         /// <param name="filter">filtro a ser aplicado</param>
         public virtual async ValueTask<PagingQueryResult<TEntity>> GetItemsAsync(IPagingQueryParam filter, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> sortProp)
-            => await _repository.GetItemsAsync(filter, expression, sortProp);
+            => await _gateway.GetItemsAsync(filter, expression, sortProp);
 
     }
 }

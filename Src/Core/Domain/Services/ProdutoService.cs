@@ -8,15 +8,20 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
 {
     public class ProdutoService : BaseService<Produto>, IProdutoService
     {
-        public ProdutoService(IGateways<Produto> repository, IValidator<Produto> validator)
-            : base(repository, validator) { }
+        /// <summary>
+        /// Lógica de negócio referentes ao produto.
+        /// </summary>
+        /// <param name="gateway">Gateway de produto a ser injetado durante a execução</param>
+        /// <param name="validator">abstração do validador a ser injetado durante a execução</param>
+        public ProdutoService(IGateways<Produto> gateway, IValidator<Produto> validator)
+            : base(gateway, validator) { }
 
         /// <summary>
-        /// Carrega o produtos e suas imagens.
+        /// Regras para carregar o produtos e suas imagens.
         /// </summary>
         public async override Task<ModelResult> FindByIdAsync(Guid Id)
         {
-            var result = await _repository.FirstOrDefaultWithIncludeAsync(x => x.ProdutoImagens, x => x.IdProduto == Id);
+            var result = await _gateway.FirstOrDefaultWithIncludeAsync(x => x.ProdutoImagens, x => x.IdProduto == Id);
 
             if (result == null)
                 return ModelResultFactory.NotFoundResult<Produto>();
@@ -25,11 +30,11 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         }
 
         /// <summary>
-        /// Atualiza o objeto e suas dependências.
+        /// Regras para atualizar o produto e suas dependências.
         /// </summary>
         public async override Task<ModelResult> UpdateAsync(Produto entity, string[]? businessRules = null)
         {
-            var dbEntity = await _repository.FirstOrDefaultWithIncludeAsync(x => x.ProdutoImagens, x => x.IdProduto == entity.IdProduto);
+            var dbEntity = await _gateway.FirstOrDefaultWithIncludeAsync(x => x.ProdutoImagens, x => x.IdProduto == entity.IdProduto);
 
             if (dbEntity == null)
                 return ModelResultFactory.NotFoundResult<Produto>();
@@ -51,12 +56,12 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
                 }
             }
 
-            await _repository.UpdateAsync(dbEntity, entity);
+            await _gateway.UpdateAsync(dbEntity, entity);
             return await base.UpdateAsync(dbEntity, businessRules);
         }
 
         /// <summary>
-        /// Retorna as categorias dos produtos
+        /// Regras para Retornar as categorias dos produtos
         /// </summary>
         public Task<PagingQueryResult<KeyValuePair<short, string>>> GetCategoriasAsync()
         {
@@ -70,9 +75,9 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         }
 
         /// <summary>
-        /// Insere o objeto
+        /// Regras para inserção do produto
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         /// <param name="ValidatorResult">Validações já realizadas a serem adicionadas ao contexto</param>
         public override async Task<ModelResult> InsertAsync(Produto entity, string[]? businessRules = null)
         {
