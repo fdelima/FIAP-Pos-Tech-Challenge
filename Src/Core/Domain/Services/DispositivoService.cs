@@ -7,15 +7,20 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
 {
     public class DispositivoService : BaseService<Dispositivo>
     {
-        public DispositivoService(IGateways<Dispositivo> repository, IValidator<Dispositivo> validator)
-            : base(repository, validator)
+        /// <summary>
+        /// Lógica de negócio referentes ao dispositivo.
+        /// </summary>
+        /// <param name="gateway">Gateway de dispositivo a ser injetado durante a execução</param>
+        /// <param name="validator">abstração do validador a ser injetado durante a execução</param>
+        public DispositivoService(IGateways<Dispositivo> gateway, IValidator<Dispositivo> validator)
+            : base(gateway, validator)
         {
         }
 
         /// <summary>
-        /// Insere o objeto
+        /// Regras para inserção do dispositivo
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         /// <param name="ValidatorResult">Validações já realizadas a serem adicionadas ao contexto</param>
         public override async Task<ModelResult> InsertAsync(Dispositivo entity, string[]? businessRules = null)
         {

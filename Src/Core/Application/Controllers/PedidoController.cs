@@ -14,7 +14,7 @@ using System.Linq.Expressions;
 namespace FIAP.Pos.Tech.Challenge.Application.Controllers
 {
     /// <summary>
-    /// Métodos do serviço da plicação
+    /// Regras da aplicação referente ao pedido
     /// </summary>
     public class PedidoController : IPedidoController
     {
@@ -34,9 +34,9 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         }
 
         /// <summary>
-        /// Valida o objeto
+        /// Valida a entidade
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         public async Task<ModelResult> ValidateAsync(Domain.Entities.Pedido entity)
         {
             ModelResult ValidatorResult = new ModelResult(entity);
@@ -52,9 +52,9 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         }
 
         /// <summary>
-        /// Envia o objeto para inserção ao domínio
+        /// Envia a entidade para inserção ao domínio
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         public virtual async Task<ModelResult> PostAsync(Domain.Entities.Pedido entity)
         {
             if (entity == null) throw new InvalidOperationException($"Necessário informar o Pedido");
@@ -71,9 +71,9 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         }
 
         /// <summary>
-        /// Envia o objeto para atualização ao domínio
+        /// Envia a entidade para atualização ao domínio
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         /// <param name="duplicatedExpression">Expressão para verificação de duplicidade.</param>
         public virtual async Task<ModelResult> PutAsync(Guid id, Domain.Entities.Pedido entity)
         {
@@ -91,9 +91,9 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         }
 
         /// <summary>
-        /// Envia o objeto para deleção ao domínio
+        /// Envia a entidade para deleção ao domínio
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         public virtual async Task<ModelResult> DeleteAsync(Guid id)
         {
             PedidoDeleteCommand command = new(id);
@@ -101,9 +101,9 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         }
 
         /// <summary>
-        /// Retorna o objeto no bd
+        /// Retorna a entidade
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         public virtual async Task<ModelResult> FindByIdAsync(Guid id)
         {
             PedidoFindByIdCommand command = new(id);
@@ -112,7 +112,7 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
 
 
         /// <summary>
-        /// Retorna os objetos do bd
+        /// Retorna as entidades
         /// </summary>
         /// <param name="filter">filtro a ser aplicado</param>
         public virtual async ValueTask<PagingQueryResult<Domain.Entities.Pedido>> GetItemsAsync(IPagingQueryParam filter, Expression<Func<Domain.Entities.Pedido, object>> sortProp)
@@ -125,7 +125,7 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
 
 
         /// <summary>
-        /// Retorna os objetos que atendem a expression do bd
+        /// Retorna as entidades que atendem a expressão de filtro 
         /// </summary>
         /// <param name="expression">Condição que filtra os itens a serem retornados</param>
         /// <param name="filter">filtro a ser aplicado</param>

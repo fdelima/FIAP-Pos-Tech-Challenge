@@ -7,16 +7,21 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
 {
     public class NotificacaoService : BaseService<Notificacao>
     {
-        public NotificacaoService(IGateways<Notificacao> repository, IValidator<Notificacao> validator)
-            : base(repository, validator)
+        /// <summary>
+        /// Lógica de negócio referentes a notificação.
+        /// </summary>
+        /// <param name="gateway">Gateway de notificação a ser injetado durante a execução</param>
+        /// <param name="validator">abstração do validador a ser injetado durante a execução</param>
+        public NotificacaoService(IGateways<Notificacao> gateway, IValidator<Notificacao> validator)
+            : base(gateway, validator)
         {
         }
 
 
         /// <summary>
-        /// Insere o objeto
+        /// Regras para inserção da notificacao
         /// </summary>
-        /// <param name="entity">Objeto relacional do bd mapeado</param>
+        /// <param name="entity">Entidade</param>
         /// <param name="ValidatorResult">Validações já realizadas a serem adicionadas ao contexto</param>
         public override async Task<ModelResult> InsertAsync(Notificacao entity, string[]? businessRules = null)
         {
