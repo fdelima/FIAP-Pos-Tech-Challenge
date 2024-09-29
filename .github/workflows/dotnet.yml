@@ -84,6 +84,6 @@ jobs:
       with:
         context: ./
         file: ./Src/Api/Dockerfile
-        tags: ${{ secrets.DOCKER_USERNAME }}/fiap-pos-techchallenge-gurpo-71-api:fase3
+        tags: ${{ secrets.DOCKER_USERNAME }}/fiap-pos-techchallenge-gurpo-71-api:fase3az
         push: true
 
