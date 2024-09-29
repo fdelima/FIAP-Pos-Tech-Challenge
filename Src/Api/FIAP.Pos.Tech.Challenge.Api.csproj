@@ -21,4 +21,12 @@
 	  <ProjectReference Include="..\Core\Ioc\FIAP.Pos.Tech.Challenge.Ioc.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="appsettings.Azure.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
+
 </Project>

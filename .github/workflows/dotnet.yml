@@ -16,7 +16,39 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
-      
+
+    - name: Set AZURE_SERVER
+      uses: thiagodnf/string-replacer@v1.0.2
+      with:
+        find: "{{ secrets.AZURE_SERVER }}"
+        replace: "${{ secrets.AZURE_SERVER }}"
+        include: |
+          ./Src/Api/appsettings.Azure.json 
+
+    - name: Set AZURE_DATABASE
+      uses: thiagodnf/string-replacer@v1.0.2
+      with:
+        find: "{{ secrets.AZURE_DATABASE }}"
+        replace: "${{ secrets.AZURE_DATABASE }}"
+        include: |
+          ./Src/Api/appsettings.Azure.json 
+
+    - name: Set AZURE_USER
+      uses: thiagodnf/string-replacer@v1.0.2
+      with:
+        find: "{{ secrets.AZURE_USER }}"
+        replace: "${{ secrets.AZURE_USER }}"
+        include: |
+          ./Src/Api/appsettings.Azure.json 
+
+    - name: Set AZURE_USER_PASSWORD
+      uses: thiagodnf/string-replacer@v1.0.2
+      with:
+        find: "{{ secrets.AZURE_USER_PASSWORD }}"
+        replace: "${{ secrets.AZURE_USER_PASSWORD }}"
+        include: |
+          ./Src/Api/appsettings.Azure.json 
+          
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
