@@ -15,7 +15,7 @@
       "launchBrowser": true,
       "launchUrl": "api-docs",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Azure"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7269;http://localhost:5156"
