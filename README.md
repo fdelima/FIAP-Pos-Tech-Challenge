@@ -32,7 +32,7 @@ teremos as seguintes melhorias e alterações:
 1. Implementar um API Gateway e um function serverless para 
 autenticar o cliente
     - a) Integrar ao sistema de autenticação para identificar o cliente. 
-        - [Azure-AD-B2C](https://limatdx.b2clogin.com/limatdx.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_NEW_AND_LOGIN&client_id=4341b09b-10dd-4b50-aedd-84a2bf2727f0&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fjwt.ms&scope=openid&response_type=id_token&prompt=login)
+        - Azure-AD-B2C
 
 2. Implementar as melhores práticas de CI/CD para a aplicação, 
 segregando os códigos em repositórios, por exemplo: 
