@@ -3,11 +3,8 @@ using FIAP.Pos.Tech.Challenge.Domain;
 using FIAP.Pos.Tech.Challenge.Domain.Entities;
 using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Domain.Models;
-using FIAP.Pos.Tech.Challenge.Domain.Models.MercadoPago;
-using FIAP.Pos.Tech.Challenge.Domain.Models.Pedido;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System.Linq.Expressions;
 
@@ -21,16 +18,13 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         private readonly IConfiguration _configuration;
         private readonly IMediator _mediator;
         private readonly IValidator<Domain.Entities.Pedido> _validator;
-        private readonly IValidator<WebhookPagamento> _validatorWebhookPagamento;
 
         public PedidoController(IConfiguration configuration, IMediator mediator, 
-            IValidator<Domain.Entities.Pedido> validator, 
-            IValidator<WebhookPagamento> validatorWebhookPagamento)
+            IValidator<Domain.Entities.Pedido> validator)
         {
             _configuration = configuration;
             _mediator = mediator;
             _validator = validator;
-            _validatorWebhookPagamento = validatorWebhookPagamento;
         }
 
         /// <summary>
@@ -138,36 +132,6 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         }
 
         /// <summary>
-        /// Pedido em preparação.
-        /// </summary>
-        /// <param name="id">id do pedido</param>
-        public async Task<ModelResult> IniciarPreparacaoAsync(Guid id)
-        {
-            PedidoIniciarPreparacaCommand command = new(id);
-            return await _mediator.Send(command);
-        }
-
-        /// <summary>
-        /// Pedido pronto.
-        /// </summary>
-        /// <param name="id">id do pedido</param>
-        public async Task<ModelResult> FinalizarPreparacaoAsync(Guid id)
-        {
-            PedidoFinalizarPreparacaCommand command = new(id);
-            return await _mediator.Send(command);
-        }
-
-        /// <summary>
-        /// Pedido finalizado.
-        /// </summary>
-        /// <param name="id">id do pedido</param>
-        public async Task<ModelResult> FinalizarAsync(Guid id)
-        {
-            PedidoFinalizarCommand command = new(id);
-            return await _mediator.Send(command);
-        }
-
-        /// <summary>
         /// Retorna os Pedidos cadastrados
         /// A lista de pedidos deverá retorná-los com suas descrições, ordenados com a seguinte regra:
         /// 1. Pronto > Em Preparação > Recebido;
@@ -178,56 +142,6 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         {
             PedidoGetListaCommand command = new(param);
             return await _mediator.Send(command);
-        }
-
-        /// <summary>
-        /// Consulta o pagamento de um pedido.
-        /// </summary> 
-        public async Task<ModelResult> ConsultarPagamentoAsync(Guid id)
-        {
-            PedidoConsultarPagamentoCommand command = new(id);
-            return await _mediator.Send(command);
-        }
-
-        /// <summary>
-        ///  Webhook para notificação de pagamento.
-        /// </summary>
-        public async Task<ModelResult> WebhookPagamento(WebhookPagamento notificacao, IHeaderDictionary headers)
-        {
-            if (notificacao == null) throw new InvalidOperationException($"Necessário informar a notificacao");
-           
-            ModelResult ValidatorResult = new ModelResult(notificacao);
-
-            FluentValidation.Results.ValidationResult validations = _validatorWebhookPagamento.Validate(notificacao);
-            if (!validations.IsValid)
-            {
-                ValidatorResult.AddValidations(validations);
-                return ValidatorResult;
-            }
-
-            if (ValidatorResult.IsValid)
-            {
-                var warnings = new List<string>();
-
-                if (!headers.ContainsKey("client_id"))
-                    warnings.Add("Consumidor não autorizado e/ou inválido!");
-                else if (!headers["client_id"].Equals(_configuration["WebhookClientAutorized"]))
-                    warnings.Add("Consumidor não autorizado e/ou inválido!");
-
-                PedidoWebhookPagamentoCommand command = new(notificacao, warnings.ToArray());
-                return await _mediator.Send(command);
-            }
-
-            return ValidatorResult;
-        }
-
-        /// <summary>
-        ///  Mercado pago recebimento de notificação webhook.
-        ///  https://www.mercadopago.com.br/developers/pt/docs/your-integrations/notifications/webhooks#editor_13
-        /// </summary>
-        public async Task<ModelResult> MercadoPagoWebhoock(MercadoPagoWebhoock notificacao)
-        {
-            throw new NotImplementedException("Será implementado se der tempo. se estiver vendo isso não deu :( !");
         }
     }
 }

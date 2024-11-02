@@ -2,7 +2,6 @@
 using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Domain.Messages;
 using FIAP.Pos.Tech.Challenge.Domain.Models;
-using FIAP.Pos.Tech.Challenge.Domain.Models.Pedido;
 using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
 using FluentValidation;
 
@@ -129,118 +128,6 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         }
 
         /// <summary>
-        /// Regra para colocar o pedido em preparação.
-        /// </summary>
-        /// <param name="id">id do pedido</param>
-        public async Task<ModelResult> IniciarPreparacaoAsync(Guid id, string[]? businessRules = null)
-        {
-            ModelResult ValidatorResult = new ModelResult();
-
-            var entity = await _gateway.FindByIdAsync(id);
-
-            if (entity == null)
-                ValidatorResult = ModelResultFactory.NotFoundResult<Pedido>();
-
-            if (businessRules != null)
-                ValidatorResult.AddError(businessRules);
-
-            if (!ValidatorResult.IsValid)
-                return ValidatorResult;
-
-            entity.Status = enmPedidoStatus.EM_PREPARACAO.ToString();
-
-            var transacao = _gateway.BeginTransaction();
-            _notificacaoGateway.UseTransaction(transacao);
-
-            await _gateway.UpdateAsync(entity);
-            await _gateway.CommitAsync();
-
-            await _notificacaoGateway.InsertAsync(new Notificacao
-            {
-                IdNotificacao = Guid.NewGuid(),
-                Data = DateTime.Now,
-                IdDispositivo = entity.IdDispositivo,
-                Mensagem = $"Pedido em preparação."
-            }); ;
-            await _notificacaoGateway.CommitAsync();
-
-            await transacao.CommitAsync();
-
-            return ModelResultFactory.UpdateSucessResult<Pedido>(entity);
-
-        }
-
-        /// <summary>
-        /// Regra para colocar o pedido pronto.
-        /// </summary>
-        /// <param name="id">id do pedido</param>
-        public async Task<ModelResult> FinalizarPreparacaoAsync(Guid id, string[]? businessRules = null)
-        {
-            ModelResult ValidatorResult = new ModelResult();
-
-            var entity = await _gateway.FindByIdAsync(id);
-
-            if (entity == null)
-                ValidatorResult = ModelResultFactory.NotFoundResult<Pedido>();
-
-            if (businessRules != null)
-                ValidatorResult.AddError(businessRules);
-
-            if (!ValidatorResult.IsValid)
-                return ValidatorResult;
-
-            entity.Status = enmPedidoStatus.PRONTO.ToString();
-
-            var transacao = _gateway.BeginTransaction();
-            _notificacaoGateway.UseTransaction(transacao);
-
-            await _gateway.UpdateAsync(entity);
-            await _gateway.CommitAsync();
-
-            await _notificacaoGateway.InsertAsync(new Notificacao
-            {
-                IdNotificacao = Guid.NewGuid(),
-                Data = DateTime.Now,
-                IdDispositivo = entity.IdDispositivo,
-                Mensagem = $"Pedido pronto."
-            });
-            await _notificacaoGateway.CommitAsync();
-
-            await transacao.CommitAsync();
-
-            return ModelResultFactory.UpdateSucessResult<Pedido>(entity);
-
-        }
-
-        /// <summary>
-        /// Regra para colocar o pedido finalizado.
-        /// </summary>
-        /// <param name="id">id do pedido</param>
-        public async Task<ModelResult> FinalizarAsync(Guid id, string[]? businessRules = null)
-        {
-            ModelResult ValidatorResult = new ModelResult();
-
-            var entity = await _gateway.FindByIdAsync(id);
-
-            if (entity == null)
-                ValidatorResult = ModelResultFactory.NotFoundResult<Pedido>();
-
-            if (businessRules != null)
-                ValidatorResult.AddError(businessRules);
-
-            if (!ValidatorResult.IsValid)
-                return ValidatorResult;
-
-            entity.Status = enmPedidoStatus.FINALIZADO.ToString();
-
-            await _gateway.UpdateAsync(entity);
-            await _gateway.CommitAsync();
-
-            return ModelResultFactory.UpdateSucessResult<Pedido>(entity);
-
-        }
-
-        /// <summary>
         /// Regra para retornar os Pedidos cadastrados
         /// A lista de pedidos deverá retorná-los com suas descrições, ordenados com a seguinte regra:
         /// 1. Pronto > Em Preparação > Recebido;
@@ -251,50 +138,6 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         {
             filter.SortDirection = "Desc";
             return await _gateway.GetItemsAsync(filter, x => x.Status != enmPedidoStatus.FINALIZADO.ToString(), o => o.Data);
-        }
-
-
-        /// <summary>
-        /// Regra para para consultar o pagamento de um pedido.
-        /// </summary>
-        public async Task<ModelResult> ConsultarPagamentoAsync(Guid id)
-        {
-            var result = await _gateway.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == id);
-
-            if (result == null)
-                return ModelResultFactory.NotFoundResult<Pedido>();
-
-            return ModelResultFactory.SucessResult(result.StatusPagamento);
-        }
-
-        /// <summary>
-        ///  Regra de Webhook para notificação de pagamento.
-        /// </summary>
-        public async Task<ModelResult> WebhookPagamento(WebhookPagamento webhook, string[]? businessRules)
-        {
-            ModelResult ValidatorResult = new ModelResult();
-
-            var entity = await _gateway.FindByIdAsync(webhook.IdPedido);
-
-            if (entity == null)
-                ValidatorResult = ModelResultFactory.NotFoundResult<Pedido>();
-
-            if (businessRules != null)
-                ValidatorResult.AddError(businessRules);
-
-            if (!ValidatorResult.IsValid)
-                return ValidatorResult;
-
-            entity.DataStatusPagamento = DateTime.Now;
-            entity.StatusPagamento = webhook.StatusPagamento;
-
-            if (!ValidatorResult.IsValid)
-                return ValidatorResult;
-
-            await _gateway.UpdateAsync(entity);
-            await _gateway.CommitAsync();
-
-            return ModelResultFactory.UpdateSucessResult<Pedido>(entity);
         }
     }
 }
