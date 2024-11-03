@@ -19,7 +19,7 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         private readonly IMediator _mediator;
         private readonly IValidator<Domain.Entities.Pedido> _validator;
 
-        public PedidoController(IConfiguration configuration, IMediator mediator, 
+        public PedidoController(IConfiguration configuration, IMediator mediator,
             IValidator<Domain.Entities.Pedido> validator)
         {
             _configuration = configuration;

@@ -35,14 +35,5 @@ internal class PedidoMap : IEntityTypeConfiguration<Pedido>
             .HasDefaultValueSql("(getdate())")
             .HasColumnType("datetime")
             .HasColumnName("data_status_pagamento");
-
-        builder.HasOne(d => d.IdClienteNavigation).WithMany(p => p.Pedidos)
-            .HasForeignKey(d => d.IdCliente)
-            .HasConstraintName("FK_pedido_cliente");
-
-        builder.HasOne(d => d.IdDispositivoNavigation).WithMany(p => p.Pedidos)
-            .HasForeignKey(d => d.IdDispositivo)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_pedido_dispositivo");
     }
 }

@@ -30,7 +30,5 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Entities
 
         public Guid IdDispositivo { get; set; }
 
-        [JsonIgnore]
-        public virtual Dispositivo IdDispositivoNavigation { get; set; } = null!;
     }
 }

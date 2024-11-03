@@ -39,6 +39,4 @@ public partial class PedidoItem : IDomainEntity
     [JsonIgnore]
     public virtual Pedido IdPedidoNavigation { get; set; } = null!;
 
-    [JsonIgnore]
-    public virtual Produto IdProdutoNavigation { get; set; } = null!;
 }

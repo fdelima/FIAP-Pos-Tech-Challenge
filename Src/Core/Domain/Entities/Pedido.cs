@@ -43,11 +43,5 @@ public partial class Pedido : IDomainEntity
 
     public DateTime DataStatusPagamento { get; set; }
 
-    [JsonIgnore]
-    public virtual Cliente? IdClienteNavigation { get; set; }
-
-    [JsonIgnore]
-    public virtual Dispositivo IdDispositivoNavigation { get; set; } = null!;
-
     public virtual ICollection<PedidoItem> PedidoItems { get; set; } = new List<PedidoItem>();
 }

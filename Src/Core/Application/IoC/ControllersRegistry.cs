@@ -9,11 +9,7 @@ namespace FIAP.Pos.Tech.Challenge.Application.IoC
         public static void RegisterAppControllers(this IServiceCollection services)
         {
             //Controlles
-            services.AddScoped(typeof(IController<Domain.Entities.Cliente>), typeof(ClienteController));
-            services.AddScoped(typeof(IController<Domain.Entities.Dispositivo>), typeof(DispositivoController));
-            services.AddScoped(typeof(IController<Domain.Entities.Notificacao>), typeof(NotificacaoController));
             services.AddScoped(typeof(IPedidoController), typeof(PedidoController));
-            services.AddScoped(typeof(IProdutoController), typeof(ProdutoController));
         }
     }
 }

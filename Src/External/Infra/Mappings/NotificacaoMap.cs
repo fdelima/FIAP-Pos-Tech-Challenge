@@ -22,10 +22,5 @@ internal class NotificacaoMap : IEntityTypeConfiguration<Notificacao>
         builder.Property(e => e.Mensagem)
             .HasMaxLength(50)
             .HasColumnName("mensagem");
-
-        builder.HasOne(d => d.IdDispositivoNavigation).WithMany(p => p.Notificacaos)
-            .HasForeignKey(d => d.IdDispositivo)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_notificacao_dispositivo1");
     }
 }

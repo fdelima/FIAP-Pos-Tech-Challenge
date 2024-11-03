@@ -10,9 +10,6 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
     public class PedidoService : BaseService<Pedido>, IPedidoService
     {
         protected readonly IGateways<Notificacao> _notificacaoGateway;
-        protected readonly IGateways<Dispositivo> _dispositivoGateway;
-        protected readonly IGateways<Cliente> _clienteGateway;
-        protected readonly IGateways<Produto> _produtoGateway;
 
         /// <summary>
         /// Lógica de negócio referentes ao pedido.
@@ -25,16 +22,10 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         /// <param name="produtoGateway">Gateway de produto a ser injetado durante a execução</param>
         public PedidoService(IGateways<Pedido> gateway,
             IValidator<Pedido> validator,
-            IGateways<Notificacao> notificacaoGateway,
-            IGateways<Dispositivo> dispositivoGateway,
-            IGateways<Cliente> clienteGateway,
-            IGateways<Produto> produtoGateway)
+            IGateways<Notificacao> notificacaoGateway)
             : base(gateway, validator)
         {
             _notificacaoGateway = notificacaoGateway;
-            _dispositivoGateway = dispositivoGateway;
-            _clienteGateway = clienteGateway;
-            _produtoGateway = produtoGateway;
         }
 
         /// <summary>
@@ -42,7 +33,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         /// </summary>
         public async override Task<ModelResult> FindByIdAsync(Guid Id)
         {
-            var result = await _gateway.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == Id);
+            Pedido? result = await _gateway.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == Id);
 
             if (result == null)
                 return ModelResultFactory.NotFoundResult<Pedido>();
@@ -57,18 +48,20 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         /// <param name="ValidatorResult">Validações já realizadas a serem adicionadas ao contexto</param>
         public override async Task<ModelResult> InsertAsync(Pedido entity, string[]? businessRules = null)
         {
-            var lstWarnings = new List<string>();
+            List<string> lstWarnings = new List<string>();
 
             if (businessRules != null)
                 lstWarnings.AddRange(businessRules);
 
             entity.IdPedido = entity.IdPedido.Equals(default) ? Guid.NewGuid() : entity.IdPedido;
 
-            if (!await _dispositivoGateway.Any(x => ((Dispositivo)x).IdDispositivo.Equals(entity.IdDispositivo)))
-                lstWarnings.Add(BusinessMessages.NotFoundInError<Dispositivo>(entity.IdDispositivo));
+            //TODO:Há Resolver...
+            //if (!await _dispositivoGateway.Any(x => ((Dispositivo)x).IdDispositivo.Equals(entity.IdDispositivo)))
+            //    lstWarnings.Add(BusinessMessages.NotFoundInError<Dispositivo>(entity.IdDispositivo));
 
-            if (!await _clienteGateway.Any(x => ((Cliente)x).IdCliente.Equals(entity.IdCliente)))
-                lstWarnings.Add(BusinessMessages.NotFoundInError<Cliente>(entity.IdDispositivo));
+            //TODO:Há Resolver...
+            //if (!await _clienteGateway.Any(x => ((Cliente)x).IdCliente.Equals(entity.IdCliente)))
+            //    lstWarnings.Add(BusinessMessages.NotFoundInError<Cliente>(entity.IdDispositivo));
 
             entity.DataStatusPedido = entity.Data = DateTime.Now;
             entity.Status = enmPedidoStatus.RECEBIDO.ToString();
@@ -76,13 +69,14 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
             entity.DataStatusPagamento = DateTime.Now;
             entity.StatusPagamento = enmPedidoStatusPagamento.PENDENTE.ToString();
 
-            foreach (var itemPedido in entity.PedidoItems)
+            foreach (PedidoItem itemPedido in entity.PedidoItems)
             {
                 itemPedido.IdPedido = entity.IdPedido;
                 itemPedido.IdPedidoItem = itemPedido.IdPedidoItem.Equals(default) ? Guid.NewGuid() : itemPedido.IdPedidoItem;
                 itemPedido.Data = DateTime.Now;
-                if (!await _produtoGateway.Any(x => ((Produto)x).IdProduto.Equals(itemPedido.IdProduto)))
-                    lstWarnings.Add(BusinessMessages.NotFoundInError<Produto>(entity.IdDispositivo));
+                //TODO:Há Resolver...
+                //if (!await _produtoGateway.Any(x => ((Produto)x).IdProduto.Equals(itemPedido.IdProduto)))
+                //    lstWarnings.Add(BusinessMessages.NotFoundInError<Produto>(entity.IdDispositivo));
             }
 
             await _gateway.InsertAsync(new Notificacao
@@ -101,21 +95,22 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         /// </summary>
         public async override Task<ModelResult> UpdateAsync(Pedido entity, string[]? businessRules = null)
         {
-            var dbEntity = await _gateway.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == entity.IdPedido);
+            Pedido? dbEntity = await _gateway.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == entity.IdPedido);
 
-            if (dbEntity == null)
-                return ModelResultFactory.NotFoundResult<Produto>();
+            //TODO:Há Resolver...
+            //if (dbEntity == null)
+            //    return ModelResultFactory.NotFoundResult<Produto>();
 
             for (int i = 0; i < dbEntity.PedidoItems.Count; i++)
             {
-                var item = dbEntity.PedidoItems.ElementAt(i);
+                PedidoItem item = dbEntity.PedidoItems.ElementAt(i);
                 if (!entity.PedidoItems.Any(x => x.IdPedidoItem.Equals(item.IdPedidoItem)))
                     dbEntity.PedidoItems.Remove(dbEntity.PedidoItems.First(x => x.IdPedidoItem.Equals(item.IdPedidoItem)));
             }
 
             for (int i = 0; i < entity.PedidoItems.Count; i++)
             {
-                var item = entity.PedidoItems.ElementAt(i);
+                PedidoItem item = entity.PedidoItems.ElementAt(i);
                 if (!dbEntity.PedidoItems.Any(x => x.IdPedidoItem.Equals(item.IdPedidoItem)))
                 {
                     item.IdPedidoItem = item.IdPedidoItem.Equals(default) ? Guid.NewGuid() : item.IdPedidoItem;
