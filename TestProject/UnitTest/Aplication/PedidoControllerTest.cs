@@ -139,30 +139,25 @@ namespace TestProject.UnitTest.Aplication
         /// Testa a consulta por id
         /// </summary>
         [Theory]
-        [MemberData(nameof(ObterDados), enmTipo.Inclusao, true, 1)]
-        public async void ConsultarPedidoPorId(Guid idDispositivo, ICollection<PedidoItem> items)
+        [MemberData(nameof(ObterDados), enmTipo.Alteracao, true, 1)]
+        public async void ConsultarPedidoPorId(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
         {
             ///Arrange
             var pedido = new Pedido
             {
+                IdPedido = idPedido,
                 IdDispositivo = idDispositivo,
                 PedidoItems = items
             };
-                        
+
             var aplicationController = new PedidoController(_configuration, _mediator, _validator);
 
             //Mockando retorno do mediator.
-            _mediator.Send(Arg.Any<PedidoPostCommand>())
+            _mediator.Send(Arg.Any<PedidoFindByIdCommand>())
                 .Returns(Task.FromResult(ModelResultFactory.SucessResult(pedido)));
 
-            var insertResult = await aplicationController.PostAsync(pedido);
-
-            //Mockando retorno do mediator.
-            _mediator.Send(Arg.Any<PedidoFindByIdCommand>())
-                .Returns(Task.FromResult(ModelResultFactory.SucessResult()));
-
             //Act
-            var result = await aplicationController.FindByIdAsync(((Pedido)insertResult.Model).IdPedido);
+            var result = await aplicationController.FindByIdAsync(idPedido);
 
             //Assert
             Assert.True(result.IsValid);

@@ -149,15 +149,22 @@ namespace TestProject.UnitTest.Aplication
         /// Testa a consulta por id
         /// </summary>
         [Theory]
-        [MemberData(nameof(ObterDados), enmTipo.ConsultaPorId, true, 1)]
-        public async void ConsultarPedidoPorId(Guid idPedido)
+        [MemberData(nameof(ObterDados), enmTipo.Alteracao, true, 1)]
+        public async void ConsultarPedidoPorId(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
         {
             ///Arrange
+            var pedido = new Pedido
+            {
+                IdPedido = idPedido,
+                IdDispositivo = idDispositivo,
+                PedidoItems = items
+            };
+
             var command = new PedidoFindByIdCommand(idPedido);
 
             //Mockando retorno do mediator.
             _service.FindByIdAsync(idPedido)
-                .Returns(Task.FromResult(ModelResultFactory.SucessResult()));
+                .Returns(Task.FromResult(ModelResultFactory.SucessResult(pedido)));
 
             //Act
             var handler = new PedidoFindByIdHandler(_service);

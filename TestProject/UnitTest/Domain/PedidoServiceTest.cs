@@ -138,25 +138,25 @@ namespace TestProject.UnitTest.Domain
         /// Testa a consulta por id
         /// </summary>
         [Theory]
-        [MemberData(nameof(ObterDados), enmTipo.Inclusao, true, 1)]
-        public async void ConsultarPedidoPorId(Guid idDispositivo, ICollection<PedidoItem> items)
+        [MemberData(nameof(ObterDados), enmTipo.Alteracao, true, 1)]
+        public async void ConsultarPedidoPorId(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
         {
             ///Arrange
             var pedido = new Pedido
             {
+                IdPedido = idPedido,
                 IdDispositivo = idDispositivo,
                 PedidoItems = items
             };
 
             var domainService = new PedidoService(_gatewayPedidoMock, _validator, _notificacaoGatewayMock);
-            var insertResult = await domainService.InsertAsync(pedido);
 
             //Mockando retorno do metodo interno do FindByIdAsync
             _gatewayPedidoMock.FirstOrDefaultWithIncludeAsync(Arg.Any<Expression<Func<Pedido, ICollection<PedidoItem>>>>(), Arg.Any<Expression<Func<Pedido, bool>>>())
                 .Returns(new ValueTask<Pedido>(pedido));
 
             //Act
-            var result = await domainService.FindByIdAsync(((Pedido)insertResult.Model).IdPedido);
+            var result = await domainService.FindByIdAsync(idPedido);
 
             //Assert
             Assert.True(result.IsValid);
