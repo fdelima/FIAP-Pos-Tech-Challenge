@@ -4,7 +4,7 @@ using MediatR;
 
 namespace FIAP.Pos.Tech.Challenge.Application.UseCases.Pedido.Commands
 {
-    internal class PedidoGetListaCommand : IRequest<PagingQueryResult<Domain.Entities.Pedido>>
+    public class PedidoGetListaCommand : IRequest<PagingQueryResult<Domain.Entities.Pedido>>
     {
         public PedidoGetListaCommand(IPagingQueryParam filter)
         {
