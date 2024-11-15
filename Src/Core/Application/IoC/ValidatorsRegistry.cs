@@ -1,9 +1,9 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Entities;
-using FIAP.Pos.Tech.Challenge.Domain.Validator;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Validator;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FIAP.Pos.Tech.Challenge.Application.IoC
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.IoC
 {
     internal static class ValidatorsRegistry
     {
@@ -14,7 +14,7 @@ namespace FIAP.Pos.Tech.Challenge.Application.IoC
             //Validators
             services.AddScoped(typeof(IValidator<Notificacao>), typeof(NotificacaoValidator));
             services.AddScoped(typeof(IValidator<PedidoItem>), typeof(PedidoItemValidator));
-            services.AddScoped(typeof(IValidator<Pedido>), typeof(PedidoValidator));
+            services.AddScoped(typeof(IValidator<Domain.Entities.Pedido>), typeof(PedidoValidator));
         }
     }
 }

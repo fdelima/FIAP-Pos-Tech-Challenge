@@ -1,9 +1,9 @@
-﻿using FIAP.Pos.Tech.Challenge.Application.IoC;
-using FIAP.Pos.Tech.Challenge.Infra.IoC;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.IoC;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Infra.IoC;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FIAP.Pos.Tech.Challenge.IoC
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.IoC
 {
     /// <summary>
     /// Configura a injeção de dependência

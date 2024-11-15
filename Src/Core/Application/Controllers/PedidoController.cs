@@ -1,14 +1,13 @@
-﻿using FIAP.Pos.Tech.Challenge.Application.UseCases.Pedido.Commands;
-using FIAP.Pos.Tech.Challenge.Domain;
-using FIAP.Pos.Tech.Challenge.Domain.Entities;
-using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Domain.Models;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedido.Commands;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using System.Linq.Expressions;
 
-namespace FIAP.Pos.Tech.Challenge.Application.Controllers
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.Controllers
 {
     /// <summary>
     /// Regras da aplicação referente ao pedido
@@ -138,7 +137,7 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         /// 2. Pedidos mais antigos primeiro e mais novos depois;
         /// 3. Pedidos com status Finalizado não devem aparecer na lista.
         /// </summary>
-        public async Task<PagingQueryResult<Pedido>> GetListaAsync(PagingQueryParam<Pedido> param)
+        public async Task<PagingQueryResult<Domain.Entities.Pedido>> GetListaAsync(PagingQueryParam<Domain.Entities.Pedido> param)
         {
             PedidoGetListaCommand command = new(param);
             return await _mediator.Send(command);

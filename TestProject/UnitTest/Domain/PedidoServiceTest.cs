@@ -1,9 +1,11 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain;
-using FIAP.Pos.Tech.Challenge.Domain.Entities;
-using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Domain.Services;
-using FIAP.Pos.Tech.Challenge.Domain.Validator;
-using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedido.Commands;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Extensions;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Services;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Validator;
 using FluentValidation;
 using NSubstitute;
 using System.Linq.Expressions;
@@ -35,7 +37,7 @@ namespace TestProject.UnitTest.Domain
         /// </summary>
         [Theory]
         [MemberData(nameof(ObterDados), enmTipo.Inclusao, true, 3)]
-        public async void InserirComDadosValidos(Guid idDispositivo, ICollection<PedidoItem> items)
+        public async Task InserirComDadosValidos(Guid idDispositivo, ICollection<PedidoItem> items)
         {
             ///Arrange
             var pedido = new Pedido
@@ -45,7 +47,6 @@ namespace TestProject.UnitTest.Domain
             };
 
             var domainService = new PedidoService(_gatewayPedidoMock, _validator, _notificacaoGatewayMock);
-
 
             //Act
             var result = await domainService.InsertAsync(pedido);
@@ -59,7 +60,7 @@ namespace TestProject.UnitTest.Domain
         /// </summary>
         [Theory]
         [MemberData(nameof(ObterDados), enmTipo.Inclusao, false, 3)]
-        public async void InserirComDadosInvalidos(Guid idDispositivo, ICollection<PedidoItem> items)
+        public async Task InserirComDadosInvalidos(Guid idDispositivo, ICollection<PedidoItem> items)
         {
             ///Arrange
             var pedido = new Pedido
@@ -83,7 +84,7 @@ namespace TestProject.UnitTest.Domain
         /// </summary>
         [Theory]
         [MemberData(nameof(ObterDados), enmTipo.Alteracao, true, 3)]
-        public async void AlterarComDadosValidos(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
+        public async Task AlterarComDadosValidos(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
         {
             ///Arrange
             var pedido = new Pedido
@@ -99,6 +100,10 @@ namespace TestProject.UnitTest.Domain
             _gatewayPedidoMock.FirstOrDefaultWithIncludeAsync(Arg.Any<Expression<Func<Pedido, ICollection<PedidoItem>>>>(), Arg.Any<Expression<Func<Pedido, bool>>>())
                 .Returns(new ValueTask<Pedido>(pedido));
 
+            //Mockando retorno do metodo interno do UpdateAsync
+            _gatewayPedidoMock.UpdateAsync(Arg.Any<Pedido>())
+                .Returns(Task.FromResult(pedido));
+
             //Act
             var result = await domainService.UpdateAsync(pedido);
 
@@ -111,7 +116,7 @@ namespace TestProject.UnitTest.Domain
         /// </summary>
         [Theory]
         [MemberData(nameof(ObterDados), enmTipo.Alteracao, false, 3)]
-        public async void AlterarComDadosInvalidos(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
+        public async Task AlterarComDadosInvalidos(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
         {
             ///Arrange
             var pedido = new Pedido
@@ -122,7 +127,7 @@ namespace TestProject.UnitTest.Domain
             };
 
             var domainService = new PedidoService(_gatewayPedidoMock, _validator, _notificacaoGatewayMock);
-
+            
             //Mockando retorno do metodo interno do UpdateAsync
             _gatewayPedidoMock.FirstOrDefaultWithIncludeAsync(Arg.Any<Expression<Func<Pedido, ICollection<PedidoItem>>>>(), Arg.Any<Expression<Func<Pedido, bool>>>())
                 .Returns(new ValueTask<Pedido>(pedido));
@@ -138,8 +143,39 @@ namespace TestProject.UnitTest.Domain
         /// Testa a consulta por id
         /// </summary>
         [Theory]
-        [MemberData(nameof(ObterDados), enmTipo.Alteracao, true, 1)]
-        public async void ConsultarPedidoPorId(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
+        [MemberData(nameof(ObterDados), enmTipo.Alteracao, true, 3)]
+        public async Task DeletarPedido(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
+        {
+            ///Arrange
+            var pedido = new Pedido
+            {
+                IdPedido = idPedido,
+                IdDispositivo = idDispositivo,
+                PedidoItems = items
+            };
+
+            var domainService = new PedidoService(_gatewayPedidoMock, _validator, _notificacaoGatewayMock);
+
+            //Mockando retorno do metodo interno do FindByIdAsync
+            _gatewayPedidoMock.FindByIdAsync(idPedido)
+                .Returns(new ValueTask<Pedido>(pedido));
+
+            _gatewayPedidoMock.DeleteAsync(idPedido)
+                .Returns(Task.FromResult(ModelResultFactory.SucessResult()));
+
+            //Act
+            var result = await domainService.DeleteAsync(idPedido);
+
+            //Assert
+            Assert.True(result.IsValid);
+        }
+
+        /// <summary>
+        /// Testa a consulta por id
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Alteracao, true, 3)]
+        public async Task ConsultarPedidoPorIdComDadosValidos(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
         {
             ///Arrange
             var pedido = new Pedido
@@ -163,55 +199,95 @@ namespace TestProject.UnitTest.Domain
         }
 
         /// <summary>
-        /// Testa a consulta Valida
+        /// Testa a consulta por id
         /// </summary>
         [Theory]
-        [MemberData(nameof(ObterDados), enmTipo.Consulta, true, 10)]
-        public async void ConsultarPedidoComDadosValidos(IEnumerable<Pedido> pedidos)
+        [MemberData(nameof(ObterDados), enmTipo.Alteracao, true, 3)]
+        public async Task ConsultarPedidoPorIdComDadosInvalidos(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
         {
             ///Arrange
+            var pedido = new Pedido
+            {
+                IdPedido = idPedido,
+                IdDispositivo = idDispositivo,
+                PedidoItems = items
+            };
+
             var domainService = new PedidoService(_gatewayPedidoMock, _validator, _notificacaoGatewayMock);
 
-            var param = new PagingQueryParam<Pedido>();
-
-            //Mockando retorno do metodo interno do GetItemsAsync
-            _gatewayPedidoMock.GetItemsAsync(Arg.Any<PagingQueryParam<Pedido>>(),
-                Arg.Any<Expression<Func<Pedido, bool>>>(),
-                Arg.Any<Expression<Func<Pedido, object>>>())
-                .Returns(new ValueTask<PagingQueryResult<Pedido>>(new PagingQueryResult<Pedido>(new List<Pedido>(pedidos))));
-
-
             //Act
-            var result = await domainService.GetListaAsync(param);
+            var result = await domainService.FindByIdAsync(idPedido);
 
             //Assert
-            Assert.DoesNotContain(result.Content, x => x.Status.Equals(enmPedidoStatus.FINALIZADO.ToString()));
+            Assert.False(result.IsValid);
         }
 
         /// <summary>
-        /// Testa a consulta Inválida
+        /// Testa a consulta Valida
         /// </summary>
         [Theory]
-        [MemberData(nameof(ObterDados), enmTipo.Consulta, false, 10)]
-        public async void ConsultarPedidoComDadosInvalidos(IEnumerable<Pedido> pedidos)
+        [MemberData(nameof(ObterDados), enmTipo.Consulta, true, 3)]
+        public async Task ConsultarPedido(IPagingQueryParam filter, Expression<Func<Pedido, object>> sortProp, IEnumerable<Pedido> Pedidos)
         {
             ///Arrange
             var domainService = new PedidoService(_gatewayPedidoMock, _validator, _notificacaoGatewayMock);
 
-            var param = new PagingQueryParam<Pedido>();
+            //Mockando retorno do metodo interno do GetItemsAsync
+            _gatewayPedidoMock.GetItemsAsync(Arg.Any<PagingQueryParam<Pedido>>(),
+                Arg.Any<Expression<Func<Pedido, object>>>())
+                .Returns(new ValueTask<PagingQueryResult<Pedido>>(new PagingQueryResult<Pedido>(new List<Pedido>(Pedidos))));
+
+
+            //Act
+            var result = await domainService.GetItemsAsync(filter, sortProp);
+
+            //Assert
+            Assert.True(result.Content.Any());
+        }
+
+        /// <summary>
+        /// Testa a consulta com condição de pesquisa
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Consulta, true, 3)]
+        public async Task ConsultarPedidoComCondicao(IPagingQueryParam filter, Expression<Func<Pedido, object>> sortProp, IEnumerable<Pedido> Pedidos)
+        {
+            ///Arrange
+            var param = new PagingQueryParam<Pedido>() { CurrentPage = 1, Take = 10 };
+            var command = new PedidoGetItemsCommand(filter, param.ConsultRule(), sortProp);
 
             //Mockando retorno do metodo interno do GetItemsAsync
             _gatewayPedidoMock.GetItemsAsync(Arg.Any<PagingQueryParam<Pedido>>(),
                 Arg.Any<Expression<Func<Pedido, bool>>>(),
                 Arg.Any<Expression<Func<Pedido, object>>>())
-                .Returns(new ValueTask<PagingQueryResult<Pedido>>(new PagingQueryResult<Pedido>(new List<Pedido>(pedidos))));
-
+                .Returns(new ValueTask<PagingQueryResult<Pedido>>(new PagingQueryResult<Pedido>(new List<Pedido>(Pedidos))));
 
             //Act
-            var result = await domainService.GetListaAsync(param);
+            var result = await _gatewayPedidoMock.GetItemsAsync(filter, param.ConsultRule(), sortProp);
 
             //Assert
-            Assert.Contains(result.Content, x => x.Status.Equals(enmPedidoStatus.FINALIZADO.ToString()));
+            Assert.True(result.Content.Any());
+        }
+
+        /// <summary>
+        /// Testa a consulta sem condição de pesquisa
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Consulta, true, 3)]
+        public async Task ConsultarPedidoSemCondicao(IPagingQueryParam filter, Expression<Func<Pedido, object>> sortProp, IEnumerable<Pedido> Pedidos)
+        {
+            ///Arrange
+            var command = new PedidoGetItemsCommand(filter, sortProp);
+
+            //Mockando retorno do metodo interno do GetItemsAsync
+            _gatewayPedidoMock.GetItemsAsync(filter, sortProp)
+                .Returns(new ValueTask<PagingQueryResult<Pedido>>(new PagingQueryResult<Pedido>(new List<Pedido>(Pedidos))));
+
+            //Act
+            var result = await _gatewayPedidoMock.GetItemsAsync(filter, sortProp);
+
+            //Assert
+            Assert.True(result.Content.Any());
         }
 
         #region [ Xunit MemberData ]

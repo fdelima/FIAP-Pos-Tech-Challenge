@@ -1,8 +1,8 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain;
-using FIAP.Pos.Tech.Challenge.Domain.Entities;
-using FIAP.Pos.Tech.Challenge.Domain.Extensions;
-using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Domain.Models;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Extensions;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 

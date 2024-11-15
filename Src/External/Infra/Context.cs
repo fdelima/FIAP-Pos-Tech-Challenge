@@ -1,8 +1,8 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Entities;
-using FIAP.Pos.Tech.Challenge.Infra.Mappings;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Infra.Mappings;
 using Microsoft.EntityFrameworkCore;
 
-namespace FIAP.Pos.Tech.Challenge.Infra
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Infra
 {
     public partial class Context : DbContext
     {
@@ -13,7 +13,7 @@ namespace FIAP.Pos.Tech.Challenge.Infra
 
         public virtual DbSet<Notificacao> Notificacaos { get; set; }
 
-        public virtual DbSet<Pedido> Pedidos { get; set; }
+        public virtual DbSet<Domain.Entities.Pedido> Pedidos { get; set; }
 
         public virtual DbSet<PedidoItem> PedidoItems { get; set; }
 

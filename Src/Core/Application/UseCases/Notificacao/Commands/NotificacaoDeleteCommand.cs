@@ -1,7 +1,7 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Models;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
 using MediatR;
 
-namespace FIAP.Pos.Tech.Challenge.Application.UseCases.Notificacao.Commands
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Notificacao.Commands
 {
     internal class NotificacaoDeleteCommand : IRequest<ModelResult>
     {

@@ -1,9 +1,9 @@
-﻿using FIAP.Pos.Tech.Challenge.Application.UseCases.Notificacao.Commands;
-using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Domain.Models;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Notificacao.Commands;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
 using MediatR;
 
-namespace FIAP.Pos.Tech.Challenge.Application.UseCases.Notificacao.Handlers
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Notificacao.Handlers
 {
     internal class NotificacaoPostHandler : IRequestHandler<NotificacaoPostCommand, ModelResult>
     {

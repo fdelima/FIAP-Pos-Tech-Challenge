@@ -1,8 +1,6 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Entities;
-
-namespace FIAP.Pos.Tech.Challenge.Domain.Interfaces
+﻿namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces
 {
-    public interface IPedidoService : IService<Pedido>
+    public interface IPedidoService : IService<Entities.Pedido>
     {
         /// <summary>
         /// Retorna os Pedidos cadastrados
@@ -11,6 +9,6 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Interfaces
         /// 2. Pedidos mais antigos primeiro e mais novos depois;
         /// 3. Pedidos com status Finalizado não devem aparecer na lista.
         /// </summary>
-        ValueTask<PagingQueryResult<Pedido>> GetListaAsync(IPagingQueryParam filter);
+        ValueTask<PagingQueryResult<Entities.Pedido>> GetListaAsync(IPagingQueryParam filter);
     }
 }

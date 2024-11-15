@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestProject.UnitTest.Domain
 {
-    //TODO: Há Implemetar :: Copiar Pedido service como modelo,
+    //TODO: Há Implemetar :: Copiar Pedido service test como modelo,
     //trocar entidade e ajustar consulta e medotodos especificos da entidade
     internal class PedidoItemTest
     {

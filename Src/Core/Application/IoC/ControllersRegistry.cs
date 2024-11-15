@@ -1,8 +1,8 @@
-﻿using FIAP.Pos.Tech.Challenge.Application.Controllers;
-using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.Controllers;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FIAP.Pos.Tech.Challenge.Application.IoC
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.IoC
 {
     internal static class ControllersRegistry
     {

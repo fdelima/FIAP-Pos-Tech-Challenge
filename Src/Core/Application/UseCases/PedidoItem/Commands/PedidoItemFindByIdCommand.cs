@@ -1,7 +1,7 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Models;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
 using MediatR;
 
-namespace FIAP.Pos.Tech.Challenge.Application.UseCases.PedidoItem.Commands
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.PedidoItem.Commands
 {
     internal class PedidoItemFindByIdCommand : IRequest<ModelResult>
     {

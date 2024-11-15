@@ -1,9 +1,9 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain;
-using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
 using MediatR;
 using System.Linq.Expressions;
 
-namespace FIAP.Pos.Tech.Challenge.Application.UseCases.Notificacao.Commands
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Notificacao.Commands
 {
     internal class NotificacaoGetItemsCommand : IRequest<PagingQueryResult<Domain.Entities.Notificacao>>
     {

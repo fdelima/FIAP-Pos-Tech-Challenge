@@ -1,17 +1,17 @@
-﻿using FIAP.Pos.Tech.Challenge.Application.UseCases.Notificacao.Commands;
-using FIAP.Pos.Tech.Challenge.Application.UseCases.Notificacao.Handlers;
-using FIAP.Pos.Tech.Challenge.Application.UseCases.Pedido.Commands;
-using FIAP.Pos.Tech.Challenge.Application.UseCases.Pedido.Handlers;
-using FIAP.Pos.Tech.Challenge.Application.UseCases.PedidoItem.Commands;
-using FIAP.Pos.Tech.Challenge.Application.UseCases.PedidoItem.Handlers;
-using FIAP.Pos.Tech.Challenge.Domain;
-using FIAP.Pos.Tech.Challenge.Domain.Entities;
-using FIAP.Pos.Tech.Challenge.Domain.Models;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Notificacao.Commands;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Notificacao.Handlers;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedido.Commands;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedido.Handlers;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.PedidoItem.Commands;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.PedidoItem.Handlers;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace FIAP.Pos.Tech.Challenge.Application.IoC
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.IoC
 {
     internal static class CommandsRegistry
     {
@@ -31,8 +31,8 @@ namespace FIAP.Pos.Tech.Challenge.Application.IoC
             services.AddScoped<IRequestHandler<PedidoPutCommand, ModelResult>, PedidoPutHandler>();
             services.AddScoped<IRequestHandler<PedidoDeleteCommand, ModelResult>, PedidoDeleteHandler>();
             services.AddScoped<IRequestHandler<PedidoFindByIdCommand, ModelResult>, PedidoFindByIdHandler>();
-            services.AddScoped<IRequestHandler<PedidoGetItemsCommand, PagingQueryResult<Pedido>>, PedidoGetItemsHandler>();
-            services.AddScoped<IRequestHandler<PedidoGetListaCommand, PagingQueryResult<Pedido>>, PedidoGetIListaHandler>();
+            services.AddScoped<IRequestHandler<PedidoGetItemsCommand, PagingQueryResult<Domain.Entities.Pedido>>, PedidoGetItemsHandler>();
+            services.AddScoped<IRequestHandler<PedidoGetListaCommand, PagingQueryResult<Domain.Entities.Pedido>>, PedidoGetIListaHandler>();
 
             //Pedido Item
             services.AddScoped<IRequestHandler<PedidoItemPostCommand, ModelResult>, PedidoItemPostHandler>();

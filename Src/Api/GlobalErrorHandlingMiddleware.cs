@@ -1,5 +1,5 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Messages;
-using FIAP.Pos.Tech.Challenge.Domain.Models;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Messages;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
 using System.Net;
 using System.Text.Json;
 

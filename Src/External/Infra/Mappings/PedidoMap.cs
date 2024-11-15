@@ -1,12 +1,12 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Entities;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FIAP.Pos.Tech.Challenge.Infra.Mappings;
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Infra.Mappings;
 
-internal class PedidoMap : IEntityTypeConfiguration<Pedido>
+internal class PedidoMap : IEntityTypeConfiguration<Domain.Entities.Pedido>
 {
-    public void Configure(EntityTypeBuilder<Pedido> builder)
+    public void Configure(EntityTypeBuilder<Domain.Entities.Pedido> builder)
     {
         builder.HasKey(e => e.IdPedido);
 

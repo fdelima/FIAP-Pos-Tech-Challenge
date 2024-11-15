@@ -1,13 +1,13 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Entities;
-using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Domain.Messages;
-using FIAP.Pos.Tech.Challenge.Domain.Models;
-using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Messages;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.ValuesObject;
 using FluentValidation;
 
-namespace FIAP.Pos.Tech.Challenge.Domain.Services
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Services
 {
-    public class PedidoService : BaseService<Pedido>, IPedidoService
+    public class PedidoService : BaseService<Entities.Pedido>, IPedidoService
     {
         protected readonly IGateways<Notificacao> _notificacaoGateway;
 
@@ -20,8 +20,8 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         /// <param name="dispositivoGateway">Gateway de dispositivo a ser injetado durante a execução</param>
         /// <param name="clienteGateway">Gateway de cliente a ser injetado durante a execução</param>
         /// <param name="produtoGateway">Gateway de produto a ser injetado durante a execução</param>
-        public PedidoService(IGateways<Pedido> gateway,
-            IValidator<Pedido> validator,
+        public PedidoService(IGateways<Entities.Pedido> gateway,
+            IValidator<Entities.Pedido> validator,
             IGateways<Notificacao> notificacaoGateway)
             : base(gateway, validator)
         {
@@ -33,10 +33,10 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         /// </summary>
         public async override Task<ModelResult> FindByIdAsync(Guid Id)
         {
-            Pedido? result = await _gateway.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == Id);
+            Entities.Pedido? result = await _gateway.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == Id);
 
             if (result == null)
-                return ModelResultFactory.NotFoundResult<Pedido>();
+                return ModelResultFactory.NotFoundResult<Entities.Pedido>();
 
             return ModelResultFactory.SucessResult(result);
         }
@@ -46,7 +46,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         /// </summary>
         /// <param name="entity">Entidade</param>
         /// <param name="ValidatorResult">Validações já realizadas a serem adicionadas ao contexto</param>
-        public override async Task<ModelResult> InsertAsync(Pedido entity, string[]? businessRules = null)
+        public override async Task<ModelResult> InsertAsync(Entities.Pedido entity, string[]? businessRules = null)
         {
             List<string> lstWarnings = new List<string>();
 
@@ -93,9 +93,9 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         /// <summary>
         /// Regra para atualização do pedido e suas dependências.
         /// </summary>
-        public async override Task<ModelResult> UpdateAsync(Pedido entity, string[]? businessRules = null)
+        public async override Task<ModelResult> UpdateAsync(Entities.Pedido entity, string[]? businessRules = null)
         {
-            Pedido? dbEntity = await _gateway.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == entity.IdPedido);
+            Entities.Pedido? dbEntity = await _gateway.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == entity.IdPedido);
 
             //TODO:Há Resolver...
             //if (dbEntity == null)
@@ -129,7 +129,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Services
         /// 2. Pedidos mais antigos primeiro e mais novos depois;
         /// 3. Pedidos com status Finalizado não devem aparecer na lista.
         /// </summary>
-        public async ValueTask<PagingQueryResult<Pedido>> GetListaAsync(IPagingQueryParam filter)
+        public async ValueTask<PagingQueryResult<Entities.Pedido>> GetListaAsync(IPagingQueryParam filter)
         {
             filter.SortDirection = "Desc";
             return await _gateway.GetItemsAsync(filter, x => x.Status != enmPedidoStatus.FINALIZADO.ToString(), o => o.Data);

@@ -1,5 +1,7 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Entities;
-using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Extensions;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.ValuesObject;
 
 namespace TestProject.MockData
 {
@@ -68,10 +70,16 @@ namespace TestProject.MockData
                     Status = ((enmPedidoStatus)new Random().Next(0, 2)).ToString()
                 });
 
-            yield return new object[]
+            for (var index = 1; index <= quantidade; index++)
             {
-                pedidos
-            };
+                var param = new PagingQueryParam<Pedido>() { CurrentPage = index, Take = 10 };
+                yield return new object[]
+                {
+                    param,
+                    param.SortProp(),
+                    pedidos
+                };
+            }
 
         }
 
@@ -95,6 +103,7 @@ namespace TestProject.MockData
                     },
                     Status = ((enmPedidoStatus)new Random().Next(0, 2)).ToString()
                 });
+
             pedidos.Add(
                 new Pedido
                 {
@@ -109,10 +118,16 @@ namespace TestProject.MockData
                     Status = enmPedidoStatus.FINALIZADO.ToString()
                 });
 
-            yield return new object[]
+            for (var index = 1; index <= quantidade; index++)
             {
-                pedidos
-            };
+                var param = new PagingQueryParam<Pedido>() { CurrentPage = index, Take = 10 };
+                yield return new object[]
+                {
+                    param,
+                    param.SortProp(),
+                    pedidos
+                };
+            }
         }
 
         public static IEnumerable<object[]> ObterDadosConsultaPorIdValidos(int quantidade)
