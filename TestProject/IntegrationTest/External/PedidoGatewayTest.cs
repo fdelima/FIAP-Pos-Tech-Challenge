@@ -1,243 +1,356 @@
-﻿//using FIAP.Pos.Tech.Challenge.Domain;
-//using FIAP.Pos.Tech.Challenge.Domain.Entities;
-//using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-//using FIAP.Pos.Tech.Challenge.Domain.Services;
-//using FIAP.Pos.Tech.Challenge.Domain.Validator;
-//using FIAP.Pos.Tech.Challenge.Domain.ValuesObject;
-//using FluentValidation;
-//using NSubstitute;
-//using System.Linq.Expressions;
-//using TestProject.MockData;
-//using FIAP.Pos.Tech.Challenge.Infra.Gateways;
-//using FIAP.Pos.Tech.Challenge.Infra;
-//using Microsoft.EntityFrameworkCore;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedido.Commands;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Extensions;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.ValuesObject;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Infra.Gateways;
+using System.Linq.Expressions;
+using TestProject.IntegrationTest.Infra;
+using TestProject.MockData;
 
-//namespace TestProject.IntegrationTest.External
-//{
-//    /// <summary>
-//    /// Classe de teste.
-//    /// </summary>
-//    public partial class PedidoGatewayTest
-//    {
-//        private readonly IGateways<Pedido> _pedidoGateway;
-//        private readonly Context _context;
-//        private readonly DbContextOptions<Context> _options;
-//        private const string conn = "Server=sqlserver; Database=tech-challenge-micro-servico-pedido-grupo-71; User ID=sa; Password=SqlServer2019!; MultipleActiveResultSets=true; TrustServerCertificate=True";
+namespace TestProject.IntegrationTest.External
+{
+    /// <summary>
+    /// Classe de teste.
+    /// </summary>
+    public partial class PedidoGatewayTest : IClassFixture<TestsBase>
+    {
+        internal readonly SqlServerTestFixture _sqlserverTest;
 
-//        /// <summary>
-//        /// Construtor da classe de teste.
-//        /// </summary>
-//        public PedidoGatewayTest()
-//        {
-//            var options = new DbContextOptionsBuilder<Context>()
-//                            .UseSqlServer(conn).Options;
+        /// <summary>
+        /// Construtor da classe de teste.
+        /// </summary>
+        public PedidoGatewayTest(TestsBase data)
+        {
+            _sqlserverTest = data._sqlserverTest;
+        }
 
-//            _context = new Context(options);
+        /// <summary>
+        /// Testa a inserção com dados válidos
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Inclusao, true, 3)]
+        public async void InserirComDadosValidos(Guid idDispositivo, ICollection<PedidoItem> items)
+        {
+            ///Arrange            
+            var idPedido = Guid.NewGuid();
+            var pedido = new Pedido
+            {
+                IdDispositivo = idDispositivo,
+                PedidoItems = items,
 
-//            _pedidoGateway = new BaseGateway<Pedido>(_context);
-//        }
+                //Campos preenchidos automaticamente
+                IdPedido = idPedido,
+                Status = enmPedidoStatus.RECEBIDO.ToString(),
+                StatusPagamento = enmPedidoStatusPagamento.PENDENTE.ToString()
+            };
 
-//        /// <summary>
-//        /// Testa a inserção com dados válidos
-//        /// </summary>
-//        [Theory]
-//        [MemberData(nameof(ObterDados), enmTipo.Inclusao, true, 3)]
-//        public async void InserirComDadosValidos(Guid idDispositivo, ICollection<PedidoItem> items)
-//        {
-//            ///Arrange
-//            var pedido = new Pedido
-//            {
-//                IdDispositivo = idDispositivo,
-//                PedidoItems = items
-//            };
+            foreach (var item in items)
+            {
+                item.IdPedidoItem = Guid.NewGuid();
+                item.IdPedido = idPedido;
+            }
 
-//            //Act
-//            var result = await _pedidoGateway.InsertAsync(pedido);
+            //Act
+            var _pedidoGateway = new BaseGateway<Pedido>(_sqlserverTest.GetDbContext());
+            var result = await _pedidoGateway.InsertAsync(pedido);
 
-//            //Assert
-//            Assert.True(result != null);
-//        }
+            //Assert
+            try
+            {
+                await _pedidoGateway.CommitAsync();
+                Assert.True(true);
+            }
+            catch (InvalidOperationException)
+            {
+                Assert.True(false);
+            }
+        }
 
-//        /// <summary>
-//        /// Testa a inserção com dados inválidos
-//        /// </summary>
-//        [Theory]
-//        [MemberData(nameof(ObterDados), enmTipo.Inclusao, false, 3)]
-//        public async void InserirComDadosInvalidos(Guid idDispositivo, ICollection<PedidoItem> items)
-//        {
-//            ///Arrange
-//            var pedido = new Pedido
-//            {
-//                IdDispositivo = idDispositivo,
-//                PedidoItems = items
-//            };
+        /// <summary>
+        /// Testa a inserção com dados inválidos
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Inclusao, false, 3)]
+        public async Task InserirComDadosInvalidos(Guid idDispositivo, ICollection<PedidoItem> items)
+        {
 
-//            //Act
-//            var result = await _pedidoGateway.InsertAsync(pedido);
+            ///Arrange
+            var idPedido = Guid.NewGuid();
+            var pedido = new Pedido
+            {
+                IdDispositivo = idDispositivo,
+                PedidoItems = items,
 
-//            //Assert
-//            Assert.True(result == null);
+                //Campos preenchidos automaticamente não passando outros campos para dar erro
+                IdPedido = idPedido,
+            };
 
-//        }
+            foreach (var item in items)
+            {
+                item.IdPedidoItem = Guid.NewGuid();
+                item.IdPedido = idPedido;
+            }
 
-//        /// <summary>
-//        /// Testa a alteração com dados válidos
-//        /// </summary>
-//        [Theory]
-//        [MemberData(nameof(ObterDados), enmTipo.Alteracao, true, 3)]
-//        public async void AlterarComDadosValidos(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
-//        {
-//            ///Arrange
-//            var pedido = new Pedido
-//            {
-//                IdPedido = idPedido,
-//                IdDispositivo = idDispositivo,
-//                PedidoItems = items
-//            };
+            //Act
+            var _pedidoGateway = new BaseGateway<Pedido>(_sqlserverTest.GetDbContext());
+            var result = await _pedidoGateway.InsertAsync(pedido);
 
-//            //Act
-//            await _pedidoGateway.UpdateAsync(pedido);
+            //Assert
+            try
+            {
+                await _pedidoGateway.CommitAsync();
+                Assert.True(false);
+            }
+            catch (InvalidOperationException)
+            {
+                Assert.True(true);
+            }
 
-//            //Assert
-//            Assert.True(true);
-//        }
+        }
 
-//        /// <summary>
-//        /// Testa a alteração com dados inválidos
-//        /// </summary>
-//        [Theory]
-//        [MemberData(nameof(ObterDados), enmTipo.Alteracao, false, 3)]
-//        public async void AlterarComDadosInvalidos(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
-//        {
-//            ///Arrange
-//            var pedido = new Pedido
-//            {
-//                IdPedido = idPedido,
-//                IdDispositivo = idDispositivo,
-//                PedidoItems = items
-//            };
+        /// <summary>
+        /// Testa a alteração com dados válidos
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Alteracao, true, 3)]
+        public async void AlterarComDadosValidos(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
+        {
+            ///Arrange
+            var pedido = new Pedido
+            {
+                IdDispositivo = idDispositivo,
+                PedidoItems = items,
 
-//            try
-//            {
-//                //Act
-//                await _pedidoGateway.UpdateAsync(pedido);
+                //Campos preenchidos automaticamente
+                IdPedido = idPedido,
+                Status = enmPedidoStatus.RECEBIDO.ToString(),
+                StatusPagamento = enmPedidoStatusPagamento.PENDENTE.ToString()
+            };
 
-//                //Assert
-//                Assert.True(false);
-//            }
-//            catch (Exception)
-//            {
-//                //Assert
-//                Assert.True(true);
-//            }
-//        }
+            foreach (var item in items)
+            {
+                item.IdPedidoItem = Guid.NewGuid();
+                item.IdPedido = idPedido;
+            }
 
-//        /// <summary>
-//        /// Testa a consulta por id
-//        /// </summary>
-//        [Theory]
-//        [MemberData(nameof(ObterDados), enmTipo.Alteracao, true, 1)]
-//        public async void ConsultarPedidoPorId(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
-//        {
-//            ///Arrange
-//            var pedido = new Pedido
-//            {
-//                IdPedido = idPedido,
-//                IdDispositivo = idDispositivo,
-//                PedidoItems = items
-//            };
+            var _pedidoGateway = new BaseGateway<Pedido>(_sqlserverTest.GetDbContext());
+            var result = await _pedidoGateway.InsertAsync(pedido);
+            await _pedidoGateway.CommitAsync();
 
-//            //Act
-//            var result = await _pedidoGateway.FindByIdAsync(idPedido);
+            //Alterando
+            pedido.StatusPagamento = enmPedidoStatusPagamento.PROCESSANDO.ToString();
 
-//            //Assert
-//            Assert.True(result == null);
-//        }
+            var dbEntity = await _pedidoGateway.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == pedido.IdPedido);
 
-//        /// <summary>
-//        /// Testa a consulta Valida
-//        /// </summary>
-//        [Theory]
-//        [MemberData(nameof(ObterDados), enmTipo.Consulta, true, 10)]
-//        public async void ConsultarPedidoComDadosValidos(IEnumerable<Pedido> pedidos)
-//        {
-//            ///Arrange
-//            var domainService = new PedidoService(_gatewayPedidoMock, _validator, _notificacaoGatewayMock);
+            //Act
+            await _pedidoGateway.UpdateAsync(dbEntity, pedido);
+            await _pedidoGateway.UpdateAsync(pedido);
 
-//            var param = new PagingQueryParam<Pedido>();
+            try
+            {
+                await _pedidoGateway.CommitAsync();
+                Assert.True(true);
+            }
+            catch (InvalidOperationException)
+            {
+                Assert.True(false);
+            }
+            catch (Exception)
+            {
+                Assert.True(false);
+            }
+        }
 
-//            //Mockando retorno do metodo interno do GetItemsAsync
-//            _gatewayPedidoMock.GetItemsAsync(Arg.Any<PagingQueryParam<Pedido>>(),
-//                Arg.Any<Expression<Func<Pedido, bool>>>(),
-//                Arg.Any<Expression<Func<Pedido, object>>>())
-//                .Returns(new ValueTask<PagingQueryResult<Pedido>>(new PagingQueryResult<Pedido>(new List<Pedido>(pedidos))));
+        /// <summary>
+        /// Testa a alteração com dados inválidos
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Alteracao, true, 3)]
+        public async void AlterarComDadosInvalidos(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
+        {
+            ///Arrange
+            var pedido = new Pedido
+            {
+                IdDispositivo = idDispositivo,
+                PedidoItems = items,
 
+                //Campos preenchidos automaticamente
+                IdPedido = idPedido,
+                Status = enmPedidoStatus.RECEBIDO.ToString(),
+                StatusPagamento = enmPedidoStatusPagamento.PENDENTE.ToString()
+            };
 
-//            //Act
-//            var result = await domainService.GetListaAsync(param);
+            foreach (var item in items)
+            {
+                item.IdPedidoItem = Guid.NewGuid();
+                item.IdPedido = idPedido;
+            }
 
-//            //Assert
-//            Assert.DoesNotContain(result.Content, x => x.Status.Equals(enmPedidoStatus.FINALIZADO.ToString()));
-//        }
+            var _pedidoGateway = new BaseGateway<Pedido>(_sqlserverTest.GetDbContext());
+            var result = await _pedidoGateway.InsertAsync(pedido);
+            await _pedidoGateway.CommitAsync();
 
-//        /// <summary>
-//        /// Testa a consulta Inválida
-//        /// </summary>
-//        [Theory]
-//        [MemberData(nameof(ObterDados), enmTipo.Consulta, false, 10)]
-//        public async void ConsultarPedidoComDadosInvalidos(IEnumerable<Pedido> pedidos)
-//        {
-//            ///Arrange
-//            var domainService = new PedidoService(_gatewayPedidoMock, _validator, _notificacaoGatewayMock);
+            //Alterando
+            pedido.Status = null;
+            pedido.StatusPagamento = null;
 
-//            var param = new PagingQueryParam<Pedido>();
+            var dbEntity = await _pedidoGateway.FirstOrDefaultWithIncludeAsync(x => x.PedidoItems, x => x.IdPedido == pedido.IdPedido);
 
-//            //Mockando retorno do metodo interno do GetItemsAsync
-//            _gatewayPedidoMock.GetItemsAsync(Arg.Any<PagingQueryParam<Pedido>>(),
-//                Arg.Any<Expression<Func<Pedido, bool>>>(),
-//                Arg.Any<Expression<Func<Pedido, object>>>())
-//                .Returns(new ValueTask<PagingQueryResult<Pedido>>(new PagingQueryResult<Pedido>(new List<Pedido>(pedidos))));
+            //Act
+            await _pedidoGateway.UpdateAsync(dbEntity, pedido);
+            await _pedidoGateway.UpdateAsync(pedido);
 
+            //Assert
+            try
+            {
+                await _pedidoGateway.CommitAsync();
+                Assert.True(false);
+            }
+            catch (InvalidOperationException)
+            {
+                Assert.True(true);
+            }
+            catch (Exception)
+            {
+                Assert.True(false);
+            }
+        }
 
-//            //Act
-//            var result = await domainService.GetListaAsync(param);
+        /// <summary>
+        /// Testa a consulta por id
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Inclusao, true, 1)]
+        public async void ConsultarPedidoPorId(Guid idDispositivo, ICollection<PedidoItem> items)
+        {
+            ///Arrange            
+            var idPedido = Guid.NewGuid();
+            var pedido = new Pedido
+            {
+                IdDispositivo = idDispositivo,
+                PedidoItems = items,
 
-//            //Assert
-//            Assert.Contains(result.Content, x => x.Status.Equals(enmPedidoStatus.FINALIZADO.ToString()));
-//        }
+                //Campos preenchidos automaticamente
+                IdPedido = idPedido,
+                Status = enmPedidoStatus.RECEBIDO.ToString(),
+                StatusPagamento = enmPedidoStatusPagamento.PENDENTE.ToString()
+            };
 
-//        #region [ Xunit MemberData ]
+            foreach (var item in items)
+            {
+                item.IdPedidoItem = Guid.NewGuid();
+                item.IdPedido = idPedido;
+            }
 
-//        /// <summary>
-//        /// Mock de dados
-//        /// </summary>
-//        public static IEnumerable<object[]> ObterDados(enmTipo tipo, bool dadosValidos, int quantidade)
-//        {
-//            switch (tipo)
-//            {
-//                case enmTipo.Inclusao:
-//                    if (dadosValidos)
-//                        return PedidoMock.ObterDadosValidos(quantidade);
-//                    else
-//                        return PedidoMock.ObterDadosInvalidos(quantidade);
-//                case enmTipo.Alteracao:
-//                    if (dadosValidos)
-//                        return PedidoMock.ObterDadosValidos(quantidade)
-//                            .Select(i => new object[] { Guid.NewGuid() }.Concat(i).ToArray());
-//                    else
-//                        return PedidoMock.ObterDadosInvalidos(quantidade)
-//                            .Select(i => new object[] { Guid.NewGuid() }.Concat(i).ToArray());
-//                case enmTipo.Consulta:
-//                    if (dadosValidos)
-//                        return PedidoMock.ObterDadosConsultaValidos(quantidade);
-//                    else
-//                        return PedidoMock.ObterDadosConsultaInValidos(quantidade);
-//                default:
-//                    return null;
-//            }
-//        }
+            var _pedidoGateway = new BaseGateway<Pedido>(_sqlserverTest.GetDbContext());
+            await _pedidoGateway.InsertAsync(pedido);
+            await _pedidoGateway.CommitAsync();
 
-//        #endregion
+            //Act
+            var result = await _pedidoGateway.FindByIdAsync(idPedido);
 
-//    }
-//}
+            //Assert
+            Assert.True(result != null);
+        }
+
+        /// <summary>
+        /// Testa a consulta Valida
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Consulta, true, 3)]
+        public async Task ConsultarPedido(IPagingQueryParam filter, Expression<Func<Pedido, object>> sortProp, IEnumerable<Pedido> Pedidos)
+        {
+            ///Arrange
+            var _pedidoGateway = new BaseGateway<Pedido>(_sqlserverTest.GetDbContext());
+
+            //Act
+            var result = await _pedidoGateway.GetItemsAsync(filter, sortProp);
+
+            //Assert
+            Assert.True(result.Content.Any());
+        }
+
+        /// <summary>
+        /// Testa a consulta com condição de pesquisa
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Consulta, true, 3)]
+        public async Task ConsultarPedidoComCondicao(IPagingQueryParam filter, Expression<Func<Pedido, object>> sortProp, IEnumerable<Pedido> pedidos)
+        {
+            ///Arrange
+            var _pedidoGateway = new BaseGateway<Pedido>(_sqlserverTest.GetDbContext());
+            foreach (var pedido in pedidos)
+                pedido.StatusPagamento = enmPedidoStatusPagamento.APROVADO.ToString();
+            
+            await _pedidoGateway.InsertRangeAsync(pedidos);
+            await _pedidoGateway.CommitAsync();
+
+            var param = new PagingQueryParam<Pedido>() { CurrentPage = 1, Take = 10, ObjFilter = pedidos.ElementAt(0) };
+            var command = new PedidoGetItemsCommand(filter, param.ConsultRule(), sortProp);
+
+            //Act
+            var result = await _pedidoGateway.GetItemsAsync(filter, param.ConsultRule(), sortProp);
+
+            //Assert
+            Assert.True(result.Content.Any());
+        }
+
+        /// <summary>
+        /// Testa a consulta sem condição de pesquisa
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Consulta, true, 3)]
+        public async Task ConsultarPedidoSemCondicao(IPagingQueryParam filter, Expression<Func<Pedido, object>> sortProp, IEnumerable<Pedido> pedidos)
+        {
+            ///Arrange
+            var _pedidoGateway = new BaseGateway<Pedido>(_sqlserverTest.GetDbContext());
+            foreach (var pedido in pedidos)
+                pedido.StatusPagamento = enmPedidoStatusPagamento.APROVADO.ToString();
+
+            await _pedidoGateway.InsertRangeAsync(pedidos);
+            await _pedidoGateway.CommitAsync();
+
+            //Act
+            var result = await _pedidoGateway.GetItemsAsync(filter, sortProp);
+
+            //Assert
+            Assert.True(result.Content.Any());
+        }
+
+        #region [ Xunit MemberData ]
+
+        /// <summary>
+        /// Mock de dados
+        /// </summary>
+        public static IEnumerable<object[]> ObterDados(enmTipo tipo, bool dadosValidos, int quantidade)
+        {
+            switch (tipo)
+            {
+                case enmTipo.Inclusao:
+                    if (dadosValidos)
+                        return PedidoMock.ObterDadosValidos(quantidade);
+                    else
+                        return PedidoMock.ObterDadosInvalidos(quantidade);
+                case enmTipo.Alteracao:
+                    if (dadosValidos)
+                        return PedidoMock.ObterDadosValidos(quantidade)
+                            .Select(i => new object[] { Guid.NewGuid() }.Concat(i).ToArray());
+                    else
+                        return PedidoMock.ObterDadosInvalidos(quantidade)
+                            .Select(i => new object[] { Guid.NewGuid() }.Concat(i).ToArray());
+                case enmTipo.Consulta:
+                    if (dadosValidos)
+                        return PedidoMock.ObterDadosConsultaValidos(quantidade);
+                    else
+                        return PedidoMock.ObterDadosConsultaInValidos(quantidade);
+                default:
+                    return null;
+            }
+        }
+
+        #endregion
+
+    }
+}
