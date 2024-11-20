@@ -223,6 +223,55 @@ namespace TestProject.IntegrationTest.External
         /// </summary>
         [Theory]
         [MemberData(nameof(ObterDados), enmTipo.Inclusao, true, 1)]
+        public async void DeletarPedido(Guid idDispositivo, ICollection<PedidoItem> items)
+        {
+            ///Arrange            
+            var idPedido = Guid.NewGuid();
+            var pedido = new Pedido
+            {
+                IdDispositivo = idDispositivo,
+                PedidoItems = items,
+
+                //Campos preenchidos automaticamente
+                IdPedido = idPedido,
+                Status = enmPedidoStatus.RECEBIDO.ToString(),
+                StatusPagamento = enmPedidoStatusPagamento.PENDENTE.ToString()
+            };
+
+            foreach (var item in items)
+            {
+                item.IdPedidoItem = Guid.NewGuid();
+                item.IdPedido = idPedido;
+            }
+
+            var _pedidoGateway = new BaseGateway<Pedido>(_sqlserverTest.GetDbContext());
+            await _pedidoGateway.InsertAsync(pedido);
+            await _pedidoGateway.CommitAsync();
+
+            //Act
+            await _pedidoGateway.DeleteAsync(idPedido);
+
+            //Assert
+            try
+            {
+                await _pedidoGateway.CommitAsync();
+                Assert.True(true);
+            }
+            catch (InvalidOperationException)
+            {
+                Assert.True(false);
+            }
+            catch (Exception)
+            {
+                Assert.True(false);
+            }
+        }
+
+        /// <summary>
+        /// Testa a consulta por id
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Inclusao, true, 1)]
         public async void ConsultarPedidoPorId(Guid idDispositivo, ICollection<PedidoItem> items)
         {
             ///Arrange            
