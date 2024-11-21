@@ -332,7 +332,7 @@ namespace TestProject.IntegrationTest.External
             var _pedidoGateway = new BaseGateway<Pedido>(_sqlserverTest.GetDbContext());
             foreach (var pedido in pedidos)
                 pedido.StatusPagamento = enmPedidoStatusPagamento.APROVADO.ToString();
-            
+
             await _pedidoGateway.InsertRangeAsync(pedidos);
             await _pedidoGateway.CommitAsync();
 

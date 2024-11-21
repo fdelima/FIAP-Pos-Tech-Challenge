@@ -1,6 +1,5 @@
 ﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Messages;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.ValuesObject;
 using FluentValidation;

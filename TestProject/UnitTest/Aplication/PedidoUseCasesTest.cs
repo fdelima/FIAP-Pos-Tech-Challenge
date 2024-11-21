@@ -1,22 +1,11 @@
-﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.Controllers;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedido.Commands;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedido.Commands;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedido.Handlers;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Extensions;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Validator;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.ValuesObject;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
-using FluentValidation;
-using MediatR;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using Microsoft.Extensions.Configuration;
 using NSubstitute;
-using NSubstitute.Extensions;
 using System.Linq.Expressions;
 using TestProject.MockData;
 

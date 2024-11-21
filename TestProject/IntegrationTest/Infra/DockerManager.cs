@@ -50,6 +50,6 @@ namespace TestProject.IntegrationTest.Infra
             {
                 return false;
             }
-        }      
+        }
     }
 }

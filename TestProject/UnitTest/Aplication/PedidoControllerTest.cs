@@ -6,16 +6,13 @@ using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Extensions;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Validator;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.ValuesObject;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using NSubstitute;
 using System.Linq.Expressions;
 using TestProject.MockData;
-using Microsoft.Extensions.Configuration;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.ValuesObject;
 
 namespace TestProject.UnitTest.Aplication
 {

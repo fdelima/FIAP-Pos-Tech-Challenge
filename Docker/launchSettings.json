@@ -9,7 +9,7 @@
       "serviceActions": {
         "fiap.pos.tech.challenge.micro.servico.pedido.api": "StartDebugging",
         "mssqltools": "StartWithoutDebugging",
-        "sqlserver": "StartWithoutDebugging"
+        "sqlserver-pedido": "StartWithoutDebugging"
       }
     }
   }

@@ -127,7 +127,7 @@ namespace TestProject.UnitTest.Domain
             };
 
             var domainService = new PedidoService(_gatewayPedidoMock, _validator, _notificacaoGatewayMock);
-            
+
             //Mockando retorno do metodo interno do UpdateAsync
             _gatewayPedidoMock.FirstOrDefaultWithIncludeAsync(Arg.Any<Expression<Func<Pedido, ICollection<PedidoItem>>>>(), Arg.Any<Expression<Func<Pedido, bool>>>())
                 .Returns(new ValueTask<Pedido>(pedido));
