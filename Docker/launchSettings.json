@@ -8,7 +8,7 @@
       "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/api-docs",
       "serviceActions": {
         "fiap.pos.tech.challenge.micro.servico.pedido.api": "StartDebugging",
-        "mssqltools": "StartWithoutDebugging",
+        "mssqltools-pedido": "StartWithoutDebugging",
         "sqlserver-pedido": "StartWithoutDebugging"
       }
     }

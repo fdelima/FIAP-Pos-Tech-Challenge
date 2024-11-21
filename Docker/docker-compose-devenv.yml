@@ -6,7 +6,7 @@ services:
   fiap.pos.tech.challenge.micro.servico.pedido.api:
     image: ${DOCKER_REGISTRY-}fiappostechchallengemicroservicopedidoapi
     depends_on:
-      - mssqltools
+      - mssqltools-pedido
     build:
       context: ../
       dockerfile: Src/Api/Dockerfile
@@ -24,7 +24,7 @@ services:
       retries: 20
     volumes:
       - sql_data:/var/opt/mssql
-  mssqltools:
+  mssqltools-pedido:
     image: mcr.microsoft.com/mssql-tools
     depends_on:
       - sqlserver-pedido
