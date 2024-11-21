@@ -1,5 +1,4 @@
-﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedido.Commands;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Extensions;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
@@ -337,7 +336,6 @@ namespace TestProject.IntegrationTest.External
             await _pedidoGateway.CommitAsync();
 
             var param = new PagingQueryParam<Pedido>() { CurrentPage = 1, Take = 10, ObjFilter = pedidos.ElementAt(0) };
-            var command = new PedidoGetItemsCommand(filter, param.ConsultRule(), sortProp);
 
             //Act
             var result = await _pedidoGateway.GetItemsAsync(filter, param.ConsultRule(), sortProp);
