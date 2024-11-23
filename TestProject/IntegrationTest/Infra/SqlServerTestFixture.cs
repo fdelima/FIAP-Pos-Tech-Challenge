@@ -17,7 +17,7 @@ namespace TestProject.IntegrationTest.Infra
 
         //mssql-tools
         private const string ImageNameMssqlTools = "fdelima/fiap-pos-techchallenge-micro-servico-pedido-gurpo-71-scripts-database:fase4-test";
-        private const string DatabaseContainerNameMssqlTools = "mssql-tools-pedido";
+        private const string DatabaseContainerNameMssqlTools = "mssql-tools-pedido-test";
 
         public SqlServerTestFixture()
         {
