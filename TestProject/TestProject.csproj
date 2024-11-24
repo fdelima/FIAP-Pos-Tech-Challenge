@@ -43,7 +43,7 @@
 	  <None Update="BDD\Sample\AddTwoNumbers.feature">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="BDD\Features\CheckoutPedido.feature">
+	  <None Update="BDD\Features\ControlarPedidos.feature">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
