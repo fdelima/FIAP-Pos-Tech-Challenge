@@ -1,3 +1,5 @@
+using System.Net.Http.Headers;
+
 namespace TestProject.IntegrationTest.Infra
 {
     public class ApiTestFixture : IDisposable
@@ -6,9 +8,10 @@ namespace TestProject.IntegrationTest.Infra
         const string network = "network-pedido-test";
 
         //api
-        private const string ImageName = "fiap-pos-tech-challenge-micro-servico-pedido-gurpo-71-api:fase4";
+        private const string ImageName = "fdelima/fiap-pos-tech-challenge-micro-servico-pedido-gurpo-71-api:fase4";
         private const string DatabaseContainerName = "api-pedido-test";
         private const string DataBaseName = "tech-challenge-micro-servico-pedido-grupo-71";
+        private HttpClient _client;
 
         public ApiTestFixture()
         {
@@ -32,6 +35,17 @@ namespace TestProject.IntegrationTest.Infra
                     Thread.Sleep(3000);
                 }
             }
+        }
+
+        public HttpClient GetClient()
+        {
+            _client = new HttpClient();
+            _client.BaseAddress = new Uri($"http://localhost:{port}/");
+            _client.DefaultRequestHeaders.Accept.Clear();
+            _client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+            return _client;
         }
 
         public void Dispose()
