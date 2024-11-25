@@ -11,7 +11,10 @@ namespace TestProject.IntegrationTest.Infra
         public ComponentTestsBase()
         {
             // Do "global" initialization here; Called before every test method.
-            _sqlserverTest = new SqlServerTestFixture("sqlserver-db-pedido-component-test", "1428");
+            _sqlserverTest = new SqlServerTestFixture(
+                imageNameMssqlTools: "fdelima/fiap-pos-techchallenge-micro-servico-pedido-gurpo-71-scripts-database:fase4-component-test",
+                containerNameMssqlTools: "mssql-tools-pedido-component-test",
+                databaseContainerName: "sqlserver-db-pedido-component-test", port: "1428");
             _apiTest = new ApiTestFixture();
         }
 

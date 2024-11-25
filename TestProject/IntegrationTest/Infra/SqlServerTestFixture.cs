@@ -4,54 +4,51 @@ namespace TestProject.IntegrationTest.Infra
 {
     public class SqlServerTestFixture : IDisposable
     {
-        string Port = "1430";
         const string pwd = "SqlServer2019!";
         const string network = "network-pedido-test";
 
         //sqlserver
         private const string ImageName = "mcr.microsoft.com/mssql/server:2019-latest";
-        private string DatabaseContainerName = "sqlserver-db-pedido-test";
         private const string DataBaseName = "tech-challenge-micro-servico-pedido-grupo-71";
 
-        //mssql-tools
-        private const string ImageNameMssqlTools = "fdelima/fiap-pos-techchallenge-micro-servico-pedido-gurpo-71-scripts-database:fase4-test";
-        private const string DatabaseContainerNameMssqlTools = "mssql-tools-pedido-test";
+        string _port; string _databaseContainerName;
 
-        public SqlServerTestFixture(string databaseContainerName = "sqlserver-db-pedido-test", string port = "1430")
+        public SqlServerTestFixture(string imageNameMssqlTools, 
+                                    string containerNameMssqlTools, 
+                                    string databaseContainerName, string port)
         {
             if (DockerManager.UseDocker())
             {
-                if (!DockerManager.ContainerIsRunning(DatabaseContainerName))
+                if (!DockerManager.ContainerIsRunning(databaseContainerName))
                 {
-                    DatabaseContainerName = databaseContainerName;
-                    Port = port;
-
+                    _port = port;
+                    _databaseContainerName = databaseContainerName;
                     DockerManager.PullImageIfDoesNotExists(ImageName);
-                    DockerManager.KillContainer(DatabaseContainerName);
-                    DockerManager.KillVolume(DatabaseContainerName);
+                    DockerManager.KillContainer(databaseContainerName);
+                    DockerManager.KillVolume(databaseContainerName);
 
                     DockerManager.CreateNetWork(network);
 
-                    DockerManager.RunContainerIfIsNotRunning(DatabaseContainerName,
-                        $"run --name {DatabaseContainerName} " +
+                    DockerManager.RunContainerIfIsNotRunning(databaseContainerName,
+                        $"run --name {databaseContainerName} " +
                         $"-e ACCEPT_EULA=Y " +
                         $"-e MSSQL_SA_PASSWORD={pwd} " +
                         $"-e MSSQL_PID=Developer " +
-                        $"-p {Port}:1433 " +
+                        $"-p {port}:1433 " +
                         $"--network {network} " +
                         $"-d {ImageName}");
 
                     Thread.Sleep(1000);
 
-                    DockerManager.PullImageIfDoesNotExists(ImageNameMssqlTools);
-                    DockerManager.KillContainer(DatabaseContainerNameMssqlTools);
-                    DockerManager.KillVolume(DatabaseContainerNameMssqlTools);
-                    DockerManager.RunContainerIfIsNotRunning(DatabaseContainerNameMssqlTools,
-                        $"run --name {DatabaseContainerNameMssqlTools} " +
+                    DockerManager.PullImageIfDoesNotExists(imageNameMssqlTools);
+                    DockerManager.KillContainer(containerNameMssqlTools);
+                    DockerManager.KillVolume(containerNameMssqlTools);
+                    DockerManager.RunContainerIfIsNotRunning(containerNameMssqlTools,
+                        $"run --name {containerNameMssqlTools} " +
                         $"--network {network} " +
-                        $"-d {ImageNameMssqlTools}");
+                        $"-d {imageNameMssqlTools}");
 
-                    while (DockerManager.ContainerIsRunning(DatabaseContainerNameMssqlTools))
+                    while (DockerManager.ContainerIsRunning(containerNameMssqlTools))
                     {
                         Thread.Sleep(1000);
                     }
@@ -61,7 +58,7 @@ namespace TestProject.IntegrationTest.Infra
 
         public FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Infra.Context GetDbContext()
         {
-            string ConnectionString = $"Server=localhost,{Port}; Database={DataBaseName}; User ID=sa; Password={pwd}; MultipleActiveResultSets=true; TrustServerCertificate=True";
+            string ConnectionString = $"Server=localhost,{_port}; Database={DataBaseName}; User ID=sa; Password={pwd}; MultipleActiveResultSets=true; TrustServerCertificate=True";
 
             var options = new DbContextOptionsBuilder<FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Infra.Context>()
                                 .UseSqlServer(ConnectionString).Options;
@@ -73,8 +70,8 @@ namespace TestProject.IntegrationTest.Infra
         {
             if (DockerManager.UseDocker())
             {
-                DockerManager.KillContainer(DatabaseContainerName);
-                DockerManager.KillVolume(DatabaseContainerName);
+                DockerManager.KillContainer(_databaseContainerName);
+                DockerManager.KillVolume(_databaseContainerName);
             }
             GC.SuppressFinalize(this);
         }

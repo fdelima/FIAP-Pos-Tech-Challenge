@@ -10,7 +10,10 @@ namespace TestProject.IntegrationTest.Infra
         public IntegrationTestsBase()
         {
             // Do "global" initialization here; Called before every test method.
-            _sqlserverTest = new SqlServerTestFixture();
+            _sqlserverTest = new SqlServerTestFixture(
+                imageNameMssqlTools: "fdelima/fiap-pos-techchallenge-micro-servico-pedido-gurpo-71-scripts-database:fase4-test",
+                containerNameMssqlTools: "mssql-tools-pedido-test",
+                databaseContainerName: "sqlserver-db-pedido-test", port: "1430");
         }
 
         public void Dispose()
