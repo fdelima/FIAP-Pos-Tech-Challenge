@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace TestProject.IntegrationTest.Infra
+namespace TestProject.Infra
 {
     public class SqlServerTestFixture : IDisposable
     {
@@ -13,8 +13,8 @@ namespace TestProject.IntegrationTest.Infra
 
         string _port; string _databaseContainerName;
 
-        public SqlServerTestFixture(string imageNameMssqlTools, 
-                                    string containerNameMssqlTools, 
+        public SqlServerTestFixture(string imageNameMssqlTools,
+                                    string containerNameMssqlTools,
                                     string databaseContainerName, string port)
         {
             if (DockerManager.UseDocker())

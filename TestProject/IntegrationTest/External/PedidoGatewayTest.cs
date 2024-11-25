@@ -5,7 +5,7 @@ using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.ValuesObject;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Infra.Gateways;
 using System.Linq.Expressions;
-using TestProject.IntegrationTest.Infra;
+using TestProject.Infra;
 using TestProject.MockData;
 
 namespace TestProject.IntegrationTest.External

@@ -57,7 +57,7 @@ microsserviços.
 2. Ao refatorar, os microsserviços devem conter testes unitários. 
 
     a. Ao menos um dos caminhos de teste deve implementar BDD.  
-    
+    ![image](Documentacao/BDD-Test-Component.png)
     b. Em todos os projetos, a cobertura de teste deve ser de 80%. 
 
 3. Seus repositórios devem ser separados para cada aplicação e devem 

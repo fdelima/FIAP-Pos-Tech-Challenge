@@ -1,6 +1,6 @@
 using System.Net.Http.Headers;
 
-namespace TestProject.IntegrationTest.Infra
+namespace TestProject.Infra
 {
     public class ApiTestFixture : IDisposable
     {
