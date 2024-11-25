@@ -2,16 +2,16 @@
 
 namespace TestProject.IntegrationTest.Infra
 {
-    public class TestsBase : IDisposable
+    public class ComponentTestsBase : IDisposable
     {
         protected readonly DbContextOptions<FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Infra.Context> _options;
         internal readonly SqlServerTestFixture _sqlserverTest;
         internal readonly ApiTestFixture _apiTest;
 
-        public TestsBase()
+        public ComponentTestsBase()
         {
             // Do "global" initialization here; Called before every test method.
-            _sqlserverTest = new SqlServerTestFixture();
+            _sqlserverTest = new SqlServerTestFixture("sqlserver-db-pedido-component-test", "1428");
             _apiTest = new ApiTestFixture();
         }
 

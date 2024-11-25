@@ -13,14 +13,14 @@ namespace TestProject.IntegrationTest.External
     /// <summary>
     /// Classe de teste.
     /// </summary>
-    public partial class PedidoGatewayTest : IClassFixture<TestsBase>
+    public partial class PedidoGatewayTest : IClassFixture<IntegrationTestsBase>
     {
         internal readonly SqlServerTestFixture _sqlserverTest;
 
         /// <summary>
         /// Construtor da classe de teste.
         /// </summary>
-        public PedidoGatewayTest(TestsBase data)
+        public PedidoGatewayTest(IntegrationTestsBase data)
         {
             _sqlserverTest = data._sqlserverTest;
         }
