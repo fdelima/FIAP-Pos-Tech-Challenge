@@ -9,10 +9,12 @@ using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.IoC
 {
+    [ExcludeFromCodeCoverage(Justification = "Arquivo de configuração")]
     internal static class CommandsRegistry
     {
         public static void RegisterCommands(this IServiceCollection services)

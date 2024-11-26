@@ -1,9 +1,11 @@
 ﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.IoC
 {
+    [ExcludeFromCodeCoverage(Justification = "Arquivo de configuração")]
     internal static class DomainServicesRegistry
     {
         public static void RegisterDomainServices(this IServiceCollection services)
