@@ -254,7 +254,6 @@ namespace TestProject.UnitTest.Domain
         {
             ///Arrange
             var param = new PagingQueryParam<Pedido>() { CurrentPage = 1, Take = 10 };
-            var command = new PedidoGetItemsCommand(filter, param.ConsultRule(), sortProp);
 
             //Mockando retorno do metodo interno do GetItemsAsync
             _gatewayPedidoMock.GetItemsAsync(Arg.Any<PagingQueryParam<Pedido>>(),
@@ -277,7 +276,6 @@ namespace TestProject.UnitTest.Domain
         public async Task ConsultarPedidoSemCondicao(IPagingQueryParam filter, Expression<Func<Pedido, object>> sortProp, IEnumerable<Pedido> Pedidos)
         {
             ///Arrange
-            var command = new PedidoGetItemsCommand(filter, sortProp);
 
             //Mockando retorno do metodo interno do GetItemsAsync
             _gatewayPedidoMock.GetItemsAsync(filter, sortProp)

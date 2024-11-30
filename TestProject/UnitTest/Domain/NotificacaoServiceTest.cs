@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Notificacao.Commands;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Extensions;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
@@ -9,6 +7,7 @@ using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Services;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Validator;
 using FluentValidation;
 using NSubstitute;
+using System.Linq.Expressions;
 using TestProject.MockData;
 
 namespace TestProject.UnitTest.Domain
@@ -20,7 +19,7 @@ namespace TestProject.UnitTest.Domain
     {
         private readonly IValidator<Notificacao> _validator;
         private readonly IGateways<Notificacao> _notificacaoGatewayMock;
-        
+
         /// <summary>
         /// Construtor da classe de teste.
         /// </summary>
@@ -29,7 +28,7 @@ namespace TestProject.UnitTest.Domain
             _validator = new NotificacaoValidator();
             _notificacaoGatewayMock = Substitute.For<IGateways<Notificacao>>();
         }
-        
+
         /// <summary>
         /// Testa a inserção com dados válidos
         /// </summary>
@@ -47,7 +46,7 @@ namespace TestProject.UnitTest.Domain
             //Assert
             Assert.True(result.IsValid);
         }
-        
+
         /// <summary>
         /// Testa a inserção com dados inválidos
         /// </summary>
@@ -65,7 +64,7 @@ namespace TestProject.UnitTest.Domain
             //Assert
             Assert.False(result.IsValid);
         }
-        
+
         /// <summary>
         /// Testa a alteração com dados válidos
         /// </summary>
@@ -76,17 +75,17 @@ namespace TestProject.UnitTest.Domain
             //Arrange
             notificacao.IdNotificacao = idNotificacao;
             notificacao.IdDispositivo = idDispositivo;
-            
+
             var domainService = new NotificacaoService(_notificacaoGatewayMock, _validator);
-            
+
             //Mockando retorno do método interno do UpdateAsync
             _notificacaoGatewayMock.FirstOrDefaultWithIncludeAsync(Arg.Any<Expression<Func<Notificacao, ICollection<object>>>>(), Arg.Any<Expression<Func<Notificacao, bool>>>()).
                 Returns(new ValueTask<Notificacao>(notificacao));
-            
+
             //Mockando retorno do método interno do UpdateAsync
             _notificacaoGatewayMock.UpdateAsync(Arg.Any<Notificacao>())
                 .Returns(Task.FromResult(notificacao));
-            
+
             //Act
             var result = await domainService.UpdateAsync(notificacao);
 
@@ -104,20 +103,20 @@ namespace TestProject.UnitTest.Domain
             //Arrange
             notificacao.IdNotificacao = idPedido;
             notificacao.IdDispositivo = idDispositivo;
-            
+
             var domainService = new NotificacaoService(_notificacaoGatewayMock, _validator);
-            
+
             //Mockando retorno do método interno do UpdateAsync
             _notificacaoGatewayMock.FirstOrDefaultWithIncludeAsync(Arg.Any<Expression<Func<Notificacao, ICollection<object>>>>(), Arg.Any<Expression<Func<Notificacao, bool>>>()).
                 Returns(new ValueTask<Notificacao>(notificacao));
-            
+
             //Act
             var result = await domainService.UpdateAsync(notificacao);
-            
+
             //Assert
             Assert.False(result.IsValid);
         }
-        
+
         /// <summary>
         /// Testa consulta por id 
         /// </summary>
@@ -128,23 +127,23 @@ namespace TestProject.UnitTest.Domain
             //Arrange
             notificacao.IdNotificacao = idNotificacao;
             notificacao.IdDispositivo = idDispositivo;
-            
+
             var domainService = new NotificacaoService(_notificacaoGatewayMock, _validator);
-            
+
             //Mockando retorno do método interno do FindByAsync
             _notificacaoGatewayMock.FindByIdAsync(idNotificacao)
                 .Returns(new ValueTask<Notificacao>(notificacao));
-            
+
             _notificacaoGatewayMock.DeleteAsync(idNotificacao)
                 .Returns(Task.FromResult(ModelResultFactory.SucessResult()));
-            
+
             //Act
             var result = await domainService.DeleteAsync(idNotificacao);
 
             //Assert
             Assert.True(result.IsValid);
         }
-        
+
         /// <summary>
         /// Testa a consulta por id
         /// </summary>
@@ -155,7 +154,7 @@ namespace TestProject.UnitTest.Domain
             // Arrange
             notificacao.IdNotificacao = idNotificacao;
             notificacao.IdDispositivo = idDispositivo;
-    
+
             var domainService = new NotificacaoService(_notificacaoGatewayMock, _validator);
 
             // Mockando retorno do método interno do FindByIdAsync
@@ -169,7 +168,7 @@ namespace TestProject.UnitTest.Domain
             Assert.NotNull(result);
             Assert.True(result.IsValid);
         }
-        
+
         /// <summary>
         /// Testa a consulta por id
         /// </summary>
@@ -189,7 +188,7 @@ namespace TestProject.UnitTest.Domain
             //Assert
             Assert.False(result.IsValid);
         }
-        
+
         /// <summary>
         /// Testa a consulta Valida
         /// </summary>
@@ -211,7 +210,7 @@ namespace TestProject.UnitTest.Domain
             //Assert
             Assert.True(result.Content.Any());
         }
-        
+
         /// <summary>
         /// Testa a consulta com condição de pesquisa
         /// </summary>
@@ -221,7 +220,6 @@ namespace TestProject.UnitTest.Domain
         {
             ///Arrange
             var param = new PagingQueryParam<Notificacao>() { CurrentPage = 1, Take = 10 };
-            var command = new NotificacaoGetItemsCommand(filter, param.ConsultRule(), sortProp);
 
             //Mockando retorno do metodo interno do GetItemsAsync
             _notificacaoGatewayMock.GetItemsAsync(Arg.Any<PagingQueryParam<Notificacao>>(),
@@ -235,7 +233,7 @@ namespace TestProject.UnitTest.Domain
             //Assert
             Assert.True(result.Content.Any());
         }
-        
+
         /// <summary>
         /// Testa a consulta sem condição de pesquisa
         /// </summary>
@@ -244,8 +242,7 @@ namespace TestProject.UnitTest.Domain
         public async Task ConsultarNotificacaoSemCondicao(IPagingQueryParam filter, Expression<Func<Notificacao, object>> sortProp, IEnumerable<Notificacao> notificacoes)
         {
             ///Arrange
-            var command = new NotificacaoGetItemsCommand(filter, sortProp);
-
+            
             //Mockando retorno do metodo interno do GetItemsAsync
             _notificacaoGatewayMock.GetItemsAsync(filter, sortProp)
                 .Returns(new ValueTask<PagingQueryResult<Notificacao>>(new PagingQueryResult<Notificacao>(new List<Notificacao>(notificacoes))));
@@ -256,9 +253,9 @@ namespace TestProject.UnitTest.Domain
             //Assert
             Assert.True(result.Content.Any());
         }
-        
+
         #region [ Xunit MemberData ]
-        
+
         /// <summary>
         /// Mock de dados
         /// </summary>

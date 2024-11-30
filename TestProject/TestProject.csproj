@@ -15,6 +15,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="CodeCoverage\History\2024-11-26_19-29-54_CoverageHistory.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="coverlet.collector" Version="6.0.2">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -46,6 +50,11 @@
 	  <None Update="BDD\Features\ControlarPedidos.feature">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="CodeCoverage\History\" />
+	  <Folder Include="CodeCoverage\Report\" />
 	</ItemGroup>
 
 </Project>

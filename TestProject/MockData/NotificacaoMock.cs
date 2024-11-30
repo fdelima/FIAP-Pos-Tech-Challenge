@@ -25,7 +25,7 @@ namespace TestProject.MockData
                     }
                 };
         }
-        
+
         /// <summary>
         /// Mock de dados inválidos
         /// </summary>
@@ -71,7 +71,7 @@ namespace TestProject.MockData
                 };
             }
         }
-        
+
         /// <summary>
         /// Mock de dados inválidos
         /// </summary>
@@ -98,5 +98,5 @@ namespace TestProject.MockData
                 };
             }
         }
-    }    
+    }
 }
