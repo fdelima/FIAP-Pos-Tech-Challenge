@@ -18,11 +18,7 @@ namespace TestProject.MockData
                 yield return new object[]
                 {
                     Guid.NewGuid(),
-                    new Notificacao
-                    {
-                        IdNotificacao = Guid.NewGuid(),
-                        Mensagem = "Mensagem de teste",
-                    }
+                    "Mensagem de teste"
                 };
         }
 
@@ -35,11 +31,7 @@ namespace TestProject.MockData
                 yield return new object[]
                 {
                     Guid.Empty,
-                    new Notificacao
-                    {
-                        IdNotificacao = Guid.Empty,
-                        Mensagem = null
-                    }
+                    null
                 };
         }
 
@@ -84,6 +76,7 @@ namespace TestProject.MockData
                 {
                     notificacoes.Add(new Notificacao
                     {
+                        IdNotificacao = Guid.NewGuid(),
                         Data = DateTime.Now,
                         Mensagem = "Mensagem de teste",
                         IdDispositivo = Guid.Empty
