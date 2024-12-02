@@ -36,19 +36,33 @@ exemplos de serviços:
     a. Pedido: responsável por operacionalizar o processo de pedidos, 
 registrando os pedidos, retornando as informações necessárias 
 para montar um pedido, listando os pedidos registrados e em 
-processo de produção (visão de cliente).  
+processo de produção (visão de cliente).
+
+    => [Mico serviço de pedido](https://github.com/fdelima/FIAP-Pos-Tech-Challenge) :: Microsoft SqlServer 2019 (SQL)
 
     b. Pagamento: responsável por operacionalizar a cobrança de um 
 pedido, registrando a solicitação de pagamento, recebendo o 
 retorno do processador de pagamento e atualizando o status do 
 pedido. 
 
+    => [Mico serviço de pagamento](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Pagamento) :: Microsoft SqlServer 2019 (SQL)
+
     c. Produção: responsável por operacionalizar o processo de 
 produção do pedido, acompanhando a fila de pedidos (visão da 
 cozinha), atualização de status de cada passo do pedido. 
+
+    => [Mico serviço de produção](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Producao) :: Microsoft SqlServer 2019 (SQL)
+
+    Cadastro: Contruimos o micro serviço de cadastro para gerenciar os cadastros da aplicação com cliente, produto, imagens dos produto e dispositivos.
+
+    => [Mico serviço de produção](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Cadastro) :: MongoBb (NoSql)
+
 Lembre-se de trabalhar com bancos de dados para cada aplicação. Use ao 
 menos um banco de dados NoSQL e um SQL (obrigatório); caso queira fazer 
 com mais bancos, você pode decidir quais utilizar.  
+
+    => Utilizamos NoSql em nosso micro serviço de pagamento.
+
 Os serviços devem se comunicar entre si, seja por chamada direta, 
 mensagens em fila ou estratégias semelhantes. Um serviço não pode acessar o 
 banco de dados de outro serviço, porque viola as regras de implementação de 
@@ -65,10 +79,42 @@ respeitar as seguintes regras:
 
     a. As branchs main/master devem ser protegidas, não permitindo commits 
 diretamente. 
+    
+    Micro serviço de Pedido
+    ![image](Documentacao/FIAP-Pos-Tech-Challenge-Branch-protection-rule.png)
+
+    Micro serviço de Cadastro
+    ![image](Documentacao/FIAP-Pos-Tech-Challenge-Infra-Bd-Branch-protection-rule-cadastro.png)
+
+    Micro serviço de Produção
+    ![image](Documentacao/FIAP-Pos-Tech-Challenge-Infra-Bd-Branch-protection-rule-producao.png)
+
+    Micro serviço de Pagamento
+    ![image](Documentacao/FIAP-Pos-Tech-Challenge-Infra-Bd-Branch-protection-rule-pagamento.png)
 
     b. Pull Request para branch main/master, que deve validar o build da 
 aplicação, e a qualidade de código via sonarqube ou qualquer outro 
 serviço semelhante, cobrindo 70% de coverage no mínimo. 
+    
+    Utilizamos o própio dotnet test e pagamos os valore de code coverage direto do Xunit framework utilizado para desenvolvimento dos testes.
+    
+    Micro serviço de Pedido :: [Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/develop/TestProject/CodeCoverage/Report/index.htm)
+    
+    Colocar aqui imagem
+
+    Micro serviço de Cadastro :: [Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/develop/TestProject/CodeCoverage/Report/index.htm)
+
+    Colocar aqui imagem
+
+    # Micro serviço de Produção
+
+    ![imagem](Documentacao/micro-servico-producao-code-coverage.png)
+    [Veja aqui detalhes do Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/develop/TestProject/CodeCoverage/Report/index.htm)
+
+    # Micro serviço de Pagamento
+
+    ![imagem](Documentacao/micro-servico-producao-code-coverage.png)
+    [Veja aqui detalhes do Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/develop/TestProject/CodeCoverage/Report/index.htm)
 
     c. No Merge, o deploy de todos seus microsserviços devem ser executados, 
 isso significa que todos os repositórios devem estar com CI/CD criados, e 
