@@ -38,24 +38,24 @@ registrando os pedidos, retornando as informações necessárias
 para montar um pedido, listando os pedidos registrados e em 
 processo de produção (visão de cliente).
 
-    => [Mico serviço de pedido](https://github.com/fdelima/FIAP-Pos-Tech-Challenge) :: Microsoft SqlServer 2019 (SQL)
+    => [Repositório mico serviço de pedido](https://github.com/fdelima/FIAP-Pos-Tech-Challenge) :: Microsoft SqlServer 2019 (SQL)
 
     b. Pagamento: responsável por operacionalizar a cobrança de um 
 pedido, registrando a solicitação de pagamento, recebendo o 
 retorno do processador de pagamento e atualizando o status do 
 pedido. 
 
-    => [Mico serviço de pagamento](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Pagamento) :: Microsoft SqlServer 2019 (SQL)
+    => [Repositório micro serviço de pagamento](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Pagamento) :: Microsoft SqlServer 2019 (SQL)
 
     c. Produção: responsável por operacionalizar o processo de 
 produção do pedido, acompanhando a fila de pedidos (visão da 
 cozinha), atualização de status de cada passo do pedido. 
 
-    => [Mico serviço de produção](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Producao) :: Microsoft SqlServer 2019 (SQL)
+    => [Repositório micro serviço de produção](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Producao) :: Microsoft SqlServer 2019 (SQL)
 
     Cadastro: Contruimos o micro serviço de cadastro para gerenciar os cadastros da aplicação com cliente, produto, imagens dos produto e dispositivos.
 
-    => [Mico serviço de produção](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Cadastro) :: MongoBb (NoSql)
+    => [Repositório micro serviço de produção](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Cadastro) :: MongoBb (NoSql)
 
 Lembre-se de trabalhar com bancos de dados para cada aplicação. Use ao 
 menos um banco de dados NoSQL e um SQL (obrigatório); caso queira fazer 
@@ -71,8 +71,42 @@ microsserviços.
 2. Ao refatorar, os microsserviços devem conter testes unitários. 
 
     a. Ao menos um dos caminhos de teste deve implementar BDD.  
+    
+    Implementamos BDD nos testes de componente.
+
+    ## Micro serviço de Pedido
     ![image](Documentacao/BDD-Test-Component.png)
+    
+    ## Micro serviço de Cadastro
+    ![image](Documentacao/BDD-Test-Component-cadastro.png)
+
+    ## Micro serviço de Produção
+    ![image](Documentacao/BDD-Test-Component-producao.png)
+    ![image](Documentacao/BDD-Test-Component-producao-2.png)
+
+    ## Micro serviço de Pagamento
+    ![image](Documentacao/BDD-Test-Component-pagamento.png)
+
     b. Em todos os projetos, a cobertura de teste deve ser de 80%. 
+    ## Micro serviço de Pedido
+    ![image](Documentacao/Tests-Implementados-pedido.png)
+    ![imagem](Documentacao/micro-servico-pedido-code-coverage.png)
+    [Veja aqui detalhes do Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/develop/TestProject/CodeCoverage/Report/index.html)
+
+    ## Micro serviço de Cadastro
+    ![image](Documentacao/Tests-Implementados-cadastro.png)
+    ![imagem](Documentacao/micro-servico-cadastro-code-coverage.png)
+    [Veja aqui detalhes do Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Cadastro/blob/develop/TestProject/CodeCoverage/Report/index.html)
+
+    ## Micro serviço de Produção
+    ![image](Documentacao/Tests-Implementados-producao.png)
+    ![imagem](Documentacao/micro-servico-producao-code-coverage.png)
+    [Veja aqui detalhes do Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Producao/blob/develop/TestProject/CodeCoverage/Report/index.html)
+
+    ## Micro serviço de Pagamento
+    ![image](Documentacao/Tests-Implementados-pagamento.png)
+    ![imagem](Documentacao/micro-servico-pagamento-code-coverage.png)
+    [Veja aqui detalhes do Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Pagamento/blob/develop/TestProject/CodeCoverage/Report/index.html)
 
 3. Seus repositórios devem ser separados para cada aplicação e devem 
 respeitar as seguintes regras: 
@@ -80,16 +114,16 @@ respeitar as seguintes regras:
     a. As branchs main/master devem ser protegidas, não permitindo commits 
 diretamente. 
     
-    Micro serviço de Pedido
+    ## Micro serviço de Pedido
     ![image](Documentacao/FIAP-Pos-Tech-Challenge-Branch-protection-rule.png)
 
-    Micro serviço de Cadastro
+    ## Micro serviço de Cadastro
     ![image](Documentacao/FIAP-Pos-Tech-Challenge-Infra-Bd-Branch-protection-rule-cadastro.png)
 
-    Micro serviço de Produção
+    ## Micro serviço de Produção
     ![image](Documentacao/FIAP-Pos-Tech-Challenge-Infra-Bd-Branch-protection-rule-producao.png)
 
-    Micro serviço de Pagamento
+    ## Micro serviço de Pagamento
     ![image](Documentacao/FIAP-Pos-Tech-Challenge-Infra-Bd-Branch-protection-rule-pagamento.png)
 
     b. Pull Request para branch main/master, que deve validar o build da 
@@ -98,23 +132,21 @@ serviço semelhante, cobrindo 70% de coverage no mínimo.
     
     Utilizamos o própio dotnet test e pagamos os valore de code coverage direto do Xunit framework utilizado para desenvolvimento dos testes.
     
-    Micro serviço de Pedido :: [Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/develop/TestProject/CodeCoverage/Report/index.htm)
-    
-    Colocar aqui imagem
+    ## Micro serviço de Pedido
+    ![imagem](Documentacao/micro-servico-pedido-code-coverage.png)
+    [Veja aqui detalhes do Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/develop/TestProject/CodeCoverage/Report/index.html)
 
-    Micro serviço de Cadastro :: [Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/develop/TestProject/CodeCoverage/Report/index.htm)
+    ## Micro serviço de Cadastro
+    ![imagem](Documentacao/micro-servico-cadasro-code-coverage.png)
+    [Veja aqui detalhes do Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Cadastro/blob/develop/TestProject/CodeCoverage/Report/index.html)
 
-    Colocar aqui imagem
-
-    # Micro serviço de Produção
-
+    ## Micro serviço de Produção
     ![imagem](Documentacao/micro-servico-producao-code-coverage.png)
-    [Veja aqui detalhes do Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/develop/TestProject/CodeCoverage/Report/index.htm)
+    [Veja aqui detalhes do Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Producao/blob/develop/TestProject/CodeCoverage/Report/index.html)
 
-    # Micro serviço de Pagamento
-
-    ![imagem](Documentacao/micro-servico-producao-code-coverage.png)
-    [Veja aqui detalhes do Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/develop/TestProject/CodeCoverage/Report/index.htm)
+    ## Micro serviço de Pagamento
+    ![imagem](Documentacao/micro-servico-pagamento-code-coverage.png)
+    [Veja aqui detalhes do Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Pagamento/blob/develop/TestProject/CodeCoverage/Report/index.html)
 
     c. No Merge, o deploy de todos seus microsserviços devem ser executados, 
 isso significa que todos os repositórios devem estar com CI/CD criados, e 

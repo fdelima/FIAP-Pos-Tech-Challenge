@@ -240,6 +240,28 @@ namespace TestProject.UnitTest.Aplication
             Assert.True(result.Content.Any());
         }
 
+        /// <summary>
+        /// Testa a lista de pedidos
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Consulta, true, 3)]
+        public async Task ListarPedidos(IPagingQueryParam filter, Expression<Func<Pedido, object>> sortProp, IEnumerable<Pedido> pedidos)
+        {
+            ///Arrange
+            var command = new PedidoGetListaCommand(filter);
+
+            //Mockando retorno do serviço de domínio.
+            _service.GetListaAsync(filter)
+                .Returns(new ValueTask<PagingQueryResult<Pedido>>(new PagingQueryResult<Pedido>(new List<Pedido>(pedidos))));
+
+            //Act
+            var handler = new PedidoGetIListaHandler(_service);
+            var result = await handler.Handle(command, CancellationToken.None);
+
+            //Assert
+            Assert.True(result.Content.Any());
+        }
+
         #region [ Xunit MemberData ]
 
         /// <summary>

@@ -251,7 +251,7 @@ namespace TestProject.IntegrationTest.External
         /// </summary>
         [Theory]
         [MemberData(nameof(ObterDados), enmTipo.Consulta, true, 3)]
-        public async Task ConsultarNotificacao(IPagingQueryParam filter, Expression<Func<Notificacao, object>> sortProp, IEnumerable<Notificacao> Notificacaos)
+        public async Task ConsultarNotificacao(IPagingQueryParam filter, Expression<Func<Notificacao, object>> sortProp, IEnumerable<Notificacao> notificaoes)
         {
             ///Arrange
             var _notificacaoGateway = new BaseGateway<Notificacao>(_sqlserverTest.GetDbContext());
@@ -268,15 +268,15 @@ namespace TestProject.IntegrationTest.External
         /// </summary>
         [Theory]
         [MemberData(nameof(ObterDados), enmTipo.Consulta, true, 3)]
-        public async Task ConsultarNotificacaoComCondicao(IPagingQueryParam filter, Expression<Func<Notificacao, object>> sortProp, IEnumerable<Notificacao> notificacaos)
+        public async Task ConsultarNotificacaoComCondicao(IPagingQueryParam filter, Expression<Func<Notificacao, object>> sortProp, IEnumerable<Notificacao> notificaoes)
         {
             ///Arrange
             var _notificacaoGateway = new BaseGateway<Notificacao>(_sqlserverTest.GetDbContext());
 
-            await _notificacaoGateway.InsertRangeAsync(notificacaos);
+            await _notificacaoGateway.InsertRangeAsync(notificaoes);
             await _notificacaoGateway.CommitAsync();
 
-            var param = new PagingQueryParam<Notificacao>() { CurrentPage = 1, Take = 10, ObjFilter = notificacaos.ElementAt(0) };
+            var param = new PagingQueryParam<Notificacao>() { CurrentPage = 1, Take = 10, ObjFilter = notificaoes.ElementAt(0) };
 
             //Act
             var result = await _notificacaoGateway.GetItemsAsync(filter, param.ConsultRule(), sortProp);
@@ -290,12 +290,12 @@ namespace TestProject.IntegrationTest.External
         /// </summary>
         [Theory]
         [MemberData(nameof(ObterDados), enmTipo.Consulta, true, 3)]
-        public async Task ConsultarNotificacaoSemCondicao(IPagingQueryParam filter, Expression<Func<Notificacao, object>> sortProp, IEnumerable<Notificacao> notificacaos)
+        public async Task ConsultarnotificaoesemCondicao(IPagingQueryParam filter, Expression<Func<Notificacao, object>> sortProp, IEnumerable<Notificacao> notificaoes)
         {
             ///Arrange
             var _notificacaoGateway = new BaseGateway<Notificacao>(_sqlserverTest.GetDbContext());
 
-            await _notificacaoGateway.InsertRangeAsync(notificacaos);
+            await _notificacaoGateway.InsertRangeAsync(notificaoes);
             await _notificacaoGateway.CommitAsync();
 
             //Act

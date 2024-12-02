@@ -366,6 +366,28 @@ namespace TestProject.IntegrationTest.External
             Assert.True(result.Content.Any());
         }
 
+        /// <summary>
+        /// Testa a base que lista todos os pedidos
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Consulta, true, 3)]
+        public async Task ListarPedidos(IPagingQueryParam filter, Expression<Func<Pedido, object>> sortProp, IEnumerable<Pedido> pedidos)
+        {
+            ///Arrange
+            var _pedidoGateway = new BaseGateway<Pedido>(_sqlserverTest.GetDbContext());
+            foreach (var pedido in pedidos)
+                pedido.StatusPagamento = enmPedidoStatusPagamento.APROVADO.ToString();
+
+            await _pedidoGateway.InsertRangeAsync(pedidos);
+            await _pedidoGateway.CommitAsync();
+
+            //Act
+            var result = await _pedidoGateway.GetItemsAsync();
+
+            //Assert
+            Assert.True(result.Content.Any());
+        }
+
         #region [ Xunit MemberData ]
 
         /// <summary>
