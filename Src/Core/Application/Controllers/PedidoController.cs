@@ -56,7 +56,9 @@ namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.Controllers
 
             if (ValidatorResult.IsValid)
             {
-                PedidoPostCommand command = new(entity);
+                PedidoPostCommand command = new(entity, 
+                    _configuration["micro-servico-cadastro-baseadress"] ?? "",
+                    _configuration["micro-servico-pagamento-baseadress"] ?? "");
                 return await _mediator.Send(command);
             }
 

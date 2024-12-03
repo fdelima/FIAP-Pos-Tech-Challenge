@@ -14,6 +14,7 @@ namespace TestProject.Infra
                 imageNameMssqlTools: "fdelima/fiap-pos-techchallenge-micro-servico-pedido-gurpo-71-scripts-database:fase4-test",
                 containerNameMssqlTools: "mssql-tools-pedido-test",
                 databaseContainerName: "sqlserver-db-pedido-test", port: "1430");
+            Thread.Sleep(10000);
         }
 
         public void Dispose()

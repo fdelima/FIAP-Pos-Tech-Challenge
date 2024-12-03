@@ -79,6 +79,8 @@ microsserviços.
     
     ## Micro serviço de Cadastro
     ![image](Documentacao/BDD-Test-Component-cadastro.png)
+    ![image](Documentacao/BDD-Test-Component-cadastro-2.png)
+    ![image](Documentacao/BDD-Test-Component-cadastro-3.png)
 
     ## Micro serviço de Produção
     ![image](Documentacao/BDD-Test-Component-producao.png)

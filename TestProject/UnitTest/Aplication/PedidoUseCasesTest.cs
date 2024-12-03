@@ -17,7 +17,8 @@ namespace TestProject.UnitTest.Aplication
     public partial class PedidoUseCasesTest
     {
         private readonly IPedidoService _service;
-
+        private const string microServicoCadastroBaseAdress = "http://localhost:5002/";
+        private const string microServicoPagamentoBaseAdress = "http://localhost:5004/";
         /// <summary>
         /// Construtor da classe de teste.
         /// </summary>
@@ -40,7 +41,7 @@ namespace TestProject.UnitTest.Aplication
                 PedidoItems = items
             };
 
-            var command = new PedidoPostCommand(pedido);
+            var command = new PedidoPostCommand(pedido, microServicoCadastroBaseAdress, microServicoPagamentoBaseAdress);
 
             //Mockando retorno do serviço de domínio.
             _service.InsertAsync(pedido)
@@ -68,7 +69,7 @@ namespace TestProject.UnitTest.Aplication
                 PedidoItems = items
             };
 
-            var command = new PedidoPostCommand(pedido);
+            var command = new PedidoPostCommand(pedido, microServicoCadastroBaseAdress, microServicoPagamentoBaseAdress);
 
             //Mockando retorno do serviço de domínio.
             _service.InsertAsync(pedido)

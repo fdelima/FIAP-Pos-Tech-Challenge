@@ -14,6 +14,7 @@
                 containerNameMssqlTools: "mssql-tools-pedido-component-test",
                 databaseContainerName: "sqlserver-db-pedido-component-test", port: "1428");
             _apiTest = new ApiTestFixture();
+            Thread.Sleep(10000);
         }
 
         public void Dispose()
