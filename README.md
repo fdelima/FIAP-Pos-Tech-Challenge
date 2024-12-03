@@ -45,7 +45,7 @@ pedido, registrando a solicitação de pagamento, recebendo o
 retorno do processador de pagamento e atualizando o status do 
 pedido. 
 
-    => [Repositório micro serviço de pagamento](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Pagamento) :: Microsoft SqlServer 2019 (SQL)
+    => [Repositório micro serviço de pagamento](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Pagamento) :: MongoBb (NoSql)
 
     c. Produção: responsável por operacionalizar o processo de 
 produção do pedido, acompanhando a fila de pedidos (visão da 
@@ -55,7 +55,7 @@ cozinha), atualização de status de cada passo do pedido.
 
     Cadastro: Contruimos o micro serviço de cadastro para gerenciar os cadastros da aplicação com cliente, produto, imagens dos produto e dispositivos.
 
-    => [Repositório micro serviço de produção](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Cadastro) :: MongoBb (NoSql)
+    => [Repositório micro serviço de cadastro](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Cadastro) :: Microsoft SqlServer 2019 (SQL)
 
 Lembre-se de trabalhar com bancos de dados para cada aplicação. Use ao 
 menos um banco de dados NoSQL e um SQL (obrigatório); caso queira fazer 
@@ -147,7 +147,7 @@ serviço semelhante, cobrindo 70% de coverage no mínimo.
     [Veja aqui detalhes do Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge/blob/develop/TestProject/CodeCoverage/Report/index.html)
 
     ## Micro serviço de Cadastro
-    ![imagem](Documentacao/micro-servico-cadasro-code-coverage.png)
+    ![imagem](Documentacao/micro-servico-cadastro-code-coverage.png)
     [Veja aqui detalhes do Xunit Code Coverage](https://html-preview.github.io/?url=https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Cadastro/blob/develop/TestProject/CodeCoverage/Report/index.html)
 
     ## Micro serviço de Produção
@@ -162,7 +162,7 @@ serviço semelhante, cobrindo 70% de coverage no mínimo.
 isso significa que todos os repositórios devem estar com CI/CD criados, e 
 executados corretamente. 
 
-    ### Pipeline micro serviço de Pedido
+    ### [Pipeline micro serviço de Pedido](https://github.com/fdelima/FIAP-Pos-Tech-Challenge/actions/runs/12139806212/job/33848217640)
 
     ### [Pipeline micro serviço de Cadastro](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Cadastro/actions/runs/12139377093/job/33846868413)
 
