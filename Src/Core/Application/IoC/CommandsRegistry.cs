@@ -19,6 +19,7 @@ namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.IoC
 
             //Pedido
             services.AddScoped<IRequestHandler<PedidoPostCommand, ModelResult>, PedidoPostHandler>();
+            services.AddScoped<IRequestHandler<PedidoAlterarStatusPagamentoCommand, ModelResult>, PedidoAlterarStatusPagamentoHandler>();
             services.AddScoped<IRequestHandler<PedidoPutCommand, ModelResult>, PedidoPutHandler>();
             services.AddScoped<IRequestHandler<PedidoDeleteCommand, ModelResult>, PedidoDeleteHandler>();
             services.AddScoped<IRequestHandler<PedidoFindByIdCommand, ModelResult>, PedidoFindByIdHandler>();

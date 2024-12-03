@@ -1,7 +1,15 @@
-﻿namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.ValuesObject;
+
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces
 {
     public interface IPedidoController : IController<Entities.Pedido>
     {
+        /// <summary>
+        /// Alterar o status de pagamento do pedido
+        /// </summary>
+        Task<ModelResult> AlterarStatusPagamento(Guid id, enmPedidoStatusPagamento statusPagamento);
+
         /// <summary>
         /// Retorna os Pedidos cadastrados
         /// A lista de pedidos deverá retorná-los com suas descrições, ordenados com a seguinte regra:

@@ -2,6 +2,7 @@
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.ValuesObject;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -142,6 +143,15 @@ namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.Controllers
         public async Task<PagingQueryResult<Domain.Entities.Pedido>> GetListaAsync(PagingQueryParam<Domain.Entities.Pedido> param)
         {
             PedidoGetListaCommand command = new(param);
+            return await _mediator.Send(command);
+        }
+
+        /// <summary>
+        /// Alterar o status de pagamento do pedido
+        /// </summary>
+        public async Task<ModelResult> AlterarStatusPagamento(Guid id, enmPedidoStatusPagamento statusPagamento)
+        {
+            PedidoAlterarStatusPagamentoCommand command = new(id, statusPagamento, _configuration["micro-servico-producao-baseadress"] ?? "");
             return await _mediator.Send(command);
         }
     }

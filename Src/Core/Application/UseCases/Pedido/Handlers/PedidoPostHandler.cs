@@ -28,19 +28,19 @@ namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedi
                     await cadastroClient.GetAsync($"api/cadastro/Cliente/{command.Entity.IdCliente}");
 
                 if (!response.IsSuccessStatusCode)
-                    warnings.Add("Falha ao validar cliente.");
+                    warnings.Add("Não foi possível validar cliente.");
 
                 response = await cadastroClient.GetAsync($"api/cadastro/Dispositivo/{command.Entity.IdDispositivo}");
 
                 if (!response.IsSuccessStatusCode)
-                    warnings.Add("Falha ao validar dispositivo.");
+                    warnings.Add("Não foi possível validar dispositivo.");
 
                 foreach (var produto in command.Entity.PedidoItems)
                 {
                     response = await cadastroClient.GetAsync($"api/cadastro/Produto/{produto.IdProduto}");
 
                     if (!response.IsSuccessStatusCode)
-                        warnings.Add($"Falha ao validar produto {produto.IdProduto}.");
+                        warnings.Add($"Não foi possível validar produto {produto.IdProduto}.");
                 }
             }
             catch (Exception)
@@ -60,7 +60,7 @@ namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedi
                      await pagamentoClient.PostAsJsonAsync("api/Pagamento/Pedido", result.Model);
 
                     if (!response.IsSuccessStatusCode)
-                        result.AddMessage("Falha ao enviar pedido para o pagamento.");
+                        result.AddMessage("Não foi possível enviar pedido para o pagamento.");
                 }
                 catch (Exception)
                 {

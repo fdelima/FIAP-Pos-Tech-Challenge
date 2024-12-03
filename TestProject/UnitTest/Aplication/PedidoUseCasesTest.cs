@@ -5,6 +5,7 @@ using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Extensions;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.ValuesObject;
 using NSubstitute;
 using System.Linq.Expressions;
 using TestProject.MockData;
@@ -17,8 +18,9 @@ namespace TestProject.UnitTest.Aplication
     public partial class PedidoUseCasesTest
     {
         private readonly IPedidoService _service;
-        private const string microServicoCadastroBaseAdress = "http://localhost:5002/";
-        private const string microServicoPagamentoBaseAdress = "http://localhost:5004/";
+        private const string microServicoCadastroBaseAdress = "http://localhost:8082/";
+        private const string microServicoPrducaoBaseAdress = "http://localhost:8084/";
+        private const string microServicoPagamentoBaseAdress = "http://localhost:8086/";
         /// <summary>
         /// Construtor da classe de teste.
         /// </summary>
@@ -140,6 +142,72 @@ namespace TestProject.UnitTest.Aplication
 
             //Assert
             Assert.False(result.IsValid);
+        }
+
+        /// <summary>
+        /// Testa a alteração do status do pagamento com dados válidos
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Alteracao, true, 3)]
+        public async Task AlterarStatusPagamentoComDadosValidos(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
+        {
+            ///Arrange
+            var pedido = new Pedido
+            {
+                IdPedido = idPedido,
+                IdDispositivo = idDispositivo,
+                PedidoItems = items
+            };
+
+            var command = new PedidoAlterarStatusPagamentoCommand(idPedido, enmPedidoStatusPagamento.APROVADO, microServicoPrducaoBaseAdress );
+
+            //Mockando retorno do serviço de domínio.
+            _service.FindByIdAsync(idPedido)
+                .Returns(Task.FromResult(ModelResultFactory.SucessResult(pedido)));
+
+            //Mockando retorno do serviço de domínio.
+            _service.UpdateAsync(pedido)
+                .Returns(Task.FromResult(ModelResultFactory.SucessResult(pedido)));
+
+            //Act
+            var handler = new PedidoAlterarStatusPagamentoHandler(_service);
+            var result = await handler.Handle(command, CancellationToken.None);
+
+            //Assert
+            Assert.True(result.IsValid);
+        }
+
+         /// <summary>
+        /// Testa a alteração do status do pagamento com dados válidos
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(ObterDados), enmTipo.Alteracao, false, 3)]
+        public async Task AlterarStatusPagamentoComDadosInValidos(Guid idPedido, Guid idDispositivo, ICollection<PedidoItem> items)
+        {
+            ///Arrange
+            var pedido = new Pedido
+            {
+                IdPedido = idPedido,
+                IdDispositivo = idDispositivo,
+                PedidoItems = items
+            };
+
+            var command = new PedidoAlterarStatusPagamentoCommand(idPedido, enmPedidoStatusPagamento.APROVADO, microServicoPrducaoBaseAdress );
+
+            //Mockando retorno do serviço de domínio.
+            _service.FindByIdAsync(idPedido)
+                .Returns(Task.FromResult(ModelResultFactory.SucessResult(pedido)));
+
+            //Mockando retorno do serviço de domínio.
+            _service.UpdateAsync(pedido)
+                .Returns(Task.FromResult(ModelResultFactory.SucessResult(pedido)));
+
+            //Act
+            var handler = new PedidoAlterarStatusPagamentoHandler(_service);
+            var result = await handler.Handle(command, CancellationToken.None);
+
+            //Assert
+            Assert.True(result.IsValid);
         }
 
         /// <summary>

@@ -3,6 +3,7 @@ using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Extensions;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.ValuesObject;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -110,6 +111,23 @@ namespace FIAP.Pos.Tech.Challenge.Api.Controllers
         public async Task<IActionResult> Put(Guid id, Pedido model)
         {
             return ExecuteCommand(await _controller.PutAsync(id, model));
+        }
+
+        /// <summary>
+        /// Altera o Stauts de pagamento do Pedido cadastrado.
+        /// </summary>
+        /// <param name="id">Identificador do Pedido cadastrado.</param>
+        /// <param name="statusPagamento">Objeto contendo as informações para modificação.</param>
+        /// <returns>Retorna o result do Pedido cadastrado.</returns>
+        /// <response code="200">Pedido alterada com sucesso.</response>
+        /// <response code="400">Erros de validação dos parâmetros para alteração do Pedido.</response>
+        [HttpPut("ReceberStatusPagamento")]
+        [ProducesResponseType(typeof(ModelResult), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ModelResult), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Put(Guid id, enmPedidoStatusPagamento statusPagamento)
+        {
+            return ExecuteCommand(await _controller.AlterarStatusPagamento(id, statusPagamento));
         }
 
         /// <summary>
