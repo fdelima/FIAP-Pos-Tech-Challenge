@@ -27,19 +27,19 @@ namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedi
                     await cadastroClient.GetAsync($"api/cadastro/Cliente/{command.Entity.IdCliente}");
 
                 if (!response.IsSuccessStatusCode)
-                    warnings.Add($"Não foi possível validar cliente. Detalhes: {await response.Content.ReadAsStringAsync()}");
+                    warnings.Add($"Cliente {command.Entity.IdCliente} não encontrado!");
 
                 response = await cadastroClient.GetAsync($"api/cadastro/Dispositivo/{command.Entity.IdDispositivo}");
 
                 if (!response.IsSuccessStatusCode)
-                    warnings.Add($"Não foi possível validar dispositivo. Detalhes: {await response.Content.ReadAsStringAsync()}");
+                    warnings.Add($"Dispositivo {command.Entity.IdDispositivo} não encontrado!");
 
                 foreach (var produto in command.Entity.PedidoItems)
                 {
                     response = await cadastroClient.GetAsync($"api/cadastro/Produto/{produto.IdProduto}");
 
                     if (!response.IsSuccessStatusCode)
-                        warnings.Add($"Não foi possível validar produto {produto.IdProduto}.");
+                        warnings.Add($"Produto {produto.IdProduto} não encontrado.");
                 }
             }
             catch (Exception ex)
@@ -56,10 +56,10 @@ namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedi
                     var pagamentoClient = Util.GetClient(command.MicroServicoPagamentoBaseAdress);
 
                     HttpResponseMessage response =
-                     await pagamentoClient.PostAsJsonAsync("api/Pedido/ReceberStatusPagamento", result.Model);
+                     await pagamentoClient.PostAsJsonAsync("api/Pagamento/Pedido", result.Model);
 
                     if (!response.IsSuccessStatusCode)
-                        result.AddMessage($"Não foi possível enviar pedido para o pagamento. Detalhes: {await response.Content.ReadAsStringAsync()}");
+                        result.AddMessage($"Não foi possível enviar pedido para o pagamento.");
                 }
                 catch (Exception ex)
                 {
