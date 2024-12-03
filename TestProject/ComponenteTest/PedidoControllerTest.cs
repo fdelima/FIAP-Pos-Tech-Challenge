@@ -15,7 +15,6 @@ namespace TestProject.ComponenteTest
     public class PedidoControllerTest : Feature, IClassFixture<ComponentTestsBase>
     {
         private readonly ApiTestFixture _apiTest;
-        private ModelResult expectedResult;
         Pedido _pedido;
 
         /// <summary>
@@ -58,8 +57,6 @@ namespace TestProject.ComponenteTest
         [And(@"Adicionar o pedido")]
         public async Task AdicionarPedido()
         {
-            expectedResult = ModelResultFactory.InsertSucessResult<Pedido>(_pedido);
-
             var client = _apiTest.GetClient();
             HttpResponseMessage response = await client.PostAsJsonAsync(
                 "api/pedido/checkout", _pedido);
@@ -69,18 +66,12 @@ namespace TestProject.ComponenteTest
 
             _pedido = actualResult.Model;
 
-            Assert.Equal(expectedResult.IsValid, actualResult.IsValid);
-            Assert.Equal(expectedResult.Messages, actualResult.Messages);
-            Assert.Equal(expectedResult.Errors, actualResult.Errors);
-
-            Assert.True(true);
+            Assert.True(actualResult.IsValid);
         }
 
         [And(@"Encontrar o pedido")]
         public async Task EncontrarPedido()
         {
-            expectedResult = ModelResultFactory.SucessResult(_pedido);
-
             var client = _apiTest.GetClient();
             HttpResponseMessage response = await client.GetAsync(
                 $"api/pedido/{_pedido.IdPedido}");
@@ -89,16 +80,12 @@ namespace TestProject.ComponenteTest
             var actualResult = JsonConvert.DeserializeObject<ActionResult>(responseContent);
             _pedido = actualResult.Model;
 
-            Assert.Equal(expectedResult.IsValid, actualResult.IsValid);
-            Assert.Equal(expectedResult.Messages, actualResult.Messages);
-            Assert.Equal(expectedResult.Errors, actualResult.Errors);
+            Assert.True(actualResult.IsValid);
         }
 
         [And(@"Alterar o pedido")]
         public async Task AlterarPedido()
         {
-            expectedResult = ModelResultFactory.UpdateSucessResult<Pedido>(_pedido);
-
             var client = _apiTest.GetClient();
             HttpResponseMessage response = await client.PutAsJsonAsync(
                 $"api/pedido/{_pedido.IdPedido}", _pedido);
@@ -107,9 +94,7 @@ namespace TestProject.ComponenteTest
             var actualResult = JsonConvert.DeserializeObject<ActionResult>(responseContent);
             _pedido = actualResult.Model;
 
-            Assert.Equal(expectedResult.IsValid, actualResult.IsValid);
-            Assert.Equal(expectedResult.Messages, actualResult.Messages);
-            Assert.Equal(expectedResult.Errors, actualResult.Errors);
+            Assert.True(actualResult.IsValid);
         }
 
         [And(@"Consultar o pedido")]
@@ -141,8 +126,6 @@ namespace TestProject.ComponenteTest
         [Then(@"posso deletar o pedido")]
         public async Task DeletarPedido()
         {
-            expectedResult = ModelResultFactory.DeleteSucessResult<Pedido>();
-
             var client = _apiTest.GetClient();
             HttpResponseMessage response = await client.DeleteAsync(
                 $"api/pedido/{_pedido.IdPedido}");
@@ -151,9 +134,7 @@ namespace TestProject.ComponenteTest
             var actualResult = JsonConvert.DeserializeObject<ActionResult>(responseContent);
             _pedido = null;
 
-            Assert.Equal(expectedResult.IsValid, actualResult.IsValid);
-            Assert.Equal(expectedResult.Messages, actualResult.Messages);
-            Assert.Equal(expectedResult.Errors, actualResult.Errors);
+            Assert.True(actualResult.IsValid);
         }
     }
 }

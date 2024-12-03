@@ -19,7 +19,7 @@ namespace TestProject.UnitTest.Aplication
     {
         private readonly IPedidoService _service;
         private const string microServicoCadastroBaseAdress = "http://localhost:8082/";
-        private const string microServicoPrducaoBaseAdress = "http://localhost:8084/";
+        private const string microServicoProducaoBaseAdress = "http://localhost:8084/";
         private const string microServicoPagamentoBaseAdress = "http://localhost:8086/";
         /// <summary>
         /// Construtor da classe de teste.
@@ -159,7 +159,7 @@ namespace TestProject.UnitTest.Aplication
                 PedidoItems = items
             };
 
-            var command = new PedidoAlterarStatusPagamentoCommand(idPedido, enmPedidoStatusPagamento.APROVADO, microServicoPrducaoBaseAdress );
+            var command = new PedidoAlterarStatusPagamentoCommand(idPedido, enmPedidoStatusPagamento.APROVADO, microServicoProducaoBaseAdress );
 
             //Mockando retorno do serviço de domínio.
             _service.FindByIdAsync(idPedido)
@@ -192,7 +192,7 @@ namespace TestProject.UnitTest.Aplication
                 PedidoItems = items
             };
 
-            var command = new PedidoAlterarStatusPagamentoCommand(idPedido, enmPedidoStatusPagamento.APROVADO, microServicoPrducaoBaseAdress );
+            var command = new PedidoAlterarStatusPagamentoCommand(idPedido, enmPedidoStatusPagamento.APROVADO, microServicoProducaoBaseAdress );
 
             //Mockando retorno do serviço de domínio.
             _service.FindByIdAsync(idPedido)

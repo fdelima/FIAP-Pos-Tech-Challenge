@@ -57,7 +57,7 @@ namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedi
                     var pagamentoClient = Util.GetClient(command.MicroServicoPagamentoBaseAdress);
 
                     HttpResponseMessage response =
-                     await pagamentoClient.PostAsJsonAsync("api/Pagamento/Pedido", result.Model);
+                     await pagamentoClient.PostAsJsonAsync("api/Pedido/ReceberStatusPagamento", result.Model);
 
                     if (!response.IsSuccessStatusCode)
                         result.AddMessage("Não foi possível enviar pedido para o pagamento.");

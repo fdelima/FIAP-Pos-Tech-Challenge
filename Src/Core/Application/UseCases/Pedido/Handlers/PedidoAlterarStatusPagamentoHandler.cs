@@ -24,6 +24,7 @@ namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedi
             if (result.IsValid)
             {
                 var pedido = (Domain.Entities.Pedido)result.Model;
+                pedido.StatusPagamento = command.StatusPagamento.ToString();
                 result = await _service.UpdateAsync(pedido);
 
                 if (result.IsValid)
