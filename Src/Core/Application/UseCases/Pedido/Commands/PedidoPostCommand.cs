@@ -11,6 +11,7 @@ namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedi
             string[]? businessRules = null)
         {
             Entity = entity;
+            MicroServicoCadastroBaseAdress = microServicoCadastroBaseAdress;
             MicroServicoPagamentoBaseAdress = microServicoPagamentoBaseAdress;
             BusinessRules = businessRules;
         }

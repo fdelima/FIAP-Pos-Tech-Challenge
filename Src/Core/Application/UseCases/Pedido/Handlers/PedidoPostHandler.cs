@@ -21,18 +21,18 @@ namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedi
             var warnings = new List<string>();
             try
             {
-                var cadastroClient = Util.GetClient(command.MicroServicoPagamentoBaseAdress);
+                var cadastroClient = Util.GetClient(command.MicroServicoCadastroBaseAdress);
 
                 HttpResponseMessage response =
                     await cadastroClient.GetAsync($"api/cadastro/Cliente/{command.Entity.IdCliente}");
 
                 if (!response.IsSuccessStatusCode)
-                    warnings.Add("Não foi possível validar cliente.");
+                    warnings.Add($"Não foi possível validar cliente. Detalhes: {await response.Content.ReadAsStringAsync()}");
 
                 response = await cadastroClient.GetAsync($"api/cadastro/Dispositivo/{command.Entity.IdDispositivo}");
 
                 if (!response.IsSuccessStatusCode)
-                    warnings.Add("Não foi possível validar dispositivo.");
+                    warnings.Add($"Não foi possível validar dispositivo. Detalhes: {await response.Content.ReadAsStringAsync()}");
 
                 foreach (var produto in command.Entity.PedidoItems)
                 {
@@ -42,9 +42,9 @@ namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedi
                         warnings.Add($"Não foi possível validar produto {produto.IdProduto}.");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                warnings.Add("Falha ao conectar ao cadastro.");
+                warnings.Add($"Falha ao conectar ao cadastro. Detalhes: {ex.ToString()}");
             }
 
             var result = await _service.InsertAsync(command.Entity, command.BusinessRules);
@@ -59,11 +59,11 @@ namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedi
                      await pagamentoClient.PostAsJsonAsync("api/Pedido/ReceberStatusPagamento", result.Model);
 
                     if (!response.IsSuccessStatusCode)
-                        result.AddMessage("Não foi possível enviar pedido para o pagamento.");
+                        result.AddMessage($"Não foi possível enviar pedido para o pagamento. Detalhes: {await response.Content.ReadAsStringAsync()}");
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    result.AddMessage("Falha ao conectar ao pagamento.");
+                    result.AddMessage($"Falha ao conectar ao pagamento.  Detalhes: {ex.Message}");
                 }
             }
 
