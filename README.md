@@ -67,6 +67,14 @@ Os serviços devem se comunicar entre si, seja por chamada direta,
 mensagens em fila ou estratégias semelhantes. Um serviço não pode acessar o 
 banco de dados de outro serviço, porque viola as regras de implementação de 
 microsserviços.  
+    
+    => Utilizamos integrações via api
+
+## Integrações micro serviço de Pedido
+![image](Documentacao/Integracoes-pedido.png)
+
+## Integrações micro serviço de Pagamento
+![image](Documentacao/Integracoes-pagamento.png)
 
 2. Ao refatorar, os microsserviços devem conter testes unitários. 
 
@@ -153,6 +161,14 @@ serviço semelhante, cobrindo 70% de coverage no mínimo.
     c. No Merge, o deploy de todos seus microsserviços devem ser executados, 
 isso significa que todos os repositórios devem estar com CI/CD criados, e 
 executados corretamente. 
+
+    ### Pipeline micro serviço de Pedido
+
+    ### [Pipeline micro serviço de Cadastro](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Cadastro/actions/runs/12139377093/job/33846868413)
+
+    ### [Pipeline micro serviço de Produção](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Producao/actions/runs/12139110575/job/33845999090)
+
+    ### [Pipeline micro serviço de Pagamento](https://github.com/fdelima/FIAP-Pos-Tech-Challenge-Micro-Servico-Pagamento/actions/runs/12139310147/job/33846653053)
 
 Para a avaliação desta entrega, são esperados os seguintes artefatos: 
 

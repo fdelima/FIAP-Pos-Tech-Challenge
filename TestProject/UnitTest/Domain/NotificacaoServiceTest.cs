@@ -270,7 +270,7 @@ namespace TestProject.UnitTest.Domain
         public async Task ConsultarNotificacaoSemCondicao(IPagingQueryParam filter, Expression<Func<Notificacao, object>> sortProp, IEnumerable<Notificacao> notificacoes)
         {
             ///Arrange
-            
+
             //Mockando retorno do metodo interno do GetItemsAsync
             _notificacaoGatewayMock.GetItemsAsync(filter, sortProp)
                 .Returns(new ValueTask<PagingQueryResult<Notificacao>>(new PagingQueryResult<Notificacao>(new List<Notificacao>(notificacoes))));

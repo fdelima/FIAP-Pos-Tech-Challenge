@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
@@ -7,6 +6,7 @@ using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Services;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Validator;
 using FluentValidation;
 using NSubstitute;
+using System.Linq.Expressions;
 using TestProject.MockData;
 
 namespace TestProject.UnitTest.Domain
@@ -18,7 +18,7 @@ namespace TestProject.UnitTest.Domain
     {
         private readonly IGateways<PedidoItem> _gatewayPedidoItemMock;
         private IValidator<PedidoItem> _validator;
-        
+
         /// <summary>
         /// Construtor da classe de teste.
         /// </summary>
@@ -27,7 +27,7 @@ namespace TestProject.UnitTest.Domain
             _gatewayPedidoItemMock = Substitute.For<IGateways<PedidoItem>>();
             _validator = new PedidoItemValidator();
         }
-        
+
         /// <summary>
         /// Testa a inserção com dados válidos
         /// </summary>
@@ -44,7 +44,7 @@ namespace TestProject.UnitTest.Domain
                 IdProduto = idProduto,
                 Quantidade = quantidade
             };
-            
+
             var domainService = new PedidoItemService(_gatewayPedidoItemMock, _validator);
 
             //Act
@@ -53,7 +53,7 @@ namespace TestProject.UnitTest.Domain
             //Assert
             Assert.True(result.IsValid);
         }
-        
+
         /// <summary>
         /// Testa a inserção com dados inválidos
         /// </summary>
@@ -79,7 +79,7 @@ namespace TestProject.UnitTest.Domain
             //Assert
             Assert.False(result.IsValid);
         }
-        
+
         /// <summary>
         /// Testa a alteração com dados válidos
         /// </summary>
@@ -113,7 +113,7 @@ namespace TestProject.UnitTest.Domain
             //Assert
             Assert.True(result.IsValid);
         }
-        
+
         /// <summary>
         /// Testa a alteração com dados inválidos
         /// </summary>
@@ -143,7 +143,7 @@ namespace TestProject.UnitTest.Domain
             //Assert
             Assert.False(result.IsValid);
         }
-        
+
         /// <summary>
         /// Testa a consulta por id
         /// </summary>
@@ -176,7 +176,7 @@ namespace TestProject.UnitTest.Domain
             //Assert
             Assert.True(result.IsValid);
         }
-        
+
         /// <summary>
         /// Testa a consulta por id
         /// </summary>
@@ -194,7 +194,7 @@ namespace TestProject.UnitTest.Domain
                 Quantidade = quantidade
             };
             var domainService = new PedidoItemService(_gatewayPedidoItemMock, _validator);
-            
+
             // Mockando retorno do método interno do FindByIdAsync
             _gatewayPedidoItemMock.FindByIdAsync(idPedidoItem)
                 .Returns(new ValueTask<PedidoItem>(pedidoItem));
@@ -206,7 +206,7 @@ namespace TestProject.UnitTest.Domain
             Assert.NotNull(result);
             Assert.True(result.IsValid);
         }
-        
+
         /// <summary>
         /// Testa a consulta por id
         /// </summary>
@@ -225,15 +225,15 @@ namespace TestProject.UnitTest.Domain
             };
 
             var domainService = new PedidoItemService(_gatewayPedidoItemMock, _validator);
-            
+
             //Act
             var result = await domainService.FindByIdAsync(idPedidoItem);
 
             //Assert
             Assert.False(result.IsValid);
         }
-        
-         /// <summary>
+
+        /// <summary>
         /// Testa a consulta Valida
         /// </summary>
         [Theory]
@@ -293,12 +293,12 @@ namespace TestProject.UnitTest.Domain
                 .Returns(new ValueTask<PagingQueryResult<PedidoItem>>(new PagingQueryResult<PedidoItem>(new List<PedidoItem>(items))));
 
             //Act
-            var result = await _gatewayPedidoItemMock.GetItemsAsync(filter, x=> x.Data);
+            var result = await _gatewayPedidoItemMock.GetItemsAsync(filter, x => x.Data);
 
             //Assert
             Assert.True(result.Content.Any());
         }
-        
+
         #region [ Xunit MemberData ]
 
         /// <summary>

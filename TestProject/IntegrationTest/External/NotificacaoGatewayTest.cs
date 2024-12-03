@@ -1,9 +1,9 @@
-﻿using System.Linq.Expressions;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Extensions;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Infra.Gateways;
+using System.Linq.Expressions;
 using TestProject.Infra;
 using TestProject.MockData;
 
@@ -112,7 +112,7 @@ namespace TestProject.IntegrationTest.External
             await _notificacaoGateway.CommitAsync();
 
             //Alterando
-            notificacao.Mensagem = mensagem + " ALTERADA !!! " ;
+            notificacao.Mensagem = mensagem + " ALTERADA !!! ";
 
             var dbEntity = await _notificacaoGateway.FindByIdAsync(idNotificacao);
 
@@ -156,7 +156,7 @@ namespace TestProject.IntegrationTest.External
             await _notificacaoGateway.CommitAsync();
 
             //Alterando
-            notificacao.Mensagem = null;            
+            notificacao.Mensagem = null;
 
             var dbEntity = await _notificacaoGateway.FindByIdAsync(idNotificacao);
 

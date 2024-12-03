@@ -6,8 +6,8 @@ namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedi
 {
     public class PedidoAlterarStatusPagamentoCommand : IRequest<ModelResult>
     {
-        public PedidoAlterarStatusPagamentoCommand(Guid id, 
-            enmPedidoStatusPagamento statusPagamento, 
+        public PedidoAlterarStatusPagamentoCommand(Guid id,
+            enmPedidoStatusPagamento statusPagamento,
             string microServicoProducaoBaseAdress)
         {
             Id = id;

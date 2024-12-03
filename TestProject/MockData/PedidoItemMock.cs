@@ -1,6 +1,5 @@
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Extensions;
 
 namespace TestProject.MockData;
 

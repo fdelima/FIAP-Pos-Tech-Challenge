@@ -1,6 +1,5 @@
 ﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
 using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
-using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
 using TestProject.Infra;

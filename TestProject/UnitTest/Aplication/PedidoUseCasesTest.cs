@@ -159,7 +159,7 @@ namespace TestProject.UnitTest.Aplication
                 PedidoItems = items
             };
 
-            var command = new PedidoAlterarStatusPagamentoCommand(idPedido, enmPedidoStatusPagamento.APROVADO, microServicoProducaoBaseAdress );
+            var command = new PedidoAlterarStatusPagamentoCommand(idPedido, enmPedidoStatusPagamento.APROVADO, microServicoProducaoBaseAdress);
 
             //Mockando retorno do serviço de domínio.
             _service.FindByIdAsync(idPedido)
@@ -177,7 +177,7 @@ namespace TestProject.UnitTest.Aplication
             Assert.True(result.IsValid);
         }
 
-         /// <summary>
+        /// <summary>
         /// Testa a alteração do status do pagamento com dados válidos
         /// </summary>
         [Theory]
@@ -192,7 +192,7 @@ namespace TestProject.UnitTest.Aplication
                 PedidoItems = items
             };
 
-            var command = new PedidoAlterarStatusPagamentoCommand(idPedido, enmPedidoStatusPagamento.APROVADO, microServicoProducaoBaseAdress );
+            var command = new PedidoAlterarStatusPagamentoCommand(idPedido, enmPedidoStatusPagamento.APROVADO, microServicoProducaoBaseAdress);
 
             //Mockando retorno do serviço de domínio.
             _service.FindByIdAsync(idPedido)
