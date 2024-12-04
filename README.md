@@ -186,4 +186,4 @@ Para a avaliação desta entrega, são esperados os seguintes artefatos:
     
     1. Para validação do código-fonte da aplicação, precisamos que vocês deixem o projeto como privado e adicionem o usuário soat-architecture para que possamos ver o projeto.  A entrega deve ser feita em um arquivo com o nome e a identificação no Discord de todos os(as) alunos e alunas do grupo e os links para os itens acima. 
 
-=> [Link Video Youtube](https://youtu.be/????)
+=> [Link Video Youtube](https://youtu.be/sfkQJQAKQos)
