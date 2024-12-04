@@ -1,17 +1,14 @@
-﻿using FIAP.Pos.Tech.Challenge.Application.UseCases.Pedido.Commands;
-using FIAP.Pos.Tech.Challenge.Domain;
-using FIAP.Pos.Tech.Challenge.Domain.Entities;
-using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Domain.Models;
-using FIAP.Pos.Tech.Challenge.Domain.Models.MercadoPago;
-using FIAP.Pos.Tech.Challenge.Domain.Models.Pedido;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedido.Commands;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.ValuesObject;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System.Linq.Expressions;
 
-namespace FIAP.Pos.Tech.Challenge.Application.Controllers
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.Controllers
 {
     /// <summary>
     /// Regras da aplicação referente ao pedido
@@ -21,16 +18,13 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         private readonly IConfiguration _configuration;
         private readonly IMediator _mediator;
         private readonly IValidator<Domain.Entities.Pedido> _validator;
-        private readonly IValidator<WebhookPagamento> _validatorWebhookPagamento;
 
-        public PedidoController(IConfiguration configuration, IMediator mediator, 
-            IValidator<Domain.Entities.Pedido> validator, 
-            IValidator<WebhookPagamento> validatorWebhookPagamento)
+        public PedidoController(IConfiguration configuration, IMediator mediator,
+            IValidator<Domain.Entities.Pedido> validator)
         {
             _configuration = configuration;
             _mediator = mediator;
             _validator = validator;
-            _validatorWebhookPagamento = validatorWebhookPagamento;
         }
 
         /// <summary>
@@ -63,7 +57,9 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
 
             if (ValidatorResult.IsValid)
             {
-                PedidoPostCommand command = new(entity);
+                PedidoPostCommand command = new(entity,
+                    _configuration["micro-servico-cadastro-baseadress"] ?? "",
+                    _configuration["micro-servico-pagamento-baseadress"] ?? "");
                 return await _mediator.Send(command);
             }
 
@@ -138,96 +134,25 @@ namespace FIAP.Pos.Tech.Challenge.Application.Controllers
         }
 
         /// <summary>
-        /// Pedido em preparação.
-        /// </summary>
-        /// <param name="id">id do pedido</param>
-        public async Task<ModelResult> IniciarPreparacaoAsync(Guid id)
-        {
-            PedidoIniciarPreparacaCommand command = new(id);
-            return await _mediator.Send(command);
-        }
-
-        /// <summary>
-        /// Pedido pronto.
-        /// </summary>
-        /// <param name="id">id do pedido</param>
-        public async Task<ModelResult> FinalizarPreparacaoAsync(Guid id)
-        {
-            PedidoFinalizarPreparacaCommand command = new(id);
-            return await _mediator.Send(command);
-        }
-
-        /// <summary>
-        /// Pedido finalizado.
-        /// </summary>
-        /// <param name="id">id do pedido</param>
-        public async Task<ModelResult> FinalizarAsync(Guid id)
-        {
-            PedidoFinalizarCommand command = new(id);
-            return await _mediator.Send(command);
-        }
-
-        /// <summary>
         /// Retorna os Pedidos cadastrados
         /// A lista de pedidos deverá retorná-los com suas descrições, ordenados com a seguinte regra:
         /// 1. Pronto > Em Preparação > Recebido;
         /// 2. Pedidos mais antigos primeiro e mais novos depois;
         /// 3. Pedidos com status Finalizado não devem aparecer na lista.
         /// </summary>
-        public async Task<PagingQueryResult<Pedido>> GetListaAsync(PagingQueryParam<Pedido> param)
+        public async Task<PagingQueryResult<Domain.Entities.Pedido>> GetListaAsync(PagingQueryParam<Domain.Entities.Pedido> param)
         {
             PedidoGetListaCommand command = new(param);
             return await _mediator.Send(command);
         }
 
         /// <summary>
-        /// Consulta o pagamento de um pedido.
-        /// </summary> 
-        public async Task<ModelResult> ConsultarPagamentoAsync(Guid id)
+        /// Alterar o status de pagamento do pedido
+        /// </summary>
+        public async Task<ModelResult> AlterarStatusPagamento(Guid id, enmPedidoStatusPagamento statusPagamento)
         {
-            PedidoConsultarPagamentoCommand command = new(id);
+            PedidoAlterarStatusPagamentoCommand command = new(id, statusPagamento, _configuration["micro-servico-producao-baseadress"] ?? "");
             return await _mediator.Send(command);
-        }
-
-        /// <summary>
-        ///  Webhook para notificação de pagamento.
-        /// </summary>
-        public async Task<ModelResult> WebhookPagamento(WebhookPagamento notificacao, IHeaderDictionary headers)
-        {
-            if (notificacao == null) throw new InvalidOperationException($"Necessário informar a notificacao");
-           
-            ModelResult ValidatorResult = new ModelResult(notificacao);
-
-            FluentValidation.Results.ValidationResult validations = _validatorWebhookPagamento.Validate(notificacao);
-            if (!validations.IsValid)
-            {
-                ValidatorResult.AddValidations(validations);
-                return ValidatorResult;
-            }
-
-            if (ValidatorResult.IsValid)
-            {
-                var warnings = new List<string>();
-
-                if (!headers.ContainsKey("client_id"))
-                    warnings.Add("Consumidor não autorizado e/ou inválido!");
-                else if (!headers["client_id"].Equals(_configuration["WebhookClientAutorized"]))
-                    warnings.Add("Consumidor não autorizado e/ou inválido!");
-
-                PedidoWebhookPagamentoCommand command = new(notificacao, warnings.ToArray());
-                return await _mediator.Send(command);
-            }
-
-            return ValidatorResult;
-        }
-
-        /// <summary>
-        ///  Mercado pago recebimento de notificação webhook.
-        ///  https://www.mercadopago.com.br/developers/pt/docs/your-integrations/notifications/webhooks#editor_13
-        /// </summary>
-        public async Task<ModelResult> MercadoPagoWebhoock(MercadoPagoWebhoock notificacao)
-        {
-            throw new NotImplementedException("Será implementado se der tempo. se estiver vendo isso não deu :( !");
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Entities;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FIAP.Pos.Tech.Challenge.Infra.Mappings;
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Infra.Mappings;
 
 internal class NotificacaoMap : IEntityTypeConfiguration<Notificacao>
 {
@@ -22,10 +22,5 @@ internal class NotificacaoMap : IEntityTypeConfiguration<Notificacao>
         builder.Property(e => e.Mensagem)
             .HasMaxLength(50)
             .HasColumnName("mensagem");
-
-        builder.HasOne(d => d.IdDispositivoNavigation).WithMany(p => p.Notificacaos)
-            .HasForeignKey(d => d.IdDispositivo)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_notificacao_dispositivo1");
     }
 }

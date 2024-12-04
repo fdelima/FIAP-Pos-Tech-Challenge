@@ -1,12 +1,11 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FIAP.Pos.Tech.Challenge.Infra.Mappings;
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Infra.Mappings;
 
-internal class PedidoMap : IEntityTypeConfiguration<Pedido>
+internal class PedidoMap : IEntityTypeConfiguration<Domain.Entities.Pedido>
 {
-    public void Configure(EntityTypeBuilder<Pedido> builder)
+    public void Configure(EntityTypeBuilder<Domain.Entities.Pedido> builder)
     {
         builder.HasKey(e => e.IdPedido);
 
@@ -35,14 +34,5 @@ internal class PedidoMap : IEntityTypeConfiguration<Pedido>
             .HasDefaultValueSql("(getdate())")
             .HasColumnType("datetime")
             .HasColumnName("data_status_pagamento");
-
-        builder.HasOne(d => d.IdClienteNavigation).WithMany(p => p.Pedidos)
-            .HasForeignKey(d => d.IdCliente)
-            .HasConstraintName("FK_pedido_cliente");
-
-        builder.HasOne(d => d.IdDispositivoNavigation).WithMany(p => p.Pedidos)
-            .HasForeignKey(d => d.IdDispositivo)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_pedido_dispositivo");
     }
 }

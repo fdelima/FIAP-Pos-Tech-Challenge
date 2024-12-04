@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace FIAP.Pos.Tech.Challenge.Domain.Extensions
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Extensions
 {
     public static class StringExtension
     {
@@ -11,7 +11,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Extensions
 
         public static string? ToSnakeCase(this string? str)
         {
-            var pattern =
+            Regex pattern =
                 new Regex(@"[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+");
 
             return str == null

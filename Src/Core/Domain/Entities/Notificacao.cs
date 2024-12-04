@@ -1,8 +1,7 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
 using System.Linq.Expressions;
-using System.Text.Json.Serialization;
 
-namespace FIAP.Pos.Tech.Challenge.Domain.Entities
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities
 {
     public partial class Notificacao : IDomainEntity
     {
@@ -30,7 +29,5 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Entities
 
         public Guid IdDispositivo { get; set; }
 
-        [JsonIgnore]
-        public virtual Dispositivo IdDispositivoNavigation { get; set; } = null!;
     }
 }

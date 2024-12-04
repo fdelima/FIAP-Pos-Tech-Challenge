@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
-namespace FIAP.Pos.Tech.Challenge.Application.IoC
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.IoC
 {
+    [ExcludeFromCodeCoverage(Justification = "Arquivo de configuração")]
     /// <summary>
     /// Configura a injeção de dependência
     /// </summary>

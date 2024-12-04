@@ -1,7 +1,6 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Entities;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace FIAP.Pos.Tech.Challenge.Domain.Extensions
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Extensions
 {
     /// <summary>
     /// Extensão da model para informar os campos de validação.
@@ -11,7 +10,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Extensions
         /// <summary>
         /// Retorna a regra de validação a ser utilizada na atualização.
         /// </summary>
-        public static Expression<Func<Pedido, bool>> ConsultRule(this PagingQueryParam<Pedido> param)
+        public static Expression<Func<Entities.Pedido, bool>> ConsultRule(this PagingQueryParam<Entities.Pedido> param)
         {
             return x => (x.IdPedido.Equals(param.ObjFilter.IdPedido) || param.ObjFilter.IdPedido.Equals(default)) &&
                         (x.Data.Equals(param.ObjFilter.Data) || param.ObjFilter.Data.Equals(default)) &&
@@ -24,7 +23,7 @@ namespace FIAP.Pos.Tech.Challenge.Domain.Extensions
         /// <summary>
         /// Retorna a propriedade a ser ordenada
         /// </summary>
-        public static Expression<Func<Pedido, object>> SortProp(this PagingQueryParam<Pedido> param)
+        public static Expression<Func<Entities.Pedido, object>> SortProp(this PagingQueryParam<Entities.Pedido> param)
         {
             switch (param?.SortProperty?.ToLower())
             {

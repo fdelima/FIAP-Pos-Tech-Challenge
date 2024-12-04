@@ -1,8 +1,7 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
 using System.Linq.Expressions;
-using System.Text.Json.Serialization;
 
-namespace FIAP.Pos.Tech.Challenge.Domain.Entities;
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
 
 public partial class Pedido : IDomainEntity
 {
@@ -42,12 +41,6 @@ public partial class Pedido : IDomainEntity
     public string StatusPagamento { get; set; }
 
     public DateTime DataStatusPagamento { get; set; }
-
-    [JsonIgnore]
-    public virtual Cliente? IdClienteNavigation { get; set; }
-
-    [JsonIgnore]
-    public virtual Dispositivo IdDispositivoNavigation { get; set; } = null!;
 
     public virtual ICollection<PedidoItem> PedidoItems { get; set; } = new List<PedidoItem>();
 }

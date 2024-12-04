@@ -1,11 +1,11 @@
-﻿using FIAP.Pos.Tech.Challenge.Application.UseCases.Pedido.Commands;
-using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Domain.Models;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedido.Commands;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Models;
 using MediatR;
 
-namespace FIAP.Pos.Tech.Challenge.Application.UseCases.Pedido.Handlers
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.UseCases.Pedido.Handlers
 {
-    internal class PedidoDeleteHandler : IRequestHandler<PedidoDeleteCommand, ModelResult>
+    public class PedidoDeleteHandler : IRequestHandler<PedidoDeleteCommand, ModelResult>
     {
         private readonly IPedidoService _service;
 

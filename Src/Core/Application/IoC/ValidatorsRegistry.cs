@@ -1,11 +1,12 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Entities;
-using FIAP.Pos.Tech.Challenge.Domain.Models.Pedido;
-using FIAP.Pos.Tech.Challenge.Domain.Validator;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Validator;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
-namespace FIAP.Pos.Tech.Challenge.Application.IoC
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Application.IoC
 {
+    [ExcludeFromCodeCoverage(Justification = "Arquivo de configuração")]
     internal static class ValidatorsRegistry
     {
         public static void RegisterValidators(this IServiceCollection services)
@@ -13,13 +14,9 @@ namespace FIAP.Pos.Tech.Challenge.Application.IoC
             //TODO: Validators :: 3 - Adicione sua configuração aqui
 
             //Validators
-            services.AddScoped(typeof(IValidator<Cliente>), typeof(ClienteValidator));
-            services.AddScoped(typeof(IValidator<Dispositivo>), typeof(DispositivoValidator));
             services.AddScoped(typeof(IValidator<Notificacao>), typeof(NotificacaoValidator));
             services.AddScoped(typeof(IValidator<PedidoItem>), typeof(PedidoItemValidator));
-            services.AddScoped(typeof(IValidator<Pedido>), typeof(PedidoValidator));
-            services.AddScoped(typeof(IValidator<WebhookPagamento>), typeof(PedidoWebhookPagamentoValidator));
-            services.AddScoped(typeof(IValidator<Produto>), typeof(ProdutoValidator));
+            services.AddScoped(typeof(IValidator<Domain.Entities.Pedido>), typeof(PedidoValidator));
         }
     }
 }

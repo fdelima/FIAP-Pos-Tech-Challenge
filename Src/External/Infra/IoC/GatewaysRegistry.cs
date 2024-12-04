@@ -1,9 +1,11 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Interfaces;
-using FIAP.Pos.Tech.Challenge.Infra.Gateways;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Interfaces;
+using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Infra.Gateways;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
-namespace FIAP.Pos.Tech.Challenge.Infra.IoC
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Infra.IoC
 {
+    [ExcludeFromCodeCoverage(Justification = "Arquivo de configuração")]
     internal static class GatewaysRegistry
     {
         public static void RegisterGateways(this IServiceCollection services)

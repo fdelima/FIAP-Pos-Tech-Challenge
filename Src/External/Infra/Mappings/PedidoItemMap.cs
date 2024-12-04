@@ -1,8 +1,8 @@
-﻿using FIAP.Pos.Tech.Challenge.Domain.Entities;
+﻿using FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FIAP.Pos.Tech.Challenge.Infra.Mappings;
+namespace FIAP.Pos.Tech.Challenge.Micro.Servico.Pedido.Infra.Mappings;
 
 internal class PedidoItemMap : IEntityTypeConfiguration<PedidoItem>
 {
@@ -31,10 +31,5 @@ internal class PedidoItemMap : IEntityTypeConfiguration<PedidoItem>
         builder.HasOne(d => d.IdPedidoNavigation).WithMany(p => p.PedidoItems)
             .HasForeignKey(d => d.IdPedido)
             .HasConstraintName("FK_pedido_item_pedido");
-
-        builder.HasOne(d => d.IdProdutoNavigation).WithMany(p => p.PedidoItems)
-            .HasForeignKey(d => d.IdProduto)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_pedido_item_produto");
     }
 }
